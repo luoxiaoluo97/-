@@ -1,0 +1,16 @@
+server:
+  port: 8000
+
+spring:
+  application:
+    name: boki-eureka
+
+
+eureka:
+  instance:
+    hostname: boki-eureka
+  client:
+    service-url:
+      defaultZone: http://localhost:${server.port}/eureka/
+#    fetch-registry: true
+#    registerWithEureka: false
