@@ -1,0 +1,15 @@
+server:
+  port: 8001
+  #post: 80
+spring:
+  application:
+    name: boki-feign
+
+eureka:
+  instance:
+    instance-id: boki-feign
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://localhost:8000/eureka/
+    register-with-eureka: false

@@ -1,0 +1,14 @@
+server:
+  port: 9000
+
+spring:
+  application:
+    name: boki-client
+
+eureka:
+  instance:
+    instance-id: boki-client-9000
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://localhost:8000/eureka/

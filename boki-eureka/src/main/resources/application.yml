@@ -7,8 +7,7 @@ spring:
 
 eureka:
   instance:
-    hostname: localhost
-#    hostname: boki-eureka
+    instance-id: boki-eureka
   client:
     service-url:
       defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
