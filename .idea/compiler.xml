@@ -2,15 +2,35 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="boki" />
+        <module name="boki-feign" />
+        <module name="demo" />
+        <module name="boki-client" />
+        <module name="boki-administrator" />
+        <module name="boki-api" />
+        <module name="boki-eureka" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="boki" target="1.5" />
+      <module name="boki-administrator" target="1.5" />
+      <module name="boki-api" target="1.5" />
+      <module name="boki-client" target="1.5" />
+      <module name="boki-eureka" target="1.5" />
+      <module name="boki-feign" target="1.5" />
+      <module name="demo" target="1.8" />
     </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="boki-api" options="" />
+      <module name="boki-client" options="" />
+      <module name="boki-feign" options="" />
+      <module name="demo" options="-parameters" />
+    </option>
   </component>
 </project>

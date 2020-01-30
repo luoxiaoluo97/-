@@ -7,6 +7,12 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/boki-api/pom.xml" />
+        <option value="$PROJECT_DIR$/demo/pom.xml" />
+        <option value="$PROJECT_DIR$/boki-client/pom.xml" />
+        <option value="$PROJECT_DIR$/boki-eureka/pom.xml" />
+        <option value="$PROJECT_DIR$/boki-administrator/pom.xml" />
+        <option value="$PROJECT_DIR$/boki-feign/pom.xml" />
       </list>
     </option>
   </component>

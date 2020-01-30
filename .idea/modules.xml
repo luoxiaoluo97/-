@@ -3,6 +3,12 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/boki.iml" filepath="$PROJECT_DIR$/.idea/boki.iml" />
+      <module fileurl="file://$PROJECT_DIR$/boki-administrator/boki-administrator.iml" filepath="$PROJECT_DIR$/boki-administrator/boki-administrator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/boki-api/boki-api.iml" filepath="$PROJECT_DIR$/boki-api/boki-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/boki-client/boki-client.iml" filepath="$PROJECT_DIR$/boki-client/boki-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/boki-eureka/boki-eureka.iml" filepath="$PROJECT_DIR$/boki-eureka/boki-eureka.iml" />
+      <module fileurl="file://$PROJECT_DIR$/boki-feign/boki-feign.iml" filepath="$PROJECT_DIR$/boki-feign/boki-feign.iml" />
+      <module fileurl="file://$PROJECT_DIR$/demo/demo.iml" filepath="$PROJECT_DIR$/demo/demo.iml" />
     </modules>
   </component>
 </project>
