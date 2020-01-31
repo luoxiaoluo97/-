@@ -13,6 +13,7 @@
         <option value="$PROJECT_DIR$/boki-eureka/pom.xml" />
         <option value="$PROJECT_DIR$/boki-administrator/pom.xml" />
         <option value="$PROJECT_DIR$/boki-feign/pom.xml" />
+        <option value="$PROJECT_DIR$/boki-hystrix/pom.xml" />
       </list>
     </option>
   </component>

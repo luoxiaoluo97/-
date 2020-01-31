@@ -12,16 +12,18 @@
         <module name="boki-client" />
         <module name="boki-administrator" />
         <module name="boki-api" />
+        <module name="boki-hystrix" />
         <module name="boki-eureka" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="boki" target="1.5" />
       <module name="boki-administrator" target="1.5" />
-      <module name="boki-api" target="1.5" />
+      <module name="boki-api" target="6" />
       <module name="boki-client" target="1.5" />
       <module name="boki-eureka" target="1.5" />
       <module name="boki-feign" target="1.5" />
+      <module name="boki-hystrix" target="1.5" />
       <module name="demo" target="1.8" />
     </bytecodeTargetLevel>
   </component>
@@ -30,6 +32,7 @@
       <module name="boki-api" options="" />
       <module name="boki-client" options="" />
       <module name="boki-feign" options="" />
+      <module name="boki-hystrix" options="" />
       <module name="demo" options="-parameters" />
     </option>
   </component>

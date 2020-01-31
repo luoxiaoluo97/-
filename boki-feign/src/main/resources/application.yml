@@ -5,6 +5,11 @@ spring:
   application:
     name: boki-feign
 
+
+feign:
+  hystrix:
+    enabled: true
+
 eureka:
   instance:
     instance-id: boki-feign

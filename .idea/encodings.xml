@@ -7,6 +7,7 @@
     <file url="file://$PROJECT_DIR$/boki-client/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/boki-eureka/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/boki-feign/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/boki-hystrix/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
   </component>
 </project>

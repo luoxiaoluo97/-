@@ -1,0 +1,14 @@
+server:
+  port: 8002
+
+spring:
+  application:
+    name: boki-hystrix-with-dashboard
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8000/eureka/
+  instance:
+    instance-id: boki-hystrix
+

@@ -11,6 +11,9 @@ public class LoginController {
 
     @RequestMapping(value = "/get/{id}",method = RequestMethod.GET)
     public Object test(@PathVariable int id){
+        if( id == 1) {
+            throw new RuntimeException("莫得1号");
+        }
         return id+1;
     }
 

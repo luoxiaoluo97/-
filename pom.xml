@@ -16,6 +16,8 @@
         <module>boki-eureka</module>
         <module>boki-client</module>
         <module>boki-administrator</module>
+        <module>boki-feign</module>
+        <module>boki-hystrix</module>
     </modules>
 
     <properties>
@@ -50,6 +52,18 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
@@ -112,6 +126,7 @@
                 <version>${junit.version}</version>
             </dependency>
         </dependencies>
+
 
     </dependencyManagement>
 
