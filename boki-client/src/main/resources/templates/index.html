@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8" http-equiv="Content-Type" content="text/html">
+    <title>全部木大！！</title>
+    <script th:src="@{/static/js/vue.js}"></script>
+
+</head>
+<body>
+<h2>结果！</h2>
+<div id="app">
+    <p>{{ message }}</p>
+    <p>{{userName}}</p>
+    <p th:text="${userName}"></p>
+</div>
+
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello Vue.js!'
+        }
+    })
+</script>
+
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>全部木大！！</title>
+    <script th:src="@{/static/js/vue.js}"></script>
+
+</head>
+<body>
+    <h2>提交页！！！</h2>
+    <div id="app">
+        <p>{{ message }}</p>
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                message: 'Hello Vue.js!'
+            }
+        })
+    </script>
+
+    <form id="iform" th:action="@{/login}" th:method="post" th:object="${user}">
+        <input type="text" name="userName" value="" th:value="*{userName}"/>
+        <input type="text" name="pwd" value="" th:value="*{pwd}"/>
+        <input type="submit" value="添加"/>
+    </form>
+    <form id="iform2" th:action="@{/register}" th:method="post" th:object="${user}">
+        <input type="text" name="userName" value="" th:value="*{userName}"/>
+        <input type="text" name="pwd" value="" th:value="*{pwd}"/>
+        <input type="submit" value="添加"/>
+    </form>
+</body>
+</html>

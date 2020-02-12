@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
+    <option name="USE_RELEASE_OPTION" value="false" />
     <annotationProcessing>
       <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
@@ -16,14 +17,14 @@
         <module name="boki-eureka" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="boki" target="1.5" />
-      <module name="boki-administrator" target="1.5" />
-      <module name="boki-api" target="6" />
-      <module name="boki-client" target="1.5" />
-      <module name="boki-eureka" target="1.5" />
-      <module name="boki-feign" target="1.5" />
-      <module name="boki-hystrix" target="1.5" />
+    <bytecodeTargetLevel target="1.8">
+      <module name="boki" target="1.8" />
+      <module name="boki-administrator" target="1.8" />
+      <module name="boki-api" target="1.8" />
+      <module name="boki-client" target="1.8" />
+      <module name="boki-eureka" target="1.8" />
+      <module name="boki-feign" target="1.8" />
+      <module name="boki-hystrix" target="1.8" />
       <module name="demo" target="1.8" />
     </bytecodeTargetLevel>
   </component>

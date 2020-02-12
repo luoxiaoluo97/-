@@ -4,11 +4,20 @@ server:
 spring:
   application:
     name: boki-client
+  data:
+    mongodb:
+      uri: mongodb://192.168.100.5:27017/boki_local
+  mvc:
+    static-path-pattern: /static/**
+  resources:
+    static-locations: classpath:/static/
+  thymeleaf:
+    cache: false
 
-eureka:
-  instance:
-    instance-id: boki-client-9000
-    prefer-ip-address: true
-  client:
-    service-url:
-      defaultZone: http://localhost:8000/eureka/
+#eureka:
+#  instance:
+#    instance-id: boki-client-9000
+#    prefer-ip-address: true
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:8000/eureka/

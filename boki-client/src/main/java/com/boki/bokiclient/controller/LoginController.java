@@ -1,21 +1,55 @@
 package com.boki.bokiclient.controller;
 
+import com.boki.bokiapi.entity.User;
+import com.boki.bokiclient.service.LoginService;
 import org.junit.Test;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
-@RestController
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+@Controller
 public class LoginController {
 
-    @RequestMapping(value = "/get/{id}",method = RequestMethod.GET)
-    public Object test(@PathVariable int id){
-        if( id == 1) {
-            throw new RuntimeException("莫得1号");
-        }
-        return id+1;
+    @Autowired
+    private LoginService loginService;
+
+    @GetMapping(value = "/login")
+    public String login(Model model){
+        model.addAttribute("user",new User());
+        return "login/login";
     }
+
+
+    @RequestMapping(value = "/get/{id}",method = RequestMethod.GET)
+    public ModelAndView test(@PathVariable int id ){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject(new User());
+        modelAndView.setViewName("login/login.html");
+        return modelAndView;
+    }
+
+
+    @PostMapping(value = "/login")
+    public String login(User user,
+                            HttpSession session){
+        session.setAttribute("userName",user.getUserName());
+        return "index";
+    }
+
+    @PostMapping(value = "/register")
+    public String register(HttpServletRequest request,
+                           HttpSession session,
+                           @RequestBody User user){
+        session.setAttribute("userName",user.getUserName());
+        return "index";
+    }
+
+
 
     @Test
     public void test(){
