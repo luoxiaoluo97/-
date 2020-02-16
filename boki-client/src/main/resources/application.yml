@@ -15,7 +15,7 @@ spring:
     cache: false
   mail:
     username: 2500259143@qq.com
-    password: kkmcfilavcpdjgg
+    password: kkmcfiljavcpdjgg
     host: smtp.qq.com
     default-encoding: utf-8
 
@@ -28,3 +28,9 @@ spring:
 #    service-url:
 #      defaultZone: http://localhost:8000/eureka/
 
+logging:
+  level:
+    root: info
+#  file:
+#    name:
+#    path:

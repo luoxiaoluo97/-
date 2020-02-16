@@ -1,8 +1,8 @@
 package com.boki.bokiclient.service;
 
-import com.boki.bokiapi.entity.po.User;
+import com.boki.bokiapi.entity.po.UserPO;
 
 public interface LoginService {
 
-    public User findByUserName(String userName);
+    public UserPO findByUserName(String userName);
 }

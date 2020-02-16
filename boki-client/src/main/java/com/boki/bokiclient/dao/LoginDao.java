@@ -1,11 +1,11 @@
 package com.boki.bokiclient.dao;
 
-import com.boki.bokiapi.entity.po.User;
+import com.boki.bokiapi.entity.po.UserPO;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface LoginDao extends MongoRepository<User, ObjectId> {
-    public User findByUserName(String name);
+public interface LoginDao extends MongoRepository<UserPO, ObjectId> {
+    public UserPO findByUserName(String name);
 }
