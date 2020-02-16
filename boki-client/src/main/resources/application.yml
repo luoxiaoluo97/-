@@ -13,6 +13,12 @@ spring:
     static-locations: classpath:/static/
   thymeleaf:
     cache: false
+  mail:
+    username: 2500259143@qq.com
+    password: kkmcfilavcpdjgg
+    host: smtp.qq.com
+    default-encoding: utf-8
+
 
 #eureka:
 #  instance:
@@ -21,3 +27,4 @@ spring:
 #  client:
 #    service-url:
 #      defaultZone: http://localhost:8000/eureka/
+

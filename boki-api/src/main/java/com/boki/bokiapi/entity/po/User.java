@@ -1,4 +1,4 @@
-package com.boki.bokiapi.entity;
+package com.boki.bokiapi.entity.po;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,8 +23,6 @@ public class User {
     private String userName;          //用户名
     private String photo;           //头像
     private String age;             //年龄
-    private String passQuestion;          //密码提示问题
-    private String passAnswer;          //密码提示问题答案
     private String sex;          //用户性别
     private String birth;          //出生日期
     private String blog;          //用户主页
@@ -38,4 +36,5 @@ public class User {
     private String show;         //用户个性签名
     private String time;         //用户注册日期
     private String purid;          //用户权限组ID
+	private String mail;		//邮箱
 }
