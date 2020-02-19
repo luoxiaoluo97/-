@@ -31,5 +31,5 @@ public class UserInfoDTO {
     private String from;          //来自何地
     private String intro;           //自我简介
     private String show;         //用户个性签名
-
+    private Long post_amount;           //发帖数
 }
