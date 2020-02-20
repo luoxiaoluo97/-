@@ -6,6 +6,7 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
 /**
@@ -25,11 +26,12 @@ public class UserInfoDTO {
     @Size(min = 1,max = 12,message = "昵称1~12字")
     private String userName;          //用户名
 
-    private int sex;          //用户性别,0保密，1男，2女
-    private String age;             //年龄
+    @NotEmpty(message = "性别不能为空")
+    private String sex;          //用户性别,0保密，1男，2女
+
+    @Past(message = "生日必须是过去的时间")
     private String birth;          //出生日期
     private String from;          //来自何地
     private String intro;           //自我简介
     private String show;         //用户个性签名
-    private Long post_amount;           //发帖数
 }

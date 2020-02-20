@@ -21,7 +21,7 @@ import javax.validation.constraints.Pattern;
 public class UserLoginDTO {
 
     @NotEmpty(message = "邮箱不能为空")
-    @Email(message = "请输入正确的邮箱.")
+    @Email(message = "邮箱格式错误")
     private String mail;		//邮箱即是账号
 
     @NotEmpty(message = "密码不能为空")

@@ -1,5 +1,6 @@
 package com.boki.bokiapi.entity.vo;
 
+import com.alibaba.fastjson.JSONObject;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -25,13 +26,13 @@ public class UserInfoVO {
     private String birth;          //出生日期
     private String blog;          //用户主页
     private String from;          //来自何地
-    private String gradeid;            //用户等级ID
+    private String gradeId;            //用户等级ID
     private String exp;            //用户经验值
     private String creditDegree;          //用户信用度
-    private String honorid;              //用户信用度勋章ID
+    private String honorId;              //用户信用度勋章ID
     private String intro;           //自我简介
     private String show;         //用户个性签名
-    private String time;         //用户注册日期
-    private ArrayList collection;      //收藏列表
-
+    private String createTime;         //用户注册日期
+    private ArrayList<JSONObject> collection;      //收藏列表
+    private Long postAmount;           //发帖数
 }

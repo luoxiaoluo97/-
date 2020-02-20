@@ -20,6 +20,7 @@
         <module>boki-hystrix</module>
     </modules>
 
+
     <properties>
         <java.version>1.8</java.version>
         <spring-boot.version>2.2.4.RELEASE</spring-boot.version>
@@ -30,6 +31,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>6.0.13.Final</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
@@ -39,6 +46,13 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.58</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>springloaded</artifactId>
@@ -90,22 +104,22 @@
             </dependency>
 
             <!--mysql连接-->
-            <!--<dependency>
+            <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
                 <version>8.0.15</version>
-            </dependency>-->
+            </dependency>
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid</artifactId>
                 <version>1.1.6</version>
             </dependency>
             <!--mybatis整合-->
-            <!--<dependency>
+            <dependency>
                 <groupId>org.mybatis.spring.boot</groupId>
                 <artifactId>mybatis-spring-boot-starter</artifactId>
                 <version>1.3.2</version>
-            </dependency>-->
+            </dependency>
             <!--日志依赖 slf4j接口绑定logback实现 只要添加这一个，其他的依赖jar都会被下载下来。-->
             <dependency>
                 <groupId>ch.qos.logback</groupId>
@@ -132,7 +146,7 @@
 
 
     <build><!--为eureka微服务的info信息或其他做准备-->
-        <finalName>microservicecloud</finalName>
+        <finalName>boki</finalName>
         <resources>
             <!-- 允许访问所有工程的src/main/resources下的文件-->
             <resource>
@@ -150,6 +164,14 @@
                     <delimiters>
                         <delimit>$</delimit>
                     </delimiters>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
         </plugins>

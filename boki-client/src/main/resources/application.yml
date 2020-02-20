@@ -4,9 +4,16 @@ server:
 spring:
   application:
     name: boki-client
-  data:
-    mongodb:
-      uri: mongodb://192.168.100.5:27017/boki_local
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource          # 当前数据库操作类型
+    driver-class-name: com.mysql.cj.jdbc.Driver              # 驱动包
+    url: jdbc:mysql://192.168.0.8:3306/boki_local?characterEncoding=utf8&serverTimezone=GMT%2b8&useSSL=false&allowMultiQueries=true
+    username: root
+    password: 123456
+    dbcp2:
+      min-idle: 5                                          # 最小连接数
+      initial-size: 5                                      # 初始化连接数
+      max-total: 5                                         # 最大连接数
   mvc:
     static-path-pattern: /static/**
   resources:
@@ -19,6 +26,11 @@ spring:
     host: smtp.qq.com
     default-encoding: utf-8
 
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath*:/com/boki/bokiclient/dao/mapper/*Mapper.xml
+  type-aliases-package: com.boki.bokiapi.entity
 
 #eureka:
 #  instance:
