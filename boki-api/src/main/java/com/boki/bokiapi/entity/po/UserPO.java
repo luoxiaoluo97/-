@@ -3,7 +3,6 @@ package com.boki.bokiapi.entity.po;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import lombok.experimental.Accessors;
 /**
  * @time: 2020/2/16
@@ -14,15 +13,14 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class UserPO {
 
     private Integer id;            //用户ID
     private String mail;		//邮箱即是账号
     private String pwd;          //密码
-    private String userName;          //用户名
+    private String userName;          //昵称
     private String photo;           //头像
-    private String sex;          //用户性别
+    private String sex;          //用户性别,保密，男，女
     private String birth;          //出生日期
 //    private String blog;          //用户主页
     private String comeFrom;          //来自何地

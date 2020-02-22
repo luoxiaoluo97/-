@@ -9,12 +9,7 @@ import lombok.Getter;
  * @description: 标识码和信息
  */
 @Getter
-public enum ResultCode {
-
-    /**
-     * 登陆请求错误 10000
-     */
-    LOGIN_FAIL(10000,"邮箱或密码错误"),
+public enum VailResultCode {
 
     /**
      * 空数据错误 2000
@@ -45,21 +40,11 @@ public enum ResultCode {
 
     private Integer code;
     private String msg;
-    ResultCode(Integer code,String msg){
+    VailResultCode(Integer code, String msg){
         this.code = code;
         this.msg = msg;
     }
 
-    public static Integer getCodeByMsg(String msg) throws NullPointerException{
-        Integer code = null;
-        for (ResultCode resultCode:values()){
-            if(resultCode.getMsg().equals(msg)){
-                code = resultCode.getCode();
-                break;
-            }
-        }
-        return code;
-    }
 
     public ExceptionResultVO getResult(){
         ExceptionResultVO result = new ExceptionResultVO();

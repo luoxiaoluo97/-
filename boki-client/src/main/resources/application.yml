@@ -1,19 +1,28 @@
 server:
   port: 9000
 
+dataservice:
+  host: 192.168.0.8
+
 spring:
   application:
     name: boki-client
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource          # 当前数据库操作类型
     driver-class-name: com.mysql.cj.jdbc.Driver              # 驱动包
-    url: jdbc:mysql://192.168.0.8:3306/boki_local?characterEncoding=utf8&serverTimezone=GMT%2b8&useSSL=false&allowMultiQueries=true
+    url: jdbc:mysql://${dataservice.host}:3306/boki_local?characterEncoding=utf8&serverTimezone=GMT%2b8&useSSL=false&allowMultiQueries=true
     username: root
     password: 123456
     dbcp2:
       min-idle: 5                                          # 最小连接数
       initial-size: 5                                      # 初始化连接数
       max-total: 5                                         # 最大连接数
+  cache:
+    type: redis
+  redis:
+    database: 0
+    host: ${dataservice.host}
+    port: 6379
   mvc:
     static-path-pattern: /static/**
   resources:

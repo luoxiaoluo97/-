@@ -47,7 +47,6 @@ public class ShiroRealm extends AuthorizingRealm {
         if(userInfoVO == null){
             return null;
         }
-
         SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(userInfoVO,userLoginDTO.getPwd(),"");
         return info;
     }

@@ -3,7 +3,6 @@ package com.boki.bokiapi.entity.vo;
 import com.alibaba.fastjson.JSONObject;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import java.util.ArrayList;
@@ -16,13 +15,12 @@ import java.util.ArrayList;
 @Data
 @Accessors(chain = true)
 @NoArgsConstructor
-@ToString
 public class UserInfoVO {
     private String mail;		//邮箱即是账号
-    private String userName;          //用户名
+    private String userName;          //昵称
     private String photo;           //头像
     private String age;             //年龄
-    private String sex;          //用户性别
+    private String sex;          //用户性别,保密，男，女
     private String birth;          //出生日期
     private String blog;          //用户主页
     private String from;          //来自何地
