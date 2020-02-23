@@ -1,5 +1,6 @@
 package com.boki.bokiapi.execption;
 
+import com.boki.bokiapi.execption.enums.RequestResultCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -9,12 +10,13 @@ import lombok.experimental.Accessors;
  * @Date: 2020/2/21
  * @Description:
  */
+
 @Getter
 @Setter
 @Accessors(chain = true)
 public class BusinessException extends RuntimeException {
 
-    private String type;
+    private RequestResultCode type;
 
     public BusinessException(){
         super();

@@ -3,13 +3,18 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.boki.bokiclient.dao.LoginDao">
-    <select id="findByMailAndPwd" parameterType="UserLoginDTO" resultType="UserPO">
+    <select id="findByMailAndPwd" parameterType="UserPO" resultType="UserPO">
         select * from boki_user where mail = #{mail} and pwd = #{pwd} and is_deleted = 'n';
     </select>
 
-<!--    <insert id="insertUser" parameterType="UserPO">-->
-<!--        insert into boki_user(`mail`,`pwd`,`user_name`) value (#{mail},#{pwd},#{userName})-->
-<!--    </insert>-->
+    <select id="findByMailOrUserName" parameterType="UserPO" resultType="UserPO">
+        SELECT user_name,mail FROM boki_user
+        WHERE user_name = #{userName} OR mail = #{mail} and is_deleted = 'n'
+    </select>
+
+    <insert id="insertUser" parameterType="UserPO">
+        insert into boki_user(`mail`,`pwd`,`user_name`) value (#{mail},#{pwd},#{userName})
+    </insert>
 
 <!--    <insert id="addDept" parameterType="Dept">-->
 <!--        insert into dept(dname,db_source) values(#{dname},DATEBASE());-->

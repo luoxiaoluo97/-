@@ -1,6 +1,6 @@
-package com.boki.bokiapi.enums;
+package com.boki.bokiapi.execption.enums;
 
-import com.boki.bokiapi.entity.vo.ExceptionResultVO;
+import com.boki.bokiapi.entity.vo.ResultVO;
 import lombok.Getter;
 
 /**
@@ -46,8 +46,8 @@ public enum VailResultCode {
     }
 
 
-    public ExceptionResultVO getResult(){
-        ExceptionResultVO result = new ExceptionResultVO();
+    public ResultVO getResult(){
+        ResultVO result = new ResultVO();
         result.setCode(this.code)
                 .setMsg(this.msg);
         return result;

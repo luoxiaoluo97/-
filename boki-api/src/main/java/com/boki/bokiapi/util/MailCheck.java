@@ -28,17 +28,12 @@ public class MailCheck {
         try{
             SimpleMailMessage message = new SimpleMailMessage();
             message.setSubject("这是一封来自BOKI论坛的邮件");
-            message.setText("本次验证码为"+code+",该验证码5分钟内有效。如非本人操作，请忽略。");
+            message.setText("    本次验证码为"+code+",该验证码5分钟内有效。如非本人操作，请忽略。");
             message.setFrom(mailSender.getUsername());
             message.setTo(targetMail);
             mailSender.send(message);
         }catch (MailException e){
-            BusinessException exception = new BusinessException(targetMail+"验证码发送失败，原因为:\n"+e.getMessage());
-            /*地址格式错误判断*/
-            if(e.getMessage().indexOf("Invalid Addresses") > 0){
-                exception.setType("ERROR_MAIL");
-            }
-            throw exception;
+            throw new BusinessException(targetMail+"验证码发送失败，原因为:\n"+e.getMessage());
         }
         return code;
     }
@@ -55,12 +50,4 @@ public class MailCheck {
         return code;
     }
 
-    /**
-     * 获取缓存中的邮箱验证码
-     * @param mail
-     * @return
-     */
-    public String getCheckCodeFromCache(String mail){
-        return null;
-    }
 }

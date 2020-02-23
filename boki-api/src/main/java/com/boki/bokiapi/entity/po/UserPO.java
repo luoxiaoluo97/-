@@ -28,7 +28,7 @@ public class UserPO {
     private String exp;            //用户经验值
     private String creditDegree;          //用户信用度
     //private String gold;           //用户金币
-    private String job;           //用户论坛职务
+    private String jobId;           //用户论坛职务
     private String honorId;              //用户信用度勋章ID
     private String intro;           //自我简介
     private String show;         //用户个性签名

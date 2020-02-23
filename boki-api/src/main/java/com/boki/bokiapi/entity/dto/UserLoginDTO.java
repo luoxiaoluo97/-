@@ -1,5 +1,6 @@
 package com.boki.bokiapi.entity.dto;
 
+import com.boki.bokiapi.execption.StatusName;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
@@ -18,12 +19,12 @@ import javax.validation.constraints.Pattern;
 @NoArgsConstructor
 public class UserLoginDTO {
 
-    @NotEmpty(message = "NULL_MAIL")
-    @Email(message = "ERROR_MAIL")
+    @NotEmpty(message = StatusName.NULL_MAIL)
+    @Email(message = StatusName.ERROR_MAIL)
     private String mail;		//邮箱即是账号
 
-    @NotEmpty(message = "NULL_PWD")
-    @Pattern(regexp = "[a-zA-Z0-9]{8,16}",message = "ERROR_PWD")
+    @NotEmpty(message = StatusName.NULL_PWD)
+    @Pattern(regexp = "[a-zA-Z0-9]{8,16}",message = StatusName.ERROR_PWD)
     private String pwd;          //密码
 
 }

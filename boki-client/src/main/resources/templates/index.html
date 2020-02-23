@@ -3,24 +3,26 @@
 <head>
     <meta charset="UTF-8" http-equiv="Content-Type" content="text/html">
     <title>全部木大！！</title>
-    <script th:src="@{/static/js/vue.js}"></script>
+    <script th:src="@{/static/js/jquery-3.4.1.min.js}"></script>
+    <script th:src="@{/static/js/util.js}"></script>
+<!--    <script th:src="@{/static/js/vue.js}"></script>-->
 
 </head>
 <body>
-<h2>结果！</h2>
-<div id="app">
-    <p>{{ message }}</p>
-    <p>{{userName}}</p>
-    <p th:text="${userName}"></p>
-</div>
+<h2>基础登陆页！</h2>
+<form id="loginForm" >
+    <input type="text" name="mail" value="" /><br/>
+    <input type="text" name="pwd" value="" /><br/>
+<!--    <button id="doLogin">登陆</button>-->
+</form>
+<button id="doLogin">登陆</button><br/>
+<span id = "responseData"></span>
 
-<script>
-    new Vue({
-        el: '#app',
-        data: {
-            message: 'Hello Vue.js!'
-        }
-    })
+<script type="text/javascript" th:inline="javascript">
+    var basePath = [[${#httpServletRequest.getScheme() + "://" + #httpServletRequest.getServerName() + ":" + #httpServletRequest.getServerPort() + #httpServletRequest.getContextPath()}]];
+    $('#doLogin').click(function() {
+        commonLogin();
+    });
 </script>
 
 </body>

@@ -10,7 +10,8 @@ import lombok.experimental.Accessors;
  */
 @Data
 @Accessors(chain = true)
-public class ExceptionResultVO<T> {
+public class ResultVO<T> {
     private Integer code;
     private String msg;
+    private T data = null;
 }

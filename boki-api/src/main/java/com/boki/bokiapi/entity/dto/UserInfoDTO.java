@@ -1,5 +1,6 @@
 package com.boki.bokiapi.entity.dto;
 
+import com.boki.bokiapi.execption.StatusName;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
@@ -21,14 +22,14 @@ public class UserInfoDTO {
     @NotEmpty
     private String mail;		//邮箱即是账号
 
-    @NotBlank(message = "ERROR_USERNAME_FORMAT")
-    @Size(min = 1,max = 12,message = "ERROR_USERNAME_SIZE")
+    @NotBlank(message = StatusName.ERROR_USERNAME_FORMAT )
+    @Size(min = 1,max = 8,message = StatusName.ERROR_USERNAME_SIZE)
     private String userName;          //昵称
 
-    @NotEmpty(message = "NULL_SEX")
+    @NotEmpty(message = StatusName.NULL_SEX )
     private String sex;          //用户性别,保密，男，女
 
-    @Past(message = "ERROR_BIRTH")
+    @Past(message = StatusName.ERROR_BIRTH )
     private String birth;          //出生日期
 
     private String from;          //来自何地

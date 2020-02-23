@@ -35,14 +35,15 @@ public class ShiroConfig {
          * role     获得角色权限后访问
          */
         Map<String, String> map = new LinkedHashMap<>();
-        /*首页*/
         map.put("/","anon");
-        map.put("/login","anon");
-        map.put("/register","authc");
-        map.put("/modifyPwd","authc");
+        map.put("/p/*","anon");
+        map.put("/user/login","anon");
+        map.put("/user/register","anon");
+        map.put("/user/sendCheckCode/*","anon");
+        map.put("/user/modifyPwd","authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
 
-        shiroFilterFactoryBean.setLoginUrl("/loginBlock");
+        shiroFilterFactoryBean.setLoginUrl("/user/login");
 //        shiroFilterFactoryBean.setUnauthorizedUrl("");
 
         return shiroFilterFactoryBean;

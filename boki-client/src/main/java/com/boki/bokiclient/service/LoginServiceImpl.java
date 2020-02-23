@@ -7,6 +7,7 @@ import com.boki.bokiapi.entity.dto.UserRegisterDTO;
 import com.boki.bokiapi.entity.po.UserPO;
 import com.boki.bokiapi.entity.vo.UserInfoVO;
 import com.boki.bokiapi.execption.BusinessException;
+import com.boki.bokiapi.execption.enums.RequestResultCode;
 import com.boki.bokiapi.util.MailCheck;
 import com.boki.bokiapi.util.PwdEncryption;
 import com.boki.bokiclient.dao.LoginDao;
@@ -34,7 +35,9 @@ public class LoginServiceImpl implements LoginService {
 
 
     public UserInfoVO findByMailAndPwd(UserLoginDTO userLoginDTO) {
-        UserPO userPO = loginDao.findByMailAndPwd(userLoginDTO);
+        UserPO userPO = new UserPO();
+        BeanUtils.copyProperties(userLoginDTO,userPO);
+        userPO = loginDao.findByMailAndPwd(userPO);
         if (userPO == null){
             return null;
         }
@@ -43,12 +46,37 @@ public class LoginServiceImpl implements LoginService {
         return userInfoVO;
     }
 
+    /**
+     * 添加用户，包括验证阶段
+     * @param userRegisterDTO
+     * @return
+     */
     @Override
     public int insertUser(UserRegisterDTO userRegisterDTO) {
+        String code = redisTemplate.opsForValue().get(userRegisterDTO.getMail());
+        if(code == null){
+            throw new BusinessException(userRegisterDTO.getMail()+"验证码不存在或过期。")
+                    .setType(RequestResultCode.CHECK_CODE_INVALID);
+        }else if(!userRegisterDTO.getCheckCode().equals(code)){
+            throw new BusinessException(userRegisterDTO.getMail()+"邮箱验证失败。")
+                    .setType(RequestResultCode.CHECK_CODE_VALIDATION_FAILED);
+
+        }
         String pwd = PwdEncryption.doubleMd5(userRegisterDTO.getPwd());
-        userRegisterDTO.setPwd(pwd);
-        //return loginDao.insertUser(userLoginDTO);
-        return 0;
+        UserPO userPO = new UserPO();
+        BeanUtils.copyProperties(userRegisterDTO,userPO);
+        userPO.setPwd(pwd);
+        UserPO result = loginDao.findByMailOrUserName(userPO);
+        /*要么名称被占用，要么邮箱被占用*/
+        if (result != null) {
+            if(userPO.getUserName().equals(result.getUserName())){
+                throw new BusinessException(userPO.getUserName()+"名称已被占用").setType(RequestResultCode.USERNAME_ALREADY_EXIST);
+            }else {
+                throw new BusinessException(userPO.getMail()+"邮箱已被占用").setType(RequestResultCode.MAIL_ALREADY_EXIST);
+            }
+        }else {
+            return loginDao.insertUser(userPO);
+        }
     }
 
     @Override
@@ -56,13 +84,14 @@ public class LoginServiceImpl implements LoginService {
         JSONObject result = new JSONObject();
         result.put("mail",mail);
         if ( redisTemplate.hasKey(mail) ){
-            result.put("验证码有效时间",redisTemplate.getExpire(mail,TimeUnit.SECONDS)+"s");
+            /*返回有效期*/
+            result.put("effectiveTime",redisTemplate.getExpire(mail,TimeUnit.SECONDS)+"s");
             return result;
         }
         String mailCode = mailCheck.mailSend(mail);
         redisTemplate.opsForValue().set(mail,mailCode);
         redisTemplate.expire(mail, 300, TimeUnit.SECONDS);
-        result.put("验证码有效时间","300s");
+        result.put("effectiveTime","300s");
         return result;
     }
 }

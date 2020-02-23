@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>全部木大！！</title>
+<!--    <script th:src="@{/static/js/vue.js}"></script>-->
+    <script th:src="@{/static/js/jquery-3.4.1.min.js}"></script>
+    <script th:src="@{/static/js/util.js}"></script>
+</head>
+<body>
+    <h2>注册页！！！</h2>
+    <p>注册表单</p>
+    <form id="registerForm" >
+        邮箱<input id="mail" type="text" name="mail" value="" /><br/>
+        昵称<input type="text" name="userName" value="" /><br/>
+        密码<input type="text" name="pwd" value="" /><br/>
+        验证码<input  type="text" name="checkCode" value="" /><a id="sendCode">发送验证码</a><br/>
+        <a id="doRegister" >注册</a>
+    </form>
+    <script type="text/javascript" th:inline="javascript">
+        //发送验证码
+        $('#sendCode').click(function() {
+            $.ajax({
+                url: basePath + "/user/sendCheckCode/"+$('#mail').val(),
+                type: "get",
+                contentType: "application/json",
+                dataType: "json",
+                async: true,
+                success: function (data) {
+                    alert(data.code+data.msg);
+                    if (data.data != null) {
+                        $('#responseData').text(JSON.stringify(data.data));
+                    }
+                },
+                error: function () {
+                    alert("请求失败.");
+                }
+            });
+        });
+        //注册
+        $('#doRegister').click(function() {
+            $.ajax({
+                url: basePath + "/user/register",
+                type: "post",
+                contentType: "application/json",
+                dataType: "json",
+                data: formToJson($('#registerForm')),
+                async: false,
+                success: function (data) {
+                    alert(data.code+data.msg);
+                    if (data.data != null) {
+                        $('#responseData').text(JSON.stringify(data.data));
+                    }
+                },
+                error: function () {
+                    alert("请求失败.");
+                }
+            });
+        });
+    </script>
+
+
+    <p>登陆表单</p>
+    <form id="loginForm" >
+        <input type="text" name="mail" value="" /><br/>
+        <input type="text" name="pwd" value="" /><br/>
+        <!--    <button id="doLogin">登陆</button>-->
+    </form>
+    <button id="doLogin">登陆</button><br/>
+    <span id = "responseData"></span>
+
+    <script type="text/javascript" th:inline="javascript">
+        var basePath = [[${#httpServletRequest.getScheme() + "://" + #httpServletRequest.getServerName() + ":" + #httpServletRequest.getServerPort() + #httpServletRequest.getContextPath()}]];
+        $('#doLogin').click(function() {
+            commonLogin();
+        });
+    </script>
+</body>
+</html>
