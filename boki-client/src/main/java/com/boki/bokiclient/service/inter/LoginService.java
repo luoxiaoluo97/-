@@ -3,6 +3,7 @@ package com.boki.bokiclient.service.inter;
 import com.alibaba.fastjson.JSONObject;
 import com.boki.bokiapi.entity.dto.UserLoginDTO;
 import com.boki.bokiapi.entity.dto.UserRegisterDTO;
+import com.boki.bokiapi.entity.dto.UserUpdatePwdDTO;
 import com.boki.bokiapi.entity.vo.UserInfoVO;
 
 public interface LoginService {
@@ -28,4 +29,10 @@ public interface LoginService {
      */
     JSONObject sendCheckCodeAndCache(String mail);
 
+    /**
+     * 改密
+     * @param userUpdatePwdDTO
+     * @return
+     */
+    int updatePwdByMail(UserUpdatePwdDTO userUpdatePwdDTO);
 }

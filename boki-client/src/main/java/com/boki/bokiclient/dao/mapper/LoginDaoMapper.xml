@@ -16,7 +16,7 @@
         insert into boki_user(`mail`,`pwd`,`user_name`) value (#{mail},#{pwd},#{userName})
     </insert>
 
-<!--    <insert id="addDept" parameterType="Dept">-->
-<!--        insert into dept(dname,db_source) values(#{dname},DATEBASE());-->
-<!--    </insert>-->
+    <update id="updatePwdByMail" parameterType="UserPO" >
+        UPDATE boki_user SET `pwd`=#{pwd} WHERE `mail`=#{mail}
+    </update>
 </mapper>

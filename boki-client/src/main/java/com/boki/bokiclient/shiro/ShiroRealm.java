@@ -8,6 +8,7 @@ import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,11 @@ public class ShiroRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        return null;
+        // TODO 直接把权限表读出来，以静态或者bean的形式存在，
+        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+        info.addStringPermission("user");
+        return info;
+//        return null;
     }
 
     /**

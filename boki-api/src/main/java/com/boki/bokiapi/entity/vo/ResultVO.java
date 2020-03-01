@@ -6,7 +6,7 @@ import lombok.experimental.Accessors;
 /**
  * @time: 2020/2/16
  * @author: LJF
- * @description:数据校验
+ * @description: 状态码、信息、数据
  */
 @Data
 @Accessors(chain = true)

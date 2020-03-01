@@ -20,15 +20,16 @@ public enum  RequestResultCode {
     /**
      * 请求状态码 10xxx
      */
-    LOGIN_SUCCESS(10000,"登陆成功。"),
+    SUCCESS(10000,"success"),
     LOGIN_FAIL(10001,"登陆失败，邮箱或密码错误。"),
-    MAIL_SEND_SUCCESS(10100,"验证码已发送。"),
+    LOGIN_TODO(10002,"登陆后可操作"),
     MAIL_SEND_FAIL(10101,"验证码发送失败。"),
-    REGISTER_SUCCESS(10200,"注册完成。"),
     REGISTER_FAIL(10201,"注册失败。"),
     CHECK_CODE_INVALID(10301,"失效的验证码。"),
     CHECK_CODE_VALIDATION_FAILED(10302,"邮箱验证失败。"),
 
+    SHOULD_WAIT(10401,"防灌水，15秒后可继续发帖"),
+    POST_DELETE_FAIL(10501,"删贴失败"),
     /**
      * 服务器错误 500xx
      */

@@ -14,8 +14,8 @@
         邮箱<input id="mail" type="text" name="mail" value="" /><br/>
         昵称<input type="text" name="userName" value="" /><br/>
         密码<input type="text" name="pwd" value="" /><br/>
-        验证码<input  type="text" name="checkCode" value="" /><a id="sendCode">发送验证码</a><br/>
-        <a id="doRegister" >注册</a>
+        验证码<input  type="text" name="checkCode" value="" /><a id="sendCode" style="color: fuchsia">发送验证码</a><br/>
+        <a id="doRegister" style="color: fuchsia">注册</a>
     </form>
     <script type="text/javascript" th:inline="javascript">
         //发送验证码
@@ -62,12 +62,11 @@
 
     <p>登陆表单</p>
     <form id="loginForm" >
-        <input type="text" name="mail" value="" /><br/>
-        <input type="text" name="pwd" value="" /><br/>
-        <!--    <button id="doLogin">登陆</button>-->
+        邮箱<input type="text" name="mail" value="" /><br/>
+        密码<input type="text" name="pwd" value="" /><br/>
+        <a id="doLogin" style="color: fuchsia">登陆</a><br/>
     </form>
-    <button id="doLogin">登陆</button><br/>
-    <span id = "responseData"></span>
+    <span id = "responseData" style="color: limegreen"></span>
 
     <script type="text/javascript" th:inline="javascript">
         var basePath = [[${#httpServletRequest.getScheme() + "://" + #httpServletRequest.getServerName() + ":" + #httpServletRequest.getServerPort() + #httpServletRequest.getContextPath()}]];

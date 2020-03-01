@@ -4,6 +4,7 @@ package com.boki.bokiclient.service;
 import com.alibaba.fastjson.JSONObject;
 import com.boki.bokiapi.entity.dto.UserLoginDTO;
 import com.boki.bokiapi.entity.dto.UserRegisterDTO;
+import com.boki.bokiapi.entity.dto.UserUpdatePwdDTO;
 import com.boki.bokiapi.entity.po.UserPO;
 import com.boki.bokiapi.entity.vo.UserInfoVO;
 import com.boki.bokiapi.execption.BusinessException;
@@ -60,12 +61,13 @@ public class LoginServiceImpl implements LoginService {
         }else if(!userRegisterDTO.getCheckCode().equals(code)){
             throw new BusinessException(userRegisterDTO.getMail()+"邮箱验证失败。")
                     .setType(RequestResultCode.CHECK_CODE_VALIDATION_FAILED);
-
         }
+
         String pwd = PwdEncryption.doubleMd5(userRegisterDTO.getPwd());
         UserPO userPO = new UserPO();
         BeanUtils.copyProperties(userRegisterDTO,userPO);
         userPO.setPwd(pwd);
+
         UserPO result = loginDao.findByMailOrUserName(userPO);
         /*要么名称被占用，要么邮箱被占用*/
         if (result != null) {
@@ -75,12 +77,14 @@ public class LoginServiceImpl implements LoginService {
                 throw new BusinessException(userPO.getMail()+"邮箱已被占用").setType(RequestResultCode.MAIL_ALREADY_EXIST);
             }
         }else {
+            //注册完成，移除key
+            redisTemplate.delete(userRegisterDTO.getMail());
             return loginDao.insertUser(userPO);
         }
     }
 
     @Override
-    public JSONObject sendCheckCodeAndCache(String mail) throws BusinessException {
+    public JSONObject sendCheckCodeAndCache(String mail) {
         JSONObject result = new JSONObject();
         result.put("mail",mail);
         if ( redisTemplate.hasKey(mail) ){
@@ -94,4 +98,26 @@ public class LoginServiceImpl implements LoginService {
         result.put("effectiveTime","300s");
         return result;
     }
+
+
+    @Override
+    public int updatePwdByMail(UserUpdatePwdDTO userUpdatePwdDTO) {
+        String code = redisTemplate.opsForValue().get(userUpdatePwdDTO.getMail());
+        if(code == null){
+            throw new BusinessException(userUpdatePwdDTO.getMail()+"验证码不存在或过期。")
+                    .setType(RequestResultCode.CHECK_CODE_INVALID);
+        }else if(!userUpdatePwdDTO.getCheckCode().equals(code)){
+            throw new BusinessException(userUpdatePwdDTO.getMail()+"邮箱验证失败。")
+                    .setType(RequestResultCode.CHECK_CODE_VALIDATION_FAILED);
+        }
+        String pwd = PwdEncryption.doubleMd5(userUpdatePwdDTO.getPwd());
+        UserPO userPO = new UserPO();
+        BeanUtils.copyProperties(userUpdatePwdDTO,userPO);
+        userPO.setPwd(pwd);
+        int count = loginDao.updatePwdByMail(userPO);
+        redisTemplate.delete(userUpdatePwdDTO.getMail());
+        return count;
+    }
+
+
 }

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boki.bokiclient.dao.PostDao">
+    <insert id="insertPost" parameterType="PostPO">
+        INSERT INTO boki_post(user_id,title,content,last_replier_id,creator,`modifier`)
+        VALUE(#{userId},#{title},#{content},#{userId},#{userId},#{userId})
+    </insert>
+
+    <update id="updateExpById" >
+        UPDATE boki_user SET `exp`= `exp`+ #{exp} WHERE id = #{id};
+    </update>
+
+<!--    <insert id="insertReply" parameterType="PostPO">-->
+<!--        INSERT INTO boki_reply(post_id,user_id,floor_no,content,creator,`modifier`)-->
+<!--        VALUE(1,1,1,'今天老子来水第一帖',1,1)-->
+<!--    </insert>-->
+    
+    <update id="deletePost" parameterType="PostPO" >
+        UPDATE boki_post SET is_deleted = 'y',`modifier` = #{userId} WHERE id = #{id} AND user_id = #{userId}
+    </update>
+
+
+</mapper>

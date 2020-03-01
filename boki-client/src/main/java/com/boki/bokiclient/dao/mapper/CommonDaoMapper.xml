@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boki.bokiclient.dao.CommonDao">
+    <select id="getPostDetail" parameterType="Long" resultType="PostDetailDTO">
+        SELECT bp.id,bp.user_id,bp.title,bp.content,bp.replies_count,bp.create_time,bp.`type_id`,
+            bu.user_name,bu.photo,bu.exp,bu.credit_degree,bu.role_id
+        FROM boki_post bp
+        JOIN boki_user bu ON bp.user_id = bu.id
+        WHERE bp.id = #{postId}
+    </select>
+
+    <select id="getReplyList" parameterType="Long" resultType="ReplyDTO">
+        SELECT br.id,br.user_id,br.post_id,br.floor_no,br.create_time,br.content,br.replies_count,
+	        bu.user_name,bu.photo,bu.exp,bu.credit_degree,bu.role_id
+        FROM boki_reply br
+        JOIN boki_user bu ON br.user_id = bu.id
+        WHERE br.post_id = #{postId}
+        ORDER BY br.floor_no
+        LIMIT 0,20
+    </select>
+
+<!--    bean-->
+    <select id="getPostType" resultType="PostTypeDTO">
+        SELECT id,`type` FROM boki_post_type
+    </select>
+<!--    bean-->
+    <select id="getPermissions" resultType="RolePermissionDTO">
+        SELECT br.id,br.role,bp.url FROM boki_role br
+        JOIN boki_permission bp ON br.id = bp.role_id
+        ORDER BY br.id
+    </select>
+<!--    bean-->
+    <select id="getLevelTable" resultType="UserLevelDTO">
+        SELECT `level`,`exp` from boki_user_level
+    </select>
+<!--    bean-->
+    <select id="getHonorTable" resultType="UserHonorDTO">
+        SELECT * from boki_user_honor
+    </select>
+</mapper>

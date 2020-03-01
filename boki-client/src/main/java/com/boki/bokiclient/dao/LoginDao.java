@@ -13,4 +13,6 @@ public interface LoginDao {
     public UserPO findByMailOrUserName(UserPO userPO);
 
     public int insertUser(UserPO userPO);
+
+    public int updatePwdByMail(UserPO userPO);
 }

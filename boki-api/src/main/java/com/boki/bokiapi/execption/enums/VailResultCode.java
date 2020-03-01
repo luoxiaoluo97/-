@@ -19,6 +19,8 @@ public enum VailResultCode {
     NULL_USERNAME(2000,"昵称不能为空"),
     NULL_CHECK_CODE(2000,"校验码不能为空"),
     NULL_SEX(2000,"性别不能为空"),
+    NULL_TITLE(2000,"标题不能为空"),
+    NULL_CONTENT(2000,"内容不能为空"),
 
     /**
      * 数据格式错误 2001

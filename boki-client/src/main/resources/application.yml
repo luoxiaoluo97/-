@@ -2,7 +2,7 @@ server:
   port: 9000
 
 dataservice:
-  host: 192.168.0.8
+  host: 192.168.0.9
 
 spring:
   application:

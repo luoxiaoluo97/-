@@ -1,12 +1,15 @@
 package com.boki.bokiclient.shiro;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
+import com.boki.bokiapi.entity.dto.dbsource.RolePermissionDTO;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -17,6 +20,16 @@ import java.util.Map;
  */
 @Configuration
 public class ShiroConfig {
+
+
+    private static final String ANON = "anon";
+    private static final String AUTHC = "authc";
+    private static final String USER = "user";
+    private static final String PERMS = "perms";
+    private static final String ROLE = "role";
+
+    @Autowired
+    private ArrayList<RolePermissionDTO> permission;
 
     /**
      * 过滤器
@@ -31,21 +44,33 @@ public class ShiroConfig {
          * anon     开放
          * authc    认证后访问
          * user     使用rememberMe之后可以直接访问
-         * perms    获得资源权限后访问
-         * role     获得角色权限后访问
+         * perms    获得资源权限后访问,需要放在拦截所有的前面，否者失效
+         * role     获得角色权限后访问,需要放在拦截所有的前面，否者失效
          */
         Map<String, String> map = new LinkedHashMap<>();
-        map.put("/","anon");
-        map.put("/p/*","anon");
-        map.put("/user/login","anon");
-        map.put("/user/register","anon");
-        map.put("/user/sendCheckCode/*","anon");
-        map.put("/user/modifyPwd","authc");
+        /*静态资源*/
+        map.put("/static/**",ANON);
+        /*首页*/
+        map.put("/",ANON);
+        /*帖子访问*/
+        map.put("/p/*",ANON);
+        /*帖子操作*/
+        map.put("/post/sendPost",ANON);
+        map.put("/post/**",AUTHC);
+        /*用户操作*/
+        map.put("/user/login",ANON);
+        map.put("/user/register",ANON);
+        map.put("/user/sendCheckCode/*",ANON);
+        map.put("/user/modifyPwd",AUTHC);
+        /*授权访问*/
+        // TODO 只为需要设置权限的url配置权限表
+//        map.put("/user/",PERMS+"[xxx]");
+        map.put("/**",AUTHC);
         shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
 
         shiroFilterFactoryBean.setLoginUrl("/user/login");
 //        shiroFilterFactoryBean.setUnauthorizedUrl("");
-
+        shiroFilterFactoryBean.setUnauthorizedUrl("/unauthorized");
         return shiroFilterFactoryBean;
     }
 

@@ -9,25 +9,25 @@
 
 </head>
 <body>
-<h2>论坛首页！</h2>
+<h2>某个贴子！</h2>
 <span id = "responseData" style="color: limegreen"></span>
-<p>帖子列表</p>
+<p>帖子内容啊啊啊啊啊啊啊啊</p>
 <div>
-    <span th:text="${postsList}"></span>
+    <span th:text="${postsContent}"></span>
 </div>
 
-<p>发帖</p>
+<p>回复</p>
 <div>
-    <form id="sendPost" >
-        标题<input type="text" name="title" value="" /><br/>
+    <form id="reply" >
+<!--        <input hidden="hidden" th:value="${postsContent}"-->
         内容<textarea name="content" value="" ></textarea><br/>
-        <a id="doSendPost" style="color: fuchsia">发帖</a>
+        <a id="doReply" style="color: fuchsia">发帖</a>
     </form>
     <script type="text/javascript" th:inline="javascript">
-        //发帖
+        //回复
         $('#doSendPost').click(function() {
             $.ajax({
-                url: basePath + "/post/sendPost",
+                url: basePath + "/post/reply",
                 type: "post",
                 contentType: "application/json",
                 dataType: "json",

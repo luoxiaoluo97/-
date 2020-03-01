@@ -15,7 +15,8 @@ public class StatusName {
     public static final String NULL_USERNAME = "NULL_USERNAME";
     public static final String NULL_CHECK_CODE = "NULL_CHECK_CODE";
     public static final String NULL_SEX = "NULL_SEX";
-
+    public static final String NULL_TITLE = "NULL_TITLE";
+    public static final String NULL_CONTENT = "NULL_CONTENT";
     /**
      * 数据状态
      */

@@ -3,6 +3,7 @@ package com.boki.bokiclient.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.boki.bokiapi.entity.dto.UserLoginDTO;
 import com.boki.bokiapi.entity.dto.UserRegisterDTO;
+import com.boki.bokiapi.entity.dto.UserUpdatePwdDTO;
 import com.boki.bokiapi.entity.vo.ResultVO;
 import com.boki.bokiapi.entity.vo.UserInfoVO;
 import com.boki.bokiapi.execption.BusinessException;
@@ -51,8 +52,10 @@ public class LoginController {
         }catch (UnknownAccountException e){
             throw new BusinessException(e.getMessage()).setType(RequestResultCode.LOGIN_FAIL);
         }
+        session.setAttribute("UID",info.getId());
+        session.setAttribute("mail",info.getMail());
         session.setAttribute("userName",info.getUserName());
-        return RequestResultCode.LOGIN_SUCCESS.getResult().setData(info);
+        return RequestResultCode.SUCCESS.getResult().setData(info);
     }
 
     /**
@@ -64,7 +67,7 @@ public class LoginController {
     public ResultVO register(@Valid @RequestBody UserRegisterDTO userRegisterDTO){
         loginService.insertUser(userRegisterDTO);
         log.info(userRegisterDTO.getMail()+" 用户完成注册。");
-        return RequestResultCode.REGISTER_SUCCESS.getResult();
+        return RequestResultCode.SUCCESS.getResult();
     }
 
 
@@ -80,8 +83,20 @@ public class LoginController {
             throw new BusinessException().setType(RequestResultCode.ERROR_MAIL);
         }
         JSONObject result = loginService.sendCheckCodeAndCache(mail);
-        return RequestResultCode.MAIL_SEND_SUCCESS.getResult().setData(result);
+        return RequestResultCode.SUCCESS.getResult().setData(result);
     }
 
 
+    /**
+     * 改密请求
+     * @return
+     */
+    @PostMapping("/modifyPwd")
+    public ResultVO updatePwd(@RequestBody @Valid UserUpdatePwdDTO userUpdatePwdDTO, HttpSession session){
+        String mail = (String)session.getAttribute("mail");
+        userUpdatePwdDTO.setMail(mail);
+        int count = loginService.updatePwdByMail(userUpdatePwdDTO);
+        return count == 1 || count == 0 ?
+                RequestResultCode.SUCCESS.getResult() : RequestResultCode.SERVER_ERROR.getResult();
+    }
 }

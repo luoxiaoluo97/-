@@ -32,6 +32,7 @@ public class MailCheck {
             message.setFrom(mailSender.getUsername());
             message.setTo(targetMail);
             mailSender.send(message);
+            log.info(targetMail+"邮箱已发送");
         }catch (MailException e){
             throw new BusinessException(targetMail+"验证码发送失败，原因为:\n"+e.getMessage());
         }
