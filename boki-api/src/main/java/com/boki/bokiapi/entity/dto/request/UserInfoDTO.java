@@ -1,6 +1,7 @@
-package com.boki.bokiapi.entity.dto;
+package com.boki.bokiapi.entity.dto.request;
 
 import com.boki.bokiapi.execption.StatusName;
+import com.boki.bokiapi.value.CommonString;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
@@ -32,7 +33,7 @@ public class UserInfoDTO {
     @Past(message = StatusName.ERROR_BIRTH )
     private String birth;          //出生日期
 
-    private String from;          //来自何地
-    private String intro;           //自我简介
-    private String show;         //用户个性签名
+    private String from = CommonString.EMPTY;          //来自何地
+    private String intro = CommonString.EMPTY;           //自我简介
+    private String show = CommonString.EMPTY;         //用户个性签名
 }

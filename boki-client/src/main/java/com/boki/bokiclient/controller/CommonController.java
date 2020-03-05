@@ -1,14 +1,16 @@
 package com.boki.bokiclient.controller;
 
+import com.boki.bokiapi.entity.vo.ResultVO;
 import com.boki.bokiapi.entity.vo.postdetail.PostDetailVO;
+import com.boki.bokiapi.entity.vo.postdetail.StoreyReplyVO;
+import com.boki.bokiapi.execption.enums.RequestResultCode;
 import com.boki.bokiclient.service.inter.CommonService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.ArrayList;
 
 /**
  * @Author: LJF
@@ -16,7 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @Description: 公共页面,无需登陆即可访问
  */
 @Slf4j
-@Controller
+@RestController
 @RequestMapping("/p")
 public class CommonController {
 
@@ -34,18 +36,29 @@ public class CommonController {
         return mv;
     }
 
+
     /**
      * 打开帖子
      * @param id
      * @param mv
      * @return
      */
-    @GetMapping("/{id}")
-    public ModelAndView findPostById(@PathVariable("id") Long id, ModelAndView mv){
-        PostDetailVO post = commonService.getPostDetail(id);
-        mv.addObject("postsContent",post);
-        mv.setViewName("post");
-        return mv;
+    @GetMapping("/{id}/{page}")
+    public ResultVO findPostById(@PathVariable("id") Long id,
+                                     @PathVariable("page") Integer page,
+                                     ModelAndView mv){
+        PostDetailVO post = commonService.getPostDetail(id,page);
+        return RequestResultCode.SUCCESS.getResult().setData(post);
+    }
+
+    /**
+     * 加载楼中楼
+     */
+    @GetMapping("/reply/{id}/{page}")
+    public ResultVO findStoreyReply(@PathVariable("id") Long id,
+                                    @PathVariable("page") Integer page){
+        ArrayList<StoreyReplyVO> storeyReplies = commonService.findStoreyReplyById(id,page);
+        return RequestResultCode.SUCCESS.getResult().setData(storeyReplies);
     }
 
 }

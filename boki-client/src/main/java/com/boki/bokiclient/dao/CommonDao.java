@@ -6,6 +6,7 @@ import com.boki.bokiapi.entity.dto.dbsource.UserHonorDTO;
 import com.boki.bokiapi.entity.dto.dbsource.UserLevelDTO;
 import com.boki.bokiapi.entity.dto.postdetail.PostDetailDTO;
 import com.boki.bokiapi.entity.dto.postdetail.ReplyDTO;
+import com.boki.bokiapi.entity.dto.postdetail.StoreyReplyDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -28,7 +29,16 @@ public interface CommonDao {
     /**
      * 楼层列表
      */
-    public ArrayList<ReplyDTO> getReplyList(@Param("postId") Long postId);
+    public ArrayList<ReplyDTO> getReplyList(@Param("postId") Long postId,
+                                            @Param("start") Integer start,
+                                            @Param("end")Integer end);
+
+    /**
+     * 楼中楼
+     */
+    public ArrayList<StoreyReplyDTO> findStoreyReplyById(@Param("replyId") Long replyId,
+                                                         @Param("start") Integer start,
+                                                         @Param("end")Integer end);
 
     /**
      * 获取帖子类型

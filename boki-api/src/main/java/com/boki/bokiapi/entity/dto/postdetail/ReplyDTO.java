@@ -14,8 +14,9 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 public class ReplyDTO {
     /**
-     * 帖子属性
+     * 楼层属性
      */
+
     private Long id;                //楼层id
     private Long userId;            //层主id
     private Long postId;            //所属帖子
@@ -29,7 +30,7 @@ public class ReplyDTO {
     private String userName;        //层主昵称
     private String photo;           //层主头像
     private Long exp;               //层主经验值
-    private String creditDegree;    //层主信用度
+    private Integer creditDegree;    //层主信用度
     private Integer roleId;         //论坛角色
 
 }

@@ -1,6 +1,6 @@
 package com.boki.bokiclient.shiro;
 
-import com.boki.bokiapi.entity.dto.UserLoginDTO;
+import com.boki.bokiapi.entity.dto.request.UserLoginDTO;
 import com.boki.bokiapi.entity.vo.UserInfoVO;
 import com.boki.bokiclient.service.inter.LoginService;
 import org.apache.shiro.authc.AuthenticationException;

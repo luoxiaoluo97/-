@@ -1,29 +1,22 @@
-package com.boki.bokiapi.entity.po;
+package com.boki.bokiapi.entity.dto.postdetail;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 /**
  * @Author: LJF
- * @Date: 2020/2/26
- * @Description: 二级回复，即楼层的回复
+ * @Date: 2020/2/29
+ * @Description: 对楼层回复，即楼中楼
  */
 @Data
 @Accessors(chain = true)
 @NoArgsConstructor
-@AllArgsConstructor
-public class StoreyReplyPO {
-
+public class StoreyReplyDTO {
     private Long id;                    //回复id
     private Long storeyId;              //所属楼层
     private Long userId;                //回复者id
-    private String content;             //回复内容
-
+    private String userName;            //回复者昵称
     private String createTime;          //回复时间
-    private String modifiedTime;
-    private String creator;
-    private String modifier;
-    private String isDeleted;
+    private String content;             //回复内容
 }

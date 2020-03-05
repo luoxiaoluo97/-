@@ -21,7 +21,8 @@ public enum VailResultCode {
     NULL_SEX(2000,"性别不能为空"),
     NULL_TITLE(2000,"标题不能为空"),
     NULL_CONTENT(2000,"内容不能为空"),
-
+    NULL_POST_ID(2000,"帖子id不能为空"),
+    NULL_STOREY_ID(2000,"楼层id不能为空"),
     /**
      * 数据格式错误 2001
      */

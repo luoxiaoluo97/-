@@ -4,21 +4,35 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.boki.bokiclient.dao.CommonDao">
     <select id="getPostDetail" parameterType="Long" resultType="PostDetailDTO">
-        SELECT bp.id,bp.user_id,bp.title,bp.content,bp.replies_count,bp.create_time,bp.`type_id`,
-            bu.user_name,bu.photo,bu.exp,bu.credit_degree,bu.role_id
-        FROM boki_post bp
-        JOIN boki_user bu ON bp.user_id = bu.id
-        WHERE bp.id = #{postId}
+        SELECT id,user_id,title,replies_count,type_id FROM boki_post WHERE id = #{postId}
     </select>
 
-    <select id="getReplyList" parameterType="Long" resultType="ReplyDTO">
-        SELECT br.id,br.user_id,br.post_id,br.floor_no,br.create_time,br.content,br.replies_count,
+    <select id="getReplyList"  resultType="ReplyDTO">
+        SELECT br.id,
+        br.user_id,br.post_id,br.floor_no,br.create_time,br.content,br.replies_count,
 	        bu.user_name,bu.photo,bu.exp,bu.credit_degree,bu.role_id
         FROM boki_reply br
         JOIN boki_user bu ON br.user_id = bu.id
         WHERE br.post_id = #{postId}
         ORDER BY br.floor_no
-        LIMIT 0,20
+        LIMIT #{start},#{end}
+    </select>
+
+    <select id="findStoreyReplyById"  resultType="StoreyReplyDTO">
+        SELECT
+        bsr.id,
+        bsr.storey_id,
+        bsr.user_id,
+        bu1.user_name,
+        bsr.to_user_id,
+        bu2.user_name AS to_user_name,
+        bsr.content,
+        bsr.create_time
+        FROM boki_storey_reply bsr
+        JOIN boki_user bu1 ON bsr.user_id = bu1.id
+        JOIN boki_user bu2 ON bsr.user_id = bu2.id
+        WHERE bsr.storey_id = #{replyId}
+        LIMIT #{start},#{end}
     </select>
 
 <!--    bean-->

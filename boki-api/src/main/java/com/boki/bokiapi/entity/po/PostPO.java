@@ -22,7 +22,7 @@ public class PostPO {
     private String content;             //内容
     private Long lastReplierId;         //最后回复者id
     private Long repliesCount;          //回复数
-    private int typeId;                   //帖子类型，精品贴或其他
+    private Integer typeId;                   //帖子类型，精品贴或其他
     private String isTop;               //是否置顶贴
 
     private String createTime;          //发帖时间

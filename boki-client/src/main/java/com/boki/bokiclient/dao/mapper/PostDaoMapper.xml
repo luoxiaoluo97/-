@@ -5,21 +5,132 @@
 <mapper namespace="com.boki.bokiclient.dao.PostDao">
     <insert id="insertPost" parameterType="PostPO">
         INSERT INTO boki_post(user_id,title,content,last_replier_id,creator,`modifier`)
-        VALUE(#{userId},#{title},#{content},#{userId},#{userId},#{userId})
+        VALUE(#{userId},#{title},#{content},#{userId},#{userId},#{userId});
+    </insert>
+    <insert id="insertFirstReply" parameterType="PostPO">
+        <selectKey order="BEFORE" keyProperty="id" resultType="Long" >
+            SELECT id post_id FROM boki_post WHERE user_id = #{userId} ORDER BY id DESC LIMIT 1
+        </selectKey>
+        INSERT INTO boki_reply(post_id, user_id, floor_no,content,replies_count,creator,`modifier`)
+        VALUE(#{id},#{userId},1,#{content},0,#{userId},#{userId})
     </insert>
 
     <update id="updateExpById" >
-        UPDATE boki_user SET `exp`= `exp`+ #{exp} WHERE id = #{id};
+        UPDATE boki_user SET `exp`= `exp`+ #{exp} ,post_amount=post_amount+1 WHERE id = #{id};
     </update>
 
-<!--    <insert id="insertReply" parameterType="PostPO">-->
-<!--        INSERT INTO boki_reply(post_id,user_id,floor_no,content,creator,`modifier`)-->
-<!--        VALUE(1,1,1,'今天老子来水第一帖',1,1)-->
-<!--    </insert>-->
-    
+    <insert id="insertReply" parameterType="ReplyPO">
+        <selectKey keyProperty="floorNo" resultType="Long" order="BEFORE">
+            -- 楼层更新
+            SELECT floor_no+1 floor_no FROM boki_reply WHERE post_id = #{postId} ORDER BY floor_no DESC LIMIT 1
+        </selectKey>
+        INSERT INTO boki_reply(post_id,user_id,floor_no,content,creator,`modifier`)
+        VALUE (#{postId},#{userId}, #{floorNo},#{content},#{userId},#{userId})
+    </insert>
+    <select id="findPostByIdAndUser" resultType="int">
+        -- 是否楼主操作
+         SELECT COUNT(1) FROM boki_post WHERE id = #{postId} AND user_id = #{userId} AND is_deleted = 'n'
+    </select>
+
+    <update id="updateReplierSendReply" parameterType="ReplyPO">
+        -- 他人回复，楼主经验+1
+        UPDATE boki_user SET `exp`=`exp`+1 WHERE id = (
+            SELECT user_id FROM boki_post WHERE id = #{postId}
+        );
+        -- 层主经验+1，发帖数+1
+        UPDATE boki_user SET `exp`=`exp`+3,post_amount=post_amount+1 WHERE id = #{userId};
+        -- 帖子回复数更新，最后回复者更新
+        UPDATE boki_post SET replies_count = replies_count+1 , last_replier_id = #{userId} WHERE id = #{postId};
+    </update>
+    <update id="updatePosterSendReply" parameterType="ReplyPO">
+        -- 楼主刷楼，经验+2
+        UPDATE boki_user SET `exp`=`exp`+2,post_amount=post_amount+1 WHERE id = #{userId};
+        -- 帖子回复数更新，最后回复者更新
+        UPDATE boki_post SET replies_count = replies_count+1 , last_replier_id = #{userId} WHERE id = #{postId};
+    </update>
+
+    <insert id="insertStoreyReply" parameterType="StoreyReplyPO">
+        INSERT INTO boki_storey_reply(storey_id,user_id,content,creator,`modifier`)
+        VALUE(#{storeyId},#{userId},#{content},#{userId},#{userId})
+    </insert>
+
+    <select id="isFirstFloor" resultType="Integer">
+        -- 是否一楼
+        SELECT floor_no FROM boki_reply WHERE id = #{storeyId}
+    </select>
+    <select id="findReplyByIdAndUser" resultType="Integer">
+        -- 是否层主刷回复
+        SELECT COUNT(1) FROM boki_reply WHERE id = #{storeyId} AND user_id = #{userId};
+    </select>
+
+    <update id="expSettlementByOther" parameterType="StoreyReplyPO">
+        -- 回复者经验+2,发帖数+1
+        UPDATE boki_user SET `exp`=`exp`+ 2 ,post_amount = post_amount+1 WHERE id = #{userId};
+        -- 层主经验+1
+        UPDATE boki_user SET `exp`=`exp`+1 WHERE id = (
+            SELECT user_id FROM boki_reply WHERE id = #{storeyId} LIMIT 1
+        );
+        -- 帖子回复数+1,最后回复者更新
+        UPDATE boki_post SET replies_count = replies_count+1 ,last_replier_id = #{userId} where id = (
+            SELECT a.id FROM (SELECT bp.id FROM boki_post bp JOIN boki_reply br ON bp.id = br.post_id
+            WHERE br.id = #{storeyId} LIMIT 1) a
+        );
+        -- 楼层回复数+1
+        UPDATE boki_reply SET replies_count = replies_count + 1 WHERE id = #{storeyId};
+    </update>
+
+    <update id="expSettlementByReplier" parameterType="StoreyReplyPO">
+        -- 层主回复自己 经验+1
+        UPDATE boki_user SET `exp`=`exp`+ 1 ,post_amount = post_amount+1 WHERE id = #{userId};
+        -- 帖子回复数+1,最后回复者更新
+        UPDATE boki_post SET replies_count = replies_count+1 ,last_replier_id = #{userId} WHERE id = (
+            SELECT a.id FROM (SELECT bp.id FROM boki_post bp JOIN boki_reply br ON bp.id = br.post_id
+            WHERE br.id = #{storeyId} LIMIT 1) a
+        );
+        -- 楼层回复数+1
+        UPDATE boki_reply SET replies_count = replies_count + 1 WHERE id = #{storeyId};
+    </update>
+
     <update id="deletePost" parameterType="PostPO" >
-        UPDATE boki_post SET is_deleted = 'y',`modifier` = #{userId} WHERE id = #{id} AND user_id = #{userId}
+        -- 删帖，连同回复，楼中楼一起删
+        UPDATE boki_post SET is_deleted = 'y' WHERE id = #{id};
+        UPDATE boki_reply SET is_deleted = 'y' WHERE post_id = #{id};
+        UPDATE boki_storey_reply bsr,(
+            SELECT br.id brid FROM boki_reply br
+            JOIN boki_post bp ON br.post_id = bp.id
+            WHERE bp.id = #{id}
+        ) a SET bsr.is_deleted = 'y' WHERE bsr.storey_id = a.brid;
     </update>
 
+    <update id="deleteReply" parameterType="ReplyPO">
+        -- 删楼,连同楼中楼一起删
+        -- 帖子回复数 -(1 + n)（n 楼中楼数量）
+        UPDATE boki_post SET replies_count = replies_count - (
+                SELECT COUNT(1)+1 FROM boki_storey_reply WHERE storey_id = 3 AND is_deleted = 'n'
+            ) WHERE id =(
+                SELECT post_id FROM boki_reply WHERE id = #{id} AND is_deleted = 'n' LIMIT 1
+            );
+        UPDATE boki_reply SET is_deleted = 'y' WHERE id = #{id};
+        UPDATE boki_storey_reply SET is_deleted = 'y' WHERE storey_id = #{id};
+    </update>
 
+    <select id="isDeleteStoreyReplyBySelf" resultType="Integer">
+        -- 所选择的楼层回复是否属于该用户
+        SELECT COUNT(1) FROM boki_storey_reply WHERE id = #{storeyReplyId} AND user_id = #{userId}
+    </select>
+
+    <update id="deleteStoreyReply" parameterType="StoreyReplyPO">
+        -- 删除楼层回复
+        -- 帖子回复数-1
+        UPDATE boki_post SET replies_count = replies_count -1 WHERE id =(
+            SELECT br.post_id FROM boki_reply br
+            JOIN boki_storey_reply bsr ON br.id = bsr.storey_id
+            WHERE bsr.id = #{id}
+        );
+        -- 楼层回复数-1
+        UPDATE boki_reply SET replies_count = replies_count - 1 WHERE id =(
+            SELECT storey_id FROM boki_storey_reply WHERE id = #{id}
+        );
+        UPDATE boki_storey_reply SET is_deleted = 'y' WHERE id = #{id};
+    </update>
 </mapper>

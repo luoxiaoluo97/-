@@ -1,9 +1,9 @@
 package com.boki.bokiclient.service.inter;
 
 import com.alibaba.fastjson.JSONObject;
-import com.boki.bokiapi.entity.dto.UserLoginDTO;
-import com.boki.bokiapi.entity.dto.UserRegisterDTO;
-import com.boki.bokiapi.entity.dto.UserUpdatePwdDTO;
+import com.boki.bokiapi.entity.dto.request.UserLoginDTO;
+import com.boki.bokiapi.entity.dto.request.UserRegisterDTO;
+import com.boki.bokiapi.entity.dto.request.UserUpdatePwdDTO;
 import com.boki.bokiapi.entity.vo.UserInfoVO;
 
 public interface LoginService {

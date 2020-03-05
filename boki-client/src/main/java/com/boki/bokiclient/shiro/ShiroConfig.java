@@ -52,10 +52,10 @@ public class ShiroConfig {
         map.put("/static/**",ANON);
         /*首页*/
         map.put("/",ANON);
+        map.put("/home/*/*",ANON);
         /*帖子访问*/
-        map.put("/p/*",ANON);
+        map.put("/p/**",ANON);
         /*帖子操作*/
-        map.put("/post/sendPost",ANON);
         map.put("/post/**",AUTHC);
         /*用户操作*/
         map.put("/user/login",ANON);

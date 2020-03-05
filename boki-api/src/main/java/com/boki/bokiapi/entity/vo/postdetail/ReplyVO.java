@@ -13,14 +13,24 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @NoArgsConstructor
 public class ReplyVO {
-    private Long id;                               //楼层id
-    private Long floorNo;                          //第x楼
+    /**
+     * 层主属性
+     */
     private Long userId;                           //层主id
     private String userName;                       //层主昵称
-    private Integer exp;                           //用户经验值
-    private String creditDegree;                   //用户信用度
+    private String photo;                           //层主头像
+    private Long exp;                           //用户经验值
+    private Integer level;                         //层主等级
+    private Integer creditDegree;                   //用户信用度
+    private Integer honorId;                       //荣誉id
     private String role;                           //论坛角色
-    private String content;                        //内容
-//    private ArrayList<StoreyReplyVO> storeyReply;  //对该楼层的回复
-//    private Integer count;                         //对该楼层的回复数
+    /**
+     * 楼层属性
+     */
+    private Long id;                //楼层id
+    private Long postId;            //所属帖子
+    private Long floorNo;           //第x楼
+    private String createTime;      //回复时间
+    private String content;         //回复内容
+    private Long repliesCount;      //楼层回复数
 }

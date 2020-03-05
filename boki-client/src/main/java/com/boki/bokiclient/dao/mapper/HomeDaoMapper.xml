@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.boki.bokiclient.dao.HomeDao">
     <select id="findPosts" parameterType="Integer" resultType="PostDTO">
-        SELECT bp.id,bp.title,bp.content,bp.create_time,bp.modified_time,bp.user_id,bp.replies_count,bp.type,bp.is_top,
+        SELECT bp.id,bp.title,bp.content,bp.create_time,bp.modified_time,bp.user_id,bp.replies_count,bp.type_id,bp.is_top,
 	    bu1.user_name,bu1.credit_degree,
 	    bu2.user_name AS last_replier
         FROM boki_post bp

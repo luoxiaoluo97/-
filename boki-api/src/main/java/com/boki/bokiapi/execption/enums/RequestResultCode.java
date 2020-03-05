@@ -20,6 +20,7 @@ public enum  RequestResultCode {
     /**
      * 请求状态码 10xxx
      */
+    FAIL(9999,"fail"),
     SUCCESS(10000,"success"),
     LOGIN_FAIL(10001,"登陆失败，邮箱或密码错误。"),
     LOGIN_TODO(10002,"登陆后可操作"),

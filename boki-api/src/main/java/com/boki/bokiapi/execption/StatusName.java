@@ -17,6 +17,9 @@ public class StatusName {
     public static final String NULL_SEX = "NULL_SEX";
     public static final String NULL_TITLE = "NULL_TITLE";
     public static final String NULL_CONTENT = "NULL_CONTENT";
+    public static final String NULL_POST_ID = "NULL_POST_ID";
+    public static final String NULL_STOREY_ID = "NULL_STOREY_ID";
+
     /**
      * 数据状态
      */

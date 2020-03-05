@@ -2,9 +2,9 @@ package com.boki.bokiclient.service;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.boki.bokiapi.entity.dto.UserLoginDTO;
-import com.boki.bokiapi.entity.dto.UserRegisterDTO;
-import com.boki.bokiapi.entity.dto.UserUpdatePwdDTO;
+import com.boki.bokiapi.entity.dto.request.UserLoginDTO;
+import com.boki.bokiapi.entity.dto.request.UserRegisterDTO;
+import com.boki.bokiapi.entity.dto.request.UserUpdatePwdDTO;
 import com.boki.bokiapi.entity.po.UserPO;
 import com.boki.bokiapi.entity.vo.UserInfoVO;
 import com.boki.bokiapi.execption.BusinessException;
@@ -34,7 +34,7 @@ public class LoginServiceImpl implements LoginService {
     @Autowired
     private StringRedisTemplate redisTemplate;
 
-
+    @Override
     public UserInfoVO findByMailAndPwd(UserLoginDTO userLoginDTO) {
         UserPO userPO = new UserPO();
         BeanUtils.copyProperties(userLoginDTO,userPO);
