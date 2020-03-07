@@ -1,17 +1,17 @@
 package com.boki.bokiclient.service;
 
 import com.boki.bokiapi.entity.dto.PostDTO;
-import com.boki.bokiapi.entity.vo.HomeVO;
+import com.boki.bokiapi.entity.vo.DataWithTotal;
 import com.boki.bokiapi.entity.vo.PostVO;
 import com.boki.bokiclient.bean.DBSourceSelectBean;
 import com.boki.bokiclient.dao.HomeDao;
 import com.boki.bokiclient.service.inter.HomeService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Author: LJF
@@ -20,6 +20,7 @@ import java.util.ArrayList;
  */
 @Slf4j
 @Service
+@Transactional
 public class HomeServiceImpl implements HomeService {
 
     @Autowired
@@ -29,21 +30,23 @@ public class HomeServiceImpl implements HomeService {
     private DBSourceSelectBean dbSource;
 
     @Override
-    public HomeVO findPosts(Integer page) {
-        ArrayList<PostDTO> posts = homeDao.findPosts((page-1)*30,30);
-        Long postsCount = homeDao.getPostsCount();
-        ArrayList<PostVO> postVOs = new ArrayList<>();
+    public DataWithTotal findPosts(Integer page) {
+//        ArrayList<PostDTO> posts = homeDao.findPosts((page-1)*30,30);
+        List<List<?>> result = homeDao.findPosts((page-1)*30,30);
+        DataWithTotal vo = new DataWithTotal();
+        vo.input(result, PostVO.class);
         //复制List属性
-        if( posts != null) {
-            for (int i = 0; i < posts.size(); i++) {
-                postVOs.add(new PostVO());
-                BeanUtils.copyProperties(posts.get(i), postVOs.get(i));
-                postVOs.get(i).setLastReplyTime(posts.get(i).getModifiedTime());
-                //根据帖子类型id赋予类型名称
-                String postType = dbSource.getType(posts.get(i).getTypeId());
-                postVOs.get(i).setType(postType);
+        if( vo.getList() != null && vo.getList().size() != 0) {
+            for (int i = 0;i < vo.getList().size(); i++) {
+                PostVO postVO = (PostVO)(vo.getList().get(i));
+                //vo属性，帖子最后回复时间
+                String lastReplyTime = ((PostDTO)(result.get(1).get(i))).getModifiedTime();
+                postVO.setLastReplyTime(lastReplyTime);
+                //vo属性，帖子类型
+                Integer typeId = ((PostDTO)(result.get(1).get(i))).getTypeId();
+                postVO.setType(dbSource.getType(typeId));
             }
         }
-        return new HomeVO().setPosts(postVOs).setPostsCount(postsCount);
+        return vo;
     }
 }

@@ -18,11 +18,13 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Service
+@Transactional
 public class LoginServiceImpl implements LoginService {
 
     @Autowired
@@ -62,12 +64,10 @@ public class LoginServiceImpl implements LoginService {
             throw new BusinessException(userRegisterDTO.getMail()+"邮箱验证失败。")
                     .setType(RequestResultCode.CHECK_CODE_VALIDATION_FAILED);
         }
-
         String pwd = PwdEncryption.doubleMd5(userRegisterDTO.getPwd());
         UserPO userPO = new UserPO();
         BeanUtils.copyProperties(userRegisterDTO,userPO);
         userPO.setPwd(pwd);
-
         UserPO result = loginDao.findByMailOrUserName(userPO);
         /*要么名称被占用，要么邮箱被占用*/
         if (result != null) {

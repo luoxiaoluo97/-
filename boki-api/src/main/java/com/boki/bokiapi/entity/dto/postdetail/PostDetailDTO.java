@@ -4,8 +4,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
-import java.util.ArrayList;
-
 /**
  * @Author: LJF
  * @Date: 2020/2/29
@@ -23,5 +21,4 @@ public class PostDetailDTO {
     private String title;                       //标题
     private Long repliesCount;                  //回复数
     private Integer typeId;                     //帖子类型，精品贴或其他
-    private ArrayList<ReplyDTO> replies;        //回复列表
 }

@@ -8,6 +8,32 @@
     <script th:src="@{/static/js/util.js}"></script>
 </head>
 <body>
+    <form id="test1" >
+        日期<input type="date" name="birth" value="" /><br/>
+        <a id="doTest" style="color: fuchsia">测试</a>
+    </form>
+    <script type="text/javascript" th:inline="javascript">
+        $('#doTest').click(function() {
+            $.ajax({
+                url: basePath + "/user/modifyInfo",
+                type: "post",
+                contentType: "application/json",
+                dataType: "json",
+                data: formToJson($('#test1')),
+                async: false,
+                success: function (data) {
+                    alert(data.code+data.msg);
+                    if (data.data != null) {
+                        $('#responseData').text(JSON.stringify(data.data));
+                    }
+                },
+                error: function () {
+                    alert("请求失败.");
+                }
+            });
+        });
+    </script>
+
     <h2>注册页！！！</h2>
     <p>注册表单</p>
     <form id="registerForm" >

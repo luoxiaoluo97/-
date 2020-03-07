@@ -20,12 +20,15 @@ public class PostDTO {
     private Long creditDegree;      //楼主信用度
     private String title;           //标题
     private String content;         //内容
+    private Integer typeId;         //类型id
+    private String Type;            //类型
+    private String isTop;           //是否置顶
 
     private String createTime;      //发帖时间
     private String lastReplier;     //最后回复者
     private String modifiedTime;    //最后回复时间
     private Long repliesCount;      //回复数
-    private Integer typeId;         //类型
-    private String isTop;           //是否置顶
+
+    private Integer totalCount;     //发帖总数
 
 }

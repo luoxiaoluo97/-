@@ -30,7 +30,8 @@ public class ShiroRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        // TODO 直接把权限表读出来，以静态或者bean的形式存在，
+        // TODO 直接把权限表读出来，以静态或者bean的形式存在
+        // TODO 当用户非禁封时开放
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         info.addStringPermission("user");
         return info;

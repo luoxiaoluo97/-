@@ -9,7 +9,7 @@ function formToJson(form) {
 
 function commonLogin() {
     $.ajax({
-        url: basePath+"/user/login",
+        url: basePath+"/login",
         type: "post",
         contentType: "application/json",
         dataType: "json",

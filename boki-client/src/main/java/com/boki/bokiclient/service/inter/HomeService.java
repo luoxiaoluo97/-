@@ -1,7 +1,7 @@
 package com.boki.bokiclient.service.inter;
 
 
-import com.boki.bokiapi.entity.vo.HomeVO;
+import com.boki.bokiapi.entity.vo.DataWithTotal;
 
 public interface HomeService {
 
@@ -9,5 +9,5 @@ public interface HomeService {
      * 获取帖子列表
      * @return
      */
-    public HomeVO findPosts(Integer page);
+    public DataWithTotal findPosts(Integer page);
 }

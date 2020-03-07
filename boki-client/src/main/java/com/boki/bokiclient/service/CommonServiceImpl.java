@@ -3,18 +3,24 @@ package com.boki.bokiclient.service;
 import com.boki.bokiapi.entity.dto.postdetail.PostDetailDTO;
 import com.boki.bokiapi.entity.dto.postdetail.ReplyDTO;
 import com.boki.bokiapi.entity.dto.postdetail.StoreyReplyDTO;
+import com.boki.bokiapi.entity.vo.PostHistoryVO;
 import com.boki.bokiapi.entity.vo.postdetail.PostDetailVO;
 import com.boki.bokiapi.entity.vo.postdetail.ReplyVO;
 import com.boki.bokiapi.entity.vo.postdetail.StoreyReplyVO;
 import com.boki.bokiclient.bean.DBSourceSelectBean;
 import com.boki.bokiclient.dao.CommonDao;
+import com.boki.bokiclient.dao.UserDao;
 import com.boki.bokiclient.service.inter.CommonService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 /**
  * @Author: LJF
@@ -23,6 +29,7 @@ import java.util.ArrayList;
  */
 @Slf4j
 @Service
+@Transactional
 public class CommonServiceImpl implements CommonService {
 
     @Autowired
@@ -31,17 +38,22 @@ public class CommonServiceImpl implements CommonService {
     @Autowired
     private DBSourceSelectBean dbSource;
 
+    @Autowired
+    private UserDao userDao;
+
     @Override
     public PostDetailVO getPostDetail(Long postId,Integer page) {
-        PostDetailDTO dto = commonDao.getPostDetail(postId);
-        ArrayList<ReplyDTO> replyList = commonDao.getReplyList(postId,(page-1)*20,20);
+        List<List<?>> result = commonDao.getPostDetail(postId,(page-1)*15,15);
         PostDetailVO vo = new PostDetailVO();
-        //复制属性到vo
-        BeanUtils.copyProperties(dto,vo);
-        //帖子类型
-        vo.setType(dbSource.getType(dto.getTypeId()));
-
-        if( replyList != null) {
+        //帖子基本信息
+        BeanUtils.copyProperties(result.get(0).get(0),vo);
+        //楼层总数
+        vo.setTotalCount( (Integer)(result.get(1).get(0)) );
+        Integer typeId = ((PostDetailDTO)(result.get(0).get(0))).getTypeId();
+        vo.setType(dbSource.getType(typeId));
+        //楼层列表
+        if( result.get(2) != null && result.get(2).size() != 0){
+            List<ReplyDTO> replyList = (List<ReplyDTO>)(result.get(2));
             vo.setStoreys(new ArrayList<>());
             for (int i = 0; i < replyList.size(); i++) {
                 vo.getStoreys().add(new ReplyVO());
@@ -51,8 +63,8 @@ public class CommonServiceImpl implements CommonService {
                 Integer lv = dbSource.getLv(replyList.get(i).getExp());
                 Integer honorId = dbSource.getHonorId(replyList.get(i).getCreditDegree());
                 vo.getStoreys().get(i).setRole(role)
-                    .setLevel(lv)
-                    .setHonorId(honorId);
+                        .setLevel(lv)
+                        .setHonorId(honorId);
             }
         }
         return vo;
@@ -62,7 +74,7 @@ public class CommonServiceImpl implements CommonService {
     public ArrayList<StoreyReplyVO> findStoreyReplyById(Long replyId,Integer page) {
         ArrayList<StoreyReplyDTO> dtoList = commonDao.findStoreyReplyById(replyId,(page-1)*20,20);
         ArrayList<StoreyReplyVO> voList = null;
-        if (dtoList != null) {
+        if (dtoList != null && dtoList.size() != 0) {
             voList = new ArrayList<>();
             for (int i = 0; i < dtoList.size(); i++) {
                 voList.add(new StoreyReplyVO());
@@ -70,6 +82,29 @@ public class CommonServiceImpl implements CommonService {
             }
         }
         return voList;
+    }
+
+    @Override
+    public ArrayList<PostHistoryVO> getUserLastPosts(Long userId) {
+        // 三天前
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE,-3);
+        String threeDaysAgo = sdf.format(calendar.getTime());
+
+//        ArrayList<PostDTO> dtoList = userDao.findUserLastPosts(userId,threeDaysAgo,null,null);
+//        ArrayList<PostHistoryVO> voList = null;
+//        if(dtoList != null && dtoList.size() != 0){
+//            voList = new ArrayList<>();
+//            for(PostDTO dto : dtoList){
+//                PostHistoryVO vo = new PostHistoryVO();
+//                BeanUtils.copyProperties(dto,vo);
+//                voList.add(vo);
+//            }
+//        }
+//
+//        return voList;
+        return null;
     }
 
 }

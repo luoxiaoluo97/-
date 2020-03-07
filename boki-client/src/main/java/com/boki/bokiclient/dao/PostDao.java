@@ -90,12 +90,10 @@ public interface PostDao {
      */
     int deleteReply(ReplyPO replyPO);
 
-    /**
-     * 是否用户删除楼中楼
-     */
-    int isDeleteStoreyReplyBySelf(@Param("storeyReplyId") Long storeyReplyId, @Param("userId") Long userId);
+
     /**
      * 删楼中楼
      */
     int deleteStoreyReply(StoreyReplyPO po);
+
 }

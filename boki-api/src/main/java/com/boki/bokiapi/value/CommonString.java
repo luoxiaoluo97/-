@@ -24,6 +24,6 @@ public class CommonString {
     /**
      * 艾特机制正则
      */
-    public static final String STOREY_CALL = "@*{1,12}[ ]";
+    public static final String STOREY_CALL = "@[^ ]{1,12}[ ]";
 
 }

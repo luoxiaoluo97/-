@@ -23,5 +23,7 @@ public class PostDetailVO {
     private Long userId;                   //楼主id
     private Long repliesCount;             //回贴数
     private String type;                   //帖子类型，精品贴或其他
+    private Integer totalCount;            //楼层总数
     private ArrayList<ReplyVO> storeys;    //楼层列表
+
 }

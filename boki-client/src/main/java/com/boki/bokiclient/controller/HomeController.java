@@ -1,6 +1,6 @@
 package com.boki.bokiclient.controller;
 
-import com.boki.bokiapi.entity.vo.HomeVO;
+import com.boki.bokiapi.entity.vo.DataWithTotal;
 import com.boki.bokiapi.entity.vo.ResultVO;
 import com.boki.bokiapi.execption.enums.RequestResultCode;
 import com.boki.bokiclient.service.inter.HomeService;
@@ -47,8 +47,8 @@ public class HomeController {
      */
     @GetMapping("/home/page/{page}")
     public ResultVO index(@PathVariable Integer page){
-        HomeVO homeVO = homeService.findPosts(page);
-        return RequestResultCode.SUCCESS.getResult().setData(homeVO);
+        DataWithTotal dwt = homeService.findPosts(page);
+        return RequestResultCode.SUCCESS.getResult().setData(dwt);
     }
 
 }

@@ -28,8 +28,9 @@ public class UserPO {
     private Integer roleId;              //论坛角色
     private String intro;               //自我简介
     private String show;                //用户个性签名
-    private Long postAmount;            //发帖数
+    private Integer postAmount;            //发帖数
     private String isBanned;            //是否禁封
+    private String banUntil;            //解封日期
 
     private String createTime;
     private String modifiedTime;

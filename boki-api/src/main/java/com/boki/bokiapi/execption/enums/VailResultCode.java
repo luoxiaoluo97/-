@@ -23,6 +23,8 @@ public enum VailResultCode {
     NULL_CONTENT(2000,"内容不能为空"),
     NULL_POST_ID(2000,"帖子id不能为空"),
     NULL_STOREY_ID(2000,"楼层id不能为空"),
+    NULL_BIRTH(2000,"生日不能为空"),
+
     /**
      * 数据格式错误 2001
      */
@@ -31,10 +33,12 @@ public enum VailResultCode {
     ERROR_USERNAME_FORMAT(2001,"昵称不能为空且不能有空格"),
     ERROR_USERNAME_SIZE(2001,"昵称1~12字"),
     ERROR_CHECK_CODE(2001,"校验码格式错误"),
+    ERROR_SEX(2001,"错误的性别"),
 
     /**
      * 日期错误 2003
      */
+    ERROR_DATE(2003,"错误的日期"),
     ERROR_BIRTH(2003,"生日必须是过去的时间"),
 
     ;

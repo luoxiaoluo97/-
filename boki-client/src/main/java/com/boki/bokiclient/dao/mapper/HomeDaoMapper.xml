@@ -3,7 +3,14 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.boki.bokiclient.dao.HomeDao">
-    <select id="findPosts" parameterType="Integer" resultType="PostDTO">
+    <resultMap id="Integer" type="Integer">
+        <result column="totalCount"></result>
+    </resultMap>
+
+    <select id="findPosts" resultMap="Integer,PostDTO">
+        -- 帖子总数
+        SELECT COUNT(1) AS totalCount FROM boki_post WHERE is_deleted = 'n';
+        -- 首页帖子列表
         SELECT bp.id,bp.title,bp.content,bp.create_time,bp.modified_time,bp.user_id,bp.replies_count,bp.type_id,bp.is_top,
 	    bu1.user_name,bu1.credit_degree,
 	    bu2.user_name AS last_replier
@@ -12,11 +19,8 @@
         JOIN boki_user bu2 ON bp.last_replier_id = bu2.id
         WHERE bp.is_deleted = 'n'
         ORDER BY bp.is_top DESC, bp.create_time DESC
-        LIMIT #{start},#{end}
+        LIMIT #{start},#{end};
     </select>
 
-    <select id="getPostsCount"  resultType="Long">
-        SELECT COUNT(1) FROM boki_post WHERE is_deleted = 'n'
-    </select>
 
 </mapper>

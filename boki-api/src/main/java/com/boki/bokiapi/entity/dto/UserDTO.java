@@ -1,4 +1,4 @@
-package com.boki.bokiapi.entity.vo;
+package com.boki.bokiapi.entity.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,12 +7,13 @@ import lombok.experimental.Accessors;
 /**
  * @time: 2020/2/16
  * @author: LJF
- * @description:个人信息页面
+ * @description:
  */
 @Data
 @Accessors(chain = true)
 @NoArgsConstructor
-public class UserInfoVO {
+public class UserDTO {
+
     private Long id;                    //用户ID
     private String mail;                //邮箱即是账号
     private String pwd;                 //密码

@@ -4,14 +4,13 @@ import com.boki.bokiapi.entity.dto.dbsource.PostTypeDTO;
 import com.boki.bokiapi.entity.dto.dbsource.RolePermissionDTO;
 import com.boki.bokiapi.entity.dto.dbsource.UserHonorDTO;
 import com.boki.bokiapi.entity.dto.dbsource.UserLevelDTO;
-import com.boki.bokiapi.entity.dto.postdetail.PostDetailDTO;
-import com.boki.bokiapi.entity.dto.postdetail.ReplyDTO;
 import com.boki.bokiapi.entity.dto.postdetail.StoreyReplyDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Author: LJF
@@ -24,14 +23,10 @@ public interface CommonDao {
     /**
      * 帖子详情
      */
-    public PostDetailDTO getPostDetail(@Param("postId") Long postId);
+    List<List<?>> getPostDetail(@Param("postId") Long postId,
+                                @Param("start") Integer start,
+                                @Param("end")Integer end);
 
-    /**
-     * 楼层列表
-     */
-    public ArrayList<ReplyDTO> getReplyList(@Param("postId") Long postId,
-                                            @Param("start") Integer start,
-                                            @Param("end")Integer end);
 
     /**
      * 楼中楼

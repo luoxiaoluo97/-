@@ -37,6 +37,7 @@ spring:
 
 mybatis:
   configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
   mapper-locations: classpath*:/com/boki/bokiclient/dao/mapper/*Mapper.xml
   type-aliases-package: com.boki.bokiapi.entity

@@ -72,7 +72,6 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional
     public int sendReply(ReplySendDTO dto) {
-
         //防灌水，15秒内禁止重复发帖
         String waiting = CommonString.WAITING + dto.getUserId();
         if (!redisTemplate.hasKey(waiting) ) {
@@ -126,12 +125,7 @@ public class PostServiceImpl implements PostService {
     public int deletePost(PostDTO dto) {
         PostPO po = new PostPO();
         BeanUtils.copyProperties(dto,po);
-        int count = 0;
-        if (postDao.findPostByIdAndUser(po.getId(),po.getUserId()) == 1){
-            count = postDao.deletePost(po);
-        }else {
-            throw new BusinessException("非法删帖，已制止").setType(RequestResultCode.POST_DELETE_FAIL);
-        }
+        int count = postDao.deletePost(po);
         return count;
     }
 
@@ -139,12 +133,7 @@ public class PostServiceImpl implements PostService {
     public int deleteReply(ReplyDTO dto) {
         ReplyPO po = new ReplyPO();
         BeanUtils.copyProperties(dto,po);
-        int count = 0;
-        if (postDao.findReplyByIdAndUser(po.getId(),po.getUserId()) == 1){
-            count = postDao.deleteReply(po);
-        }else {
-            throw new BusinessException("非法删楼，已制止").setType(RequestResultCode.FAIL);
-        }
+        int count = postDao.deleteReply(po);
         return count;
     }
 
@@ -152,13 +141,10 @@ public class PostServiceImpl implements PostService {
     public int deleteStoreyReply(StoreyReplyDTO dto) {
         StoreyReplyPO po = new StoreyReplyPO();
         BeanUtils.copyProperties(dto,po);
-        int count = 0;
-        if (postDao.isDeleteStoreyReplyBySelf(po.getId(),po.getUserId()) == 1){
-            count = postDao.deleteStoreyReply(po);
-        }else {
-            throw new BusinessException("非法删楼层回复，已制止").setType(RequestResultCode.FAIL);
-        }
+        int count = postDao.deleteStoreyReply(po);
         return count;
     }
+
+
 
 }

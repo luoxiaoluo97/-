@@ -56,12 +56,12 @@ public class ShiroConfig {
         /*帖子访问*/
         map.put("/p/**",ANON);
         /*帖子操作*/
-        map.put("/post/**",AUTHC);
+//        map.put("/post/**",AUTHC);
         /*用户操作*/
-        map.put("/user/login",ANON);
-        map.put("/user/register",ANON);
-        map.put("/user/sendCheckCode/*",ANON);
-        map.put("/user/modifyPwd",AUTHC);
+        map.put("/login",ANON);
+        map.put("/login/register",ANON);
+        map.put("/login/sendCheckCode/*",ANON);
+//        map.put("/login/modifyPwd",AUTHC);
         /*授权访问*/
         // TODO 只为需要设置权限的url配置权限表
 //        map.put("/user/",PERMS+"[xxx]");

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boki.bokiclient.dao.UserDao">
+    <resultMap id="Integer" type="Integer">
+        <result column="totalCount"/>
+    </resultMap>
+
+    <select id="findUserById"  resultType="UserDTO">
+        SELECT * FROM boki_user WHERE is_deleted = 'n' AND id = #{id}
+    </select>
+
+    <update id="updateUser"  parameterType="UserPO">
+        UPDATE boki_user
+        <set>
+            sex = #{sex},birth = #{birth},
+            <if test="comeFrom != null and comeFrom != ''">
+                come_from = #{comeFrom},
+            </if>
+            <if test="intro != null and intro != ''">
+                intro = #{intro},
+            </if>
+            <if test="show != null and show != ''">
+                `show` = #{show}
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <select id="isPostCollectionExist" resultType="Integer">
+        -- 收藏记录是否存在
+        SELECT id FROM boki_post_collection
+        WHERE is_deleted = 'n' AND user_id = #{userId} AND post_id = #{postId} LIMIT 1
+    </select>
+
+    <insert id="insertCollection" parameterType="PostCollectionPO">
+        <selectKey keyProperty="title" order="BEFORE" resultType="String">
+            -- 帖子标题
+            SELECT title FROM boki_post WHERE id = #{postId}
+        </selectKey>
+        -- 添加帖子收藏记录
+        INSERT INTO boki_post_collection(user_id,post_id,title,creator,`modifier`)
+        VALUE (#{userId},#{postId},#{title},#{userId},#{userId})
+    </insert>
+
+    <update id="removeCollection" >
+        -- 移除一条收藏记录
+        UPDATE boki_post_collection SET is_deleted ='y' WHERE user_id = #{userId} AND post_id = #{postId}
+    </update>
+
+    <resultMap id="PostCollectionDTO" type="PostCollectionDTO"></resultMap>
+    <select id="findPostCollectionByUid" resultMap="Integer,PostCollectionDTO">
+        -- 收藏总数
+        SELECT COUNT(1) AS totalCount FROM boki_post_collection WHERE is_deleted = 'n' AND user_id = #{userId};
+        -- 用户的帖子收藏,id倒序
+        SELECT id,post_id,title FROM boki_post_collection WHERE is_deleted = 'n' AND user_id = #{userId}
+        ORDER BY id DESC LIMIT #{start},#{end}
+    </select>
+
+    <select id="isFollowExist" parameterType="FollowPO" resultType="Integer">
+        SELECT COUNT(1) FROM boki_follow WHERE is_deleted = 'n' AND user_id = #{userId} AND target_user_id = #{targetUserId}
+    </select>
+
+    <insert id="insertFollow" parameterType="FollowPO">
+        INSERT INTO boki_follow(user_id,target_user_id,creator,`modifier`)
+        VALUE (#{userId},#{targetUserId},#{userId},#{userId})
+    </insert>
+
+    <update id="deleteFollow" parameterType="FollowPO">
+        UPDATE boki_follow SET is_deleted = 'y' WHERE user_id = #{userId} AND target_user_id = #{targetUserId}
+    </update>
+
+    <resultMap id="FollowDTO" type="FollowDTO"></resultMap>
+    <select id="findFollowListByUID" resultMap="Integer,FollowDTO">
+        -- 用户关注总数
+        SELECT COUNT(1) AS totalCount FROM boki_follow WHERE is_deleted = 'n' AND user_id = #{userId};
+        -- 关注列表
+        SELECT bf.target_user_id,bu.user_name AS target_user_name,bu.photo,bu.intro FROM boki_follow bf
+        JOIN boki_user bu ON bf.target_user_id = bu.id
+        WHERE bf.is_deleted = 'n' AND bf.user_id = #{userId} LIMIT #{start},#{end};
+    </select>
+
+    <select id="findFans" resultMap="Integer,FollowDTO">
+        -- 粉丝总数
+        SELECT COUNT(1) AS totalCount FROM boki_follow WHERE is_deleted = 'n' AND target_user_id = #{userId};
+        -- 粉丝列表
+        SELECT bf.target_user_id,bu.user_name AS target_user_name,bu.photo,bu.intro FROM boki_follow bf
+        JOIN boki_user bu ON bf.target_user_id = bu.id
+        WHERE bf.is_deleted = 'n' AND bf.target_user_id = #{userId} LIMIT #{start},#{end};
+    </select>
+
+
+    <resultMap id="PostDTO" type="PostDTO"></resultMap>
+    <select id="findUserLastPosts" resultMap="Integer,PostDTO">
+        -- 用户发帖总数，不包括回复
+        SELECT COUNT(1) AS totalCount FROM boki_post WHERE is_deleted = 'n' AND user_id = #{userId};
+        -- after参数之后的发帖
+        SELECT id,title,content,replies_count,type_id,create_time FROM boki_post
+        WHERE is_deleted = 'n' AND user_id = #{userId}
+        <if test="after != null and after != ''">
+            AND create_time > #{after}
+        </if>
+        ORDER BY id DESC
+        <if test="start != null and start != ''">
+            LIMIT #{start},#{end}
+        </if>
+        ;
+    </select>
+
+    <!--findReplyHistory的映射 -->
+    <resultMap id="ReplyHistoryDTO" type="ReplyHistoryDTO"></resultMap>
+    <select id="findReplyHistory" resultMap="Integer,ReplyHistoryDTO">
+        -- 总数
+        SELECT COUNT(1) AS totalCount FROM (
+            SELECT br.post_id, bp.title, br.content ,br.create_time FROM boki_reply  br
+            JOIN boki_post bp ON bp.id  = br.post_id
+            WHERE br.user_id = 2 AND br.floor_no != 1 AND br.is_deleted = 'n'
+            UNION ALL
+            SELECT bp.id AS post_id, bp.title,bsr.content, bsr.create_time FROM boki_storey_reply bsr
+            JOIN boki_reply br ON bsr.storey_id = br.id
+            JOIN boki_post bp ON bp.id = br.post_id
+            WHERE bsr.user_id = 2 AND bsr.is_deleted = 'n'
+        ) a;
+        -- 回复与楼层回复共同作为 历史回复
+        SELECT post_id,title,content,replies_count FROM (
+            SELECT br.post_id, bp.title, br.content ,bp.replies_count,br.create_time FROM boki_reply  br
+            JOIN boki_post bp ON bp.id  = br.post_id
+            WHERE br.user_id = #{userId} AND br.floor_no != 1 AND br.is_deleted = 'n'
+            UNION ALL
+            SELECT bp.id AS post_id, bp.title,bsr.content,bp.replies_count, bsr.create_time FROM boki_storey_reply bsr
+            JOIN boki_reply br ON bsr.storey_id = br.id
+            JOIN boki_post bp ON bp.id = br.post_id
+            WHERE bsr.user_id = #{userId} AND bsr.is_deleted = 'n'
+        ) a ORDER BY create_time DESC LIMIT #{start},#{end};
+    </select>
+
+</mapper>

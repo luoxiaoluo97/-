@@ -40,4 +40,5 @@ public interface PostService {
      * 删楼中楼
      */
     int deleteStoreyReply(StoreyReplyDTO dto);
+
 }

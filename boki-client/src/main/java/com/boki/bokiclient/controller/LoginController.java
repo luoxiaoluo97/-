@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
 
 @Slf4j
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/login")
 public class LoginController {
 
 
@@ -39,7 +39,7 @@ public class LoginController {
      * @param session
      * @return
      */
-    @PostMapping(value = "/login")
+    @PostMapping(value = "")
     public ResultVO login(@Valid @RequestBody UserLoginDTO user,
                           HttpSession session){
         user.setPwd(PwdEncryption.doubleMd5(user.getPwd()));
