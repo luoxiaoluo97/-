@@ -11,7 +11,7 @@ import com.boki.bokiapi.entity.po.ReplyPO;
 import com.boki.bokiapi.entity.po.StoreyReplyPO;
 import com.boki.bokiapi.execption.BusinessException;
 import com.boki.bokiapi.execption.enums.RequestResultCode;
-import com.boki.bokiapi.value.CommonString;
+import com.boki.bokiapi.value.Common;
 import com.boki.bokiclient.dao.PostDao;
 import com.boki.bokiclient.service.inter.PostService;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +44,7 @@ public class PostServiceImpl implements PostService {
     public int sendPost(PostSendDTO dto) {
 
         //防灌水，15秒内禁止重复发帖
-        String waiting = CommonString.WAITING + dto.getUserId();
+        String waiting = Common.WAITING + dto.getUserId();
         if (!redisTemplate.hasKey(waiting) ) {
             redisTemplate.opsForValue().set(waiting,"");
             redisTemplate.expire(waiting, 15, TimeUnit.SECONDS);
@@ -73,7 +73,7 @@ public class PostServiceImpl implements PostService {
     @Transactional
     public int sendReply(ReplySendDTO dto) {
         //防灌水，15秒内禁止重复发帖
-        String waiting = CommonString.WAITING + dto.getUserId();
+        String waiting = Common.WAITING + dto.getUserId();
         if (!redisTemplate.hasKey(waiting) ) {
             redisTemplate.opsForValue().set(waiting, "");
             redisTemplate.expire(waiting, 15, TimeUnit.SECONDS);
@@ -98,7 +98,7 @@ public class PostServiceImpl implements PostService {
     @Transactional
     public int sendStoreyReply(StoreyReplySendDTO dto) {
         //防灌水，15秒内禁止重复发帖
-        String waiting = CommonString.WAITING + dto.getUserId();
+        String waiting = Common.WAITING + dto.getUserId();
         if (!redisTemplate.hasKey(waiting) ) {
             redisTemplate.opsForValue().set(waiting, "");
             redisTemplate.expire(waiting, 15, TimeUnit.SECONDS);

@@ -5,7 +5,7 @@ package com.boki.bokiapi.value;
  * @Date: 2020/2/23
  * @Description:
  */
-public class CommonString {
+public class Common {
     /**
      * 邮箱正则
      */
@@ -24,6 +24,11 @@ public class CommonString {
     /**
      * 艾特机制正则
      */
-    public static final String STOREY_CALL = "@[^ ]{1,12}[ ]";
+    public static final String CALL = "@[^@ ]{1,12}[ ]";
+
+    /**
+     * 楼层回复正则
+     */
+    public static final String STOREY_REPLY = "回复[ ]@[^@ ]{1,12}[ ]:";
 
 }

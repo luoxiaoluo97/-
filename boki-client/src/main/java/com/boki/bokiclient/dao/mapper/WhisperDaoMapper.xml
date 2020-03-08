@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boki.bokiclient.dao.WhisperDao">
+    <resultMap id="Integer" type="Integer">
+        <result column="totalCount"></result>
+    </resultMap>
+
+    <insert id="insertWhisper" parameterType="WhisperPO">
+        -- 私信会话不存在则创建
+        INSERT INTO boki_whisper(first_user_id,second_user_id,creator,`modifier`)
+        SELECT #{firstUserId},#{secondUserId},#{firstUserId},#{firstUserId}
+        FROM DUAL
+        WHERE NOT EXISTS(
+            SELECT id FROM boki_whisper
+            WHERE (first_user_id = #{firstUserId} AND second_user_id = #{secondUserId}
+            OR first_user_id = #{secondUserId} AND second_user_id = #{firstUserId})
+            AND is_deleted = 'n'
+        );
+    </insert>
+
+    <!--根据是否creator决定展示在用户列表-->
+    <update id="updateWhisperOnShow" parameterType="WhisperPO">
+        <selectKey order="BEFORE" keyProperty="creator" resultType="String">
+            SELECT creator FROM boki_whisper
+            WHERE (first_user_id = #{firstUserId} AND second_user_id = #{secondUserId}
+            OR first_user_id = #{secondUserId} AND second_user_id = #{firstUserId})
+            AND is_deleted = 'n';
+        </selectKey>
+        <if test="creator == firstUserId">
+            UPDATE boki_whisper SET show_in_first = 'y'
+            WHERE (first_user_id = #{firstUserId} AND second_user_id = #{secondUserId}
+            OR first_user_id = #{secondUserId} AND second_user_id = #{firstUserId})
+            AND is_deleted = 'n';
+        </if>
+        <if test="creator != firstUserId">
+            UPDATE boki_whisper SET show_in_second = 'y'
+            WHERE (first_user_id = #{firstUserId} AND second_user_id = #{secondUserId}
+            OR first_user_id = #{secondUserId} AND second_user_id = #{firstUserId})
+            AND is_deleted = 'n';
+        </if>
+    </update>
+
+    <resultMap id="WhisperDTO" type="WhisperDTO"></resultMap>
+    <resultMap id="WhisperDetailDTO" type="WhisperDetailDTO"></resultMap>
+    <select id="findWhisper" resultMap="WhisperDTO,WhisperDetailDTO" >
+        -- 私信会话属性
+        SELECT bw.id,
+            bw.first_user_id,
+            bu1.user_name AS first_user_name,
+            bu1.photo AS first_user_photo,
+            bw.second_user_id,
+            bu2.user_name AS second_user_name,
+            bu2.photo AS second_user_photo
+        FROM boki_whisper bw
+        JOIN boki_user bu1 ON bw.first_user_id = bu1.id
+        JOIN boki_user bu2 ON bw.second_user_id = bu2.id
+        WHERE (bw.first_user_id = #{firstUserId} AND bw.second_user_id = #{secondUserId}
+        OR bw.first_user_id = #{secondUserId} AND bw.second_user_id = #{firstUserId}) AND bw.is_deleted = 'n';
+        -- 私信会话对白
+        SELECT user_id,content,create_time FROM boki_whisper_detail
+        WHERE (user_id = #{firstUserId} AND target_user_id = #{secondUserId}
+            OR user_id = #{secondUserId} AND target_user_id = #{firstUserId})
+            AND is_deleted = 'n' ORDER BY create_time LIMIT 40;
+    </select>
+
+    <insert id="insertWhisperDetail" parameterType="WhisperDetailPO">
+        <selectKey resultType="Integer" order="BEFORE" keyProperty="whisperId">
+            SELECT id AS whisper_id FROM boki_whisper
+            WHERE (first_user_id = #{userId} AND second_user_id = #{targetUserId}
+                OR first_user_id = #{targetUserId} AND second_user_id = #{userId} )
+                AND is_deleted = 'n';
+        </selectKey>
+        <if test="whisperId != null ">
+            INSERT INTO boki_whisper_detail(whisper_id,user_id,target_user_id,content,creator,`modifier`)
+            VALUE (#{whisperId},#{userId},#{targetUserId},#{content},#{userId},#{userId});
+            -- 最后回复更新
+            UPDATE boki_whisper SET last_content = #{content},show_in_first = 'y',show_in_second = 'y'
+            WHERE (first_user_id = #{userId} AND second_user_id = #{targetUserId}
+            OR first_user_id = #{targetUserId} AND second_user_id = #{userId} )
+            AND is_deleted = 'n';
+        </if>
+    </insert>
+
+    <resultMap id="WhisperInfoDTO" type="WhisperInfoDTO"></resultMap>
+    <select id="getWhisperList"  resultMap="Integer,WhisperInfoDTO">
+        -- 总数
+        SELECT COUNT(1) AS totalCount FROM boki_whisper
+        WHERE (second_user_id = #{userId} AND first_user_id != #{userId} AND show_in_second = 'y'
+        OR second_user_id != #{userId} AND first_user_id = #{userId} AND show_in_first = 'y')
+        AND is_deleted = 'n';
+        -- 私信列表
+        SELECT bw.id,
+            bw.first_user_id AS target_user_id,
+            bu.user_name AS target_user_name,
+            bu.photo AS target_user_photo,
+            bw.last_content,
+            bw.modified_time AS lastReplyTime
+        FROM boki_whisper bw JOIN boki_user bu ON bu.id = bw.first_user_id
+        WHERE (bw.second_user_id = #{userId} AND bw.first_user_id != #{userId} AND bw.show_in_second = 'y'
+        OR bw.second_user_id != #{userId} AND bw.first_user_id = #{userId} AND bw.show_in_first = 'y')
+        AND bw.is_deleted = 'n'
+        ORDER BY lastReplyTime DESC LIMIT #{start},#{end};
+    </select>
+
+    <update id="removeWhisper" parameterType="WhisperPO">
+        <selectKey order="BEFORE" keyProperty="creator" resultType="String">
+            SELECT creator FROM boki_whisper WHERE id = #{id} AND is_deleted = 'n';
+        </selectKey>
+        UPDATE boki_whisper
+        <trim prefix="set" suffixOverrides=",">
+            <if test="creator == firstUserId">show_in_first = 'n',</if>
+            <if test="creator != firstUserId">show_in_second = 'n',</if>
+        </trim>
+        WHERE id = #{id}
+    </update>
+</mapper>

@@ -36,10 +36,13 @@ public enum  RequestResultCode {
     COLLECTION_EXIST(10700,"已存在于收藏列表"),
     FOLLOW_EXIST(10800,"已存在于关注列表"),
     FOLLOW_CANNOT_SELF(10801,"无法关注自己"),
+    WHISPER_CANNOT_SELF(10901,"无法私信自己"),
+
     /**
      * 服务器错误 500xx
      */
-    SERVER_ERROR(50000,"服务器错误");
+    SERVER_ERROR(50000,"服务器错误"),
+    SQL_ERROR(50001,"错误的数据");
 
     private Integer code;
     private String msg;

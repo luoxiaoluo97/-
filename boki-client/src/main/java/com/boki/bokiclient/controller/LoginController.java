@@ -9,7 +9,7 @@ import com.boki.bokiapi.entity.vo.UserInfoVO;
 import com.boki.bokiapi.execption.BusinessException;
 import com.boki.bokiapi.execption.enums.RequestResultCode;
 import com.boki.bokiapi.util.PwdEncryption;
-import com.boki.bokiapi.value.CommonString;
+import com.boki.bokiapi.value.Common;
 import com.boki.bokiclient.service.inter.LoginService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
@@ -78,7 +78,7 @@ public class LoginController {
      */
     @GetMapping("/sendCheckCode/{mail}")
     public ResultVO sendCheckCode(@PathVariable String mail){
-        Pattern pattern = Pattern.compile(CommonString.PATTERN_MAIL);
+        Pattern pattern = Pattern.compile(Common.PATTERN_MAIL);
         if (!pattern.matcher(mail).matches()){
             throw new BusinessException().setType(RequestResultCode.ERROR_MAIL);
         }

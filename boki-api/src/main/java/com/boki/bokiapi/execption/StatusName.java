@@ -20,6 +20,8 @@ public class StatusName {
     public static final String NULL_POST_ID = "NULL_POST_ID";
     public static final String NULL_STOREY_ID = "NULL_STOREY_ID";
     public static final String NULL_BIRTH = "NULL_BIRTH";
+    public static final String NULL_WHISPER_ID = "NULL_WHISPER_ID";
+    public static final String NULL_TARGET_USER = "NULL_TARGET_USER";
 
     /**
      * 数据状态

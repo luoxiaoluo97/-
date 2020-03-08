@@ -24,6 +24,8 @@ public enum VailResultCode {
     NULL_POST_ID(2000,"帖子id不能为空"),
     NULL_STOREY_ID(2000,"楼层id不能为空"),
     NULL_BIRTH(2000,"生日不能为空"),
+    NULL_WHISPER_ID(2000,"私信id不能为空"),
+    NULL_TARGET_USER(2000,"接收方为空"),
 
     /**
      * 数据格式错误 2001

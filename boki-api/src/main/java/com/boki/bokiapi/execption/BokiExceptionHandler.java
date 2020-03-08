@@ -4,6 +4,7 @@ import com.boki.bokiapi.entity.vo.ResultVO;
 import com.boki.bokiapi.execption.enums.RequestResultCode;
 import com.boki.bokiapi.execption.enums.VailResultCode;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.executor.ExecutorException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -33,7 +34,7 @@ public class BokiExceptionHandler{
     }
 
     /**
-     * 事务异常处理
+     * 自定义异常，事务异常处理
      * @param e
      * @return
      */
@@ -48,6 +49,18 @@ public class BokiExceptionHandler{
             log.info(RequestResultCode.SERVER_ERROR.getCode()+RequestResultCode.SERVER_ERROR.getMsg());
             return RequestResultCode.SERVER_ERROR.getResult();
         }
+    }
+
+    /**
+     * 错误的接收数据
+     * @param e
+     * @return
+     */
+    @ResponseBody
+    @ExceptionHandler(ExecutorException.class)
+    public ResultVO handleValException(ExecutorException e){
+        log.warn("SQL错误，原因为:"+e.getMessage());
+        return RequestResultCode.SQL_ERROR.getResult();
     }
 
 }
