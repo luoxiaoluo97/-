@@ -137,4 +137,19 @@
     </update>
 
 
+    <update id="updatePostReport" parameterType="ReportSendDTO">
+        UPDATE boki_post SET report_status = 2 ,report_reason = #{reason},`modifier`=#{userId}
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateReplyReport" parameterType="ReportSendDTO">
+        UPDATE boki_reply SET report_status = 2 ,report_reason = #{reason},`modifier`=#{userId}
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateStoreyReplyReport" parameterType="ReportSendDTO">
+        UPDATE boki_storey_reply SET report_status = 2 ,report_reason = #{reason},`modifier`=#{userId}
+        WHERE id = #{id}
+    </update>
+
 </mapper>

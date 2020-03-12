@@ -5,6 +5,7 @@ import com.boki.bokiapi.entity.dto.postdetail.ReplyDTO;
 import com.boki.bokiapi.entity.dto.postdetail.StoreyReplyDTO;
 import com.boki.bokiapi.entity.dto.request.PostSendDTO;
 import com.boki.bokiapi.entity.dto.request.ReplySendDTO;
+import com.boki.bokiapi.entity.dto.request.ReportSendDTO;
 import com.boki.bokiapi.entity.dto.request.StoreyReplySendDTO;
 import com.boki.bokiapi.entity.po.PostPO;
 import com.boki.bokiapi.entity.po.ReplyPO;
@@ -42,7 +43,6 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional
     public int sendPost(PostSendDTO dto) {
-
         //防灌水，15秒内禁止重复发帖
         String waiting = Common.WAITING + dto.getUserId();
         if (!redisTemplate.hasKey(waiting) ) {
@@ -53,7 +53,6 @@ public class PostServiceImpl implements PostService {
             //最后回复者默认楼主
             po.setLastReplierId(dto.getUserId());
             int count = postDao.insertPost(po);
-            // TODO 需要实现@机制PostSendDTO
             if (count == 1){
                 postDao.insertFirstReply(po);
                 //经验+5,告辞
@@ -80,7 +79,6 @@ public class PostServiceImpl implements PostService {
             ReplyPO po = new ReplyPO();
             BeanUtils.copyProperties(dto,po);
             int count = postDao.insertReply(po);
-            // TODO 还需实现@机制
             //经验结算，楼主回复自己的贴,经验+2
             if(postDao.findPostByIdAndUser(dto.getPostId(),dto.getUserId()) != 0){
                 postDao.updatePosterSendReply(po);
@@ -105,9 +103,8 @@ public class PostServiceImpl implements PostService {
             StoreyReplyPO po = new StoreyReplyPO();
             BeanUtils.copyProperties(dto,po);
             int count = postDao.insertStoreyReply(po);
-            // TODO 还需实现@机制
             if(postDao.isFirstFloor(po.getStoreyId()) == 1){
-                throw new BusinessException("错误的楼层回复：1楼").setType(RequestResultCode.SERVER_ERROR);
+                throw new BusinessException("错误的楼层回复：1楼").setType(RequestResultCode.ERROR_FLOOR);
             }
             //经验结算
             if(postDao.findReplyByIdAndUser(po.getStoreyId(),po.getUserId()) == 1){
@@ -145,6 +142,20 @@ public class PostServiceImpl implements PostService {
         return count;
     }
 
+    @Override
+    public int reportPost(ReportSendDTO dto) {
+        return postDao.updatePostReport(dto);
+    }
+
+    @Override
+    public int reportReply(ReportSendDTO dto) {
+        return postDao.updateReplyReport(dto);
+    }
+
+    @Override
+    public int reportStoreyReply(ReportSendDTO dto) {
+        return postDao.updateStoreyReplyReport(dto);
+    }
 
 
 }

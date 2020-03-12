@@ -1,12 +1,10 @@
 package com.boki.bokiclient.service;
 
 import com.boki.bokiapi.entity.dto.request.WhisperSendDTO;
+import com.boki.bokiapi.entity.po.BlacklistPO;
 import com.boki.bokiapi.entity.po.WhisperDetailPO;
 import com.boki.bokiapi.entity.po.WhisperPO;
-import com.boki.bokiapi.entity.vo.DataWithTotal;
-import com.boki.bokiapi.entity.vo.WhisperDetailVO;
-import com.boki.bokiapi.entity.vo.WhisperInfoVO;
-import com.boki.bokiapi.entity.vo.WhisperVO;
+import com.boki.bokiapi.entity.vo.*;
 import com.boki.bokiclient.dao.WhisperDao;
 import com.boki.bokiclient.service.inter.WhisperService;
 import lombok.extern.slf4j.Slf4j;
@@ -63,11 +61,12 @@ public class WhisperServiceImpl implements WhisperService {
 
     @Override
     public Integer sendWhisper(WhisperSendDTO dto) {
+        if(whisperDao.checkBlacklist(dto.getTargetUserId(),dto.getUserId()) == 1){
+            return -1;
+        }
         WhisperDetailPO po = new WhisperDetailPO();
         BeanUtils.copyProperties(dto,po);
         int count  = whisperDao.insertWhisperDetail(po);
-        // TODO 进行消息提醒
-        // TODO 拉黑判断
         return count;
     }
 
@@ -85,6 +84,32 @@ public class WhisperServiceImpl implements WhisperService {
                 .setId(whisperId)
                 .setFirstUserId(userId);    //把它暂时赋予甲，之后动态sql判断是否为甲
         Integer count = whisperDao.removeWhisper(po);
+        return count;
+    }
+
+    @Override
+    public Integer addBlacklist(Long userId, Long targetUserId) {
+        BlacklistPO po = new BlacklistPO()
+                .setUserId(userId)
+                .setTargetUserId(targetUserId);
+        int count = whisperDao.insertBlacklist(po);
+        return count;
+    }
+
+    @Override
+    public DataWithTotal getBlacklist(Long userId, Integer page) {
+        List<List<?>> result = whisperDao.getBlacklistByUid(userId,(page-1)*15,15);
+        DataWithTotal vo = new DataWithTotal();
+        vo.input(result, BlacklistVO.class);
+        return vo;
+    }
+
+    @Override
+    public Integer removeBlacklist(Long userId, Integer blacklistId) {
+        BlacklistPO po = new BlacklistPO()
+                .setId(blacklistId)
+                .setUserId(userId);
+        int count = whisperDao.removeBlacklist(po);
         return count;
     }
 

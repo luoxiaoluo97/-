@@ -26,6 +26,8 @@ public enum VailResultCode {
     NULL_BIRTH(2000,"生日不能为空"),
     NULL_WHISPER_ID(2000,"私信id不能为空"),
     NULL_TARGET_USER(2000,"接收方为空"),
+    NULL_TARGET_ID(2000,"目标id不能为空"),
+    NULL_REASON(2000,"请填写举报路由"),
 
     /**
      * 数据格式错误 2001

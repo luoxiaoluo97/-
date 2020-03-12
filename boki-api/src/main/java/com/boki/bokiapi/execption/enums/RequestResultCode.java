@@ -18,6 +18,7 @@ public enum  RequestResultCode {
     ERROR_DATE(2001,"错误的日期"),
     MAIL_ALREADY_EXIST(1000,"邮箱已被注册"),
     USERNAME_ALREADY_EXIST(1000,"昵称已被占用"),
+    ERROR_FLOOR(1001,"错误的楼层回复：1楼"),
     /**
      * 请求状态码 10xxx
      */
@@ -34,9 +35,15 @@ public enum  RequestResultCode {
     POST_DELETE_FAIL(10501,"删贴失败"),
     BIRTH_IN_THE_PATH(10601,"生日必须是过去"),
     COLLECTION_EXIST(10700,"已存在于收藏列表"),
+
     FOLLOW_EXIST(10800,"已存在于关注列表"),
     FOLLOW_CANNOT_SELF(10801,"无法关注自己"),
     WHISPER_CANNOT_SELF(10901,"无法私信自己"),
+    YOU_ARE_BLACKLISTED(10902,"你被对方拉黑了"),
+
+    BLACKLIST_CANNOT_SELF(11001,"无法拉黑自己"),
+    BLACKLIST_EXIST(11002,"已存在于黑名单"),
+
 
     /**
      * 服务器错误 500xx

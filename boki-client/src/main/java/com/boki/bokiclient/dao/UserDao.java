@@ -79,6 +79,11 @@ public interface UserDao {
                            @Param("end")Integer end);
 
     /**
+     * 所有粉丝
+     */
+    List<Long> findAllFans(@Param("userId")Long userId);
+
+    /**
      * 历史发帖
      */
     List<List<?>> findUserLastPosts(@Param("userId")Long userId,
@@ -92,5 +97,7 @@ public interface UserDao {
     List<List<?>> findReplyHistory(@Param("userId")Long userId,
                                    @Param("start")Integer start,
                                    @Param("end")Integer end);
+
+
 
 }

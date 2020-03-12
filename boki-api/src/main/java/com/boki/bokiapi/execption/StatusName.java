@@ -22,6 +22,8 @@ public class StatusName {
     public static final String NULL_BIRTH = "NULL_BIRTH";
     public static final String NULL_WHISPER_ID = "NULL_WHISPER_ID";
     public static final String NULL_TARGET_USER = "NULL_TARGET_USER";
+    public static final String NULL_TARGET_ID = "NULL_TARGET_ID";
+    public static final String NULL_REASON = "NULL_REASON";
 
     /**
      * 数据状态

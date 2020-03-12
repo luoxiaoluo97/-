@@ -24,6 +24,8 @@ public class PostPO {
     private Long repliesCount;          //回复数
     private Integer typeId;             //帖子类型，精品贴或其他
     private String isTop;               //是否置顶贴
+    private Integer reportStatus;       //举报状态
+    private String reportReason;        //举报理由
 
     private String createTime;          //发帖时间
     private String modifiedTime;        //最后回复时间

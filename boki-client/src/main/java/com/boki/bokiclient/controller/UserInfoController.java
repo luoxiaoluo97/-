@@ -32,6 +32,7 @@ public class UserInfoController {
     @Autowired
     private UserService userService;
 
+
     /**
      * 用户个人信息
      */
@@ -153,5 +154,6 @@ public class UserInfoController {
         DataWithTotal<ReplyHistoryVO> dwt = userService.replyHistory((Long)session.getAttribute("UID"),page);
         return RequestResultCode.SUCCESS.getResult().setData(dwt);
     }
+
 
 }

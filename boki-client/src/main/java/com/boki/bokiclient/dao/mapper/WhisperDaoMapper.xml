@@ -65,6 +65,11 @@
             AND is_deleted = 'n' ORDER BY create_time LIMIT 40;
     </select>
 
+    <select id="checkBlacklist" resultType="Integer">
+        SELECT COUNT(1) FROM boki_blacklist
+        WHERE user_id = #{userId} AND target_user_id = #{targetUserId} AND is_deleted = 'n';
+    </select>
+
     <insert id="insertWhisperDetail" parameterType="WhisperDetailPO">
         <selectKey resultType="Integer" order="BEFORE" keyProperty="whisperId">
             SELECT id AS whisper_id FROM boki_whisper
@@ -90,20 +95,33 @@
         WHERE (second_user_id = #{userId} AND first_user_id != #{userId} AND show_in_second = 'y'
         OR second_user_id != #{userId} AND first_user_id = #{userId} AND show_in_first = 'y')
         AND is_deleted = 'n';
-        -- 私信列表
-        SELECT bw.id,
+        -- 私信列表，需要区别用户是甲还是乙
+        SELECT * FROM
+        (SELECT bw.id,
             bw.first_user_id AS target_user_id,
             bu.user_name AS target_user_name,
             bu.photo AS target_user_photo,
             bw.last_content,
             bw.modified_time AS lastReplyTime
         FROM boki_whisper bw JOIN boki_user bu ON bu.id = bw.first_user_id
-        WHERE (bw.second_user_id = #{userId} AND bw.first_user_id != #{userId} AND bw.show_in_second = 'y'
-        OR bw.second_user_id != #{userId} AND bw.first_user_id = #{userId} AND bw.show_in_first = 'y')
-        AND bw.is_deleted = 'n'
-        ORDER BY lastReplyTime DESC LIMIT #{start},#{end};
+        WHERE bw.second_user_id = #{userId} AND bw.first_user_id != #{userId}
+            AND bw.show_in_second = 'y' AND bw.is_deleted = 'n'
+        UNION ALL
+        SELECT bw.id,
+            bw.second_user_id AS target_user_id,
+            bu.user_name AS target_user_name,
+            bu.photo AS target_user_photo,
+            bw.last_content,
+            bw.modified_time AS lastReplyTime
+        FROM boki_whisper bw JOIN boki_user bu ON bu.id = bw.second_user_id
+        WHERE bw.second_user_id != #{userId} AND bw.first_user_id = #{userId}
+            AND bw.show_in_first = 'y' AND bw.is_deleted = 'n'
+        ) a
+        ORDER BY lastReplyTime DESC
+        LIMIT #{start},#{end};
     </select>
 
+    <!--不在用户列表中显示，双方都不再显示的时候，数据库定期清除私信会话-->
     <update id="removeWhisper" parameterType="WhisperPO">
         <selectKey order="BEFORE" keyProperty="creator" resultType="String">
             SELECT creator FROM boki_whisper WHERE id = #{id} AND is_deleted = 'n';
@@ -115,4 +133,35 @@
         </trim>
         WHERE id = #{id}
     </update>
+
+
+    <insert id="insertBlacklist" parameterType="BlacklistPO">
+        -- 防止重复拉黑
+        INSERT INTO boki_blacklist(user_id,target_user_id,creator,`modifier`)
+        SELECT #{userId},#{targetUserId},#{userId},#{userId}
+        FROM DUAL
+        WHERE NOT EXISTS(
+           SELECT * FROM boki_blacklist
+           WHERE user_id = #{userId} AND target_user_id = #{targetUserId} AND is_deleted = 'n'
+        );
+    </insert>
+
+    <resultMap id="BlacklistDTO" type="BlacklistDTO"></resultMap>
+    <select id="getBlacklistByUid" resultMap="Integer,BlacklistDTO" >
+        -- 拉黑总数
+        SELECT COUNT(1) AS totalCount FROM boki_blacklist
+        WHERE user_id = #{userId}  AND is_deleted = 'n';
+        -- 拉黑列表
+        SELECT bb.id AS id,
+            bb.target_user_id AS user_id,
+            bu.user_name ,
+            bu.photo
+        FROM boki_blacklist bb JOIN boki_user bu ON bb.target_user_id = bu.id
+        WHERE bb.user_id = #{userId}  AND bb.is_deleted = 'n' LIMIT #{start},#{end};
+    </select>
+
+    <update id="removeBlacklist" parameterType="BlacklistPO">
+        UPDATE boki_blacklist SET is_deleted = 'y' WHERE id = #{id};
+    </update>
+
 </mapper>

@@ -15,6 +15,7 @@ import javax.validation.constraints.NotNull;
 @Accessors(chain = true)
 public class WhisperSendDTO {
 
+    @NotNull(message = StatusName.NULL_WHISPER_ID)
     private Integer whisperId;          //所属对话
 
     private Long userId;                //私信方

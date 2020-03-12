@@ -59,6 +59,11 @@ public class LoginController {
     }
 
     /**
+     * 登出
+     */
+    // TODO
+
+    /**
      * 用户注册
      * @param userRegisterDTO
      * @return
@@ -99,4 +104,5 @@ public class LoginController {
         return count == 1 || count == 0 ?
                 RequestResultCode.SUCCESS.getResult() : RequestResultCode.SERVER_ERROR.getResult();
     }
+
 }

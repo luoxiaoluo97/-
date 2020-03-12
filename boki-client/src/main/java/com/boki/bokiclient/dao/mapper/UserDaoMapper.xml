@@ -90,6 +90,10 @@
         WHERE bf.is_deleted = 'n' AND bf.target_user_id = #{userId} LIMIT #{start},#{end};
     </select>
 
+    <select id="findAllFans" resultType="Long">
+        -- 你的所有粉丝id
+        SELECT user_id FROM boki_follow WHERE target_user_id = #{userId} AND is_deleted = 'n'
+    </select>
 
     <resultMap id="PostDTO" type="PostDTO"></resultMap>
     <select id="findUserLastPosts" resultMap="Integer,PostDTO">

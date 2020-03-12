@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boki.bokiclient.dao.NoticeDao">
+    <resultMap id="Integer" type="Integer">
+        <result column="totalCount"></result>
+    </resultMap>
+
+    <!--单独通知-->
+    <update id="insertNotice" parameterType="NoticePO">
+        -- 插入时不一定会使用post_id字段
+        INSERT boki_notice(user_id,notice,type_id,
+        <if test="postId != null and postId != ''">
+            post_id,
+        </if>
+            creator)
+        VALUE(#{userId},#{notice},#{typeId},
+        <if test="postId != null and postId != ''">
+            #{postId},
+        </if>
+            #{creator});
+    </update>
+
+    <select id="findLastPostId" resultType="Long">
+            -- 用户最新一贴id
+            SELECT id AS post_id FROM boki_post
+            WHERE user_id = #{userId} AND title = #{title} AND is_deleted = 'n'
+            ORDER BY id DESC LIMIT 1;
+    </select>
+
+    <!--批量通知-->
+    <insert id="multiInsertNotice" parameterType="NoticePO">
+        INSERT boki_notice(user_id,notice,type_id,post_id,creator)
+        VALUES
+        <foreach collection="list" item="pos" separator=",">
+            (#{pos.userId},#{pos.notice},#{pos.typeId},#{pos.postId},#{pos.creator})
+        </foreach>
+    </insert>
+
+    <select id="findReplyNoticeElem" resultType="Map">
+        SELECT bp.user_id AS user_id, title ,floor_no FROM boki_reply br
+        JOIN boki_post bp ON br.post_id = bp.id
+        WHERE br.user_id = #{userId} AND br.content = #{content} AND br.is_deleted = 'n'
+        ORDER BY br.id DESC LIMIT 1
+    </select>
+
+    <select id="findStoreyReplyNoticeElem" resultType="Map">
+        SELECT br.user_id AS user_id, title ,floor_no,bp.id AS post_id FROM boki_reply br
+        JOIN boki_post bp ON br.post_id = bp.id
+        WHERE br.id = #{storeyId} AND br.is_deleted = 'n'
+    </select>
+
+    <select id="findIdByUserName" resultType="Long">
+        SELECT id FROM boki_user WHERE user_name = #{userName} AND is_deleted = 'n' LIMIT 1;
+    </select>
+
+    <select id="findIdByUserNameList" resultType="Long">
+        SELECT id FROM boki_user WHERE user_name IN
+        <foreach collection="userList" item="userName" index="index" open="(" separator="," close=")">
+            #{userName}
+        </foreach>
+    </select>
+
+    <resultMap id="NoticePO" type="NoticePO"></resultMap>
+    <select id="findNoticeByUid" resultMap="Integer,NoticePO">
+        -- 通知总数
+        SELECT COUNT(1) AS totalCount FROM boki_notice WHERE user_id = #{userId};
+        -- 通知列表，每页15条，倒序
+        SELECT * FROM boki_notice WHERE user_id = #{userId} ORDER BY id DESC LIMIT #{start},#{end};
+    </select>
+
+    <delete id="deleteNoticeById" >
+        DELETE FROM boki_notice WHERE user_id = #{userId} AND id = #{id};
+    </delete>
+
+    <delete id="deleteAllNotice">
+        DELETE FROM boki_notice WHERE user_id = #{userId};
+    </delete>
+</mapper>

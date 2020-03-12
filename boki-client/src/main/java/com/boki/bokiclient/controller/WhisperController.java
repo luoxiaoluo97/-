@@ -5,6 +5,9 @@ import com.boki.bokiapi.entity.vo.DataWithTotal;
 import com.boki.bokiapi.entity.vo.ResultVO;
 import com.boki.bokiapi.entity.vo.WhisperVO;
 import com.boki.bokiapi.execption.enums.RequestResultCode;
+import com.boki.bokiapi.value.notice.NoticeElem;
+import com.boki.bokiapi.value.notice.NoticeMessage;
+import com.boki.bokiclient.service.inter.NoticeService;
 import com.boki.bokiclient.service.inter.WhisperService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +28,9 @@ public class WhisperController {
 
     @Autowired
     private WhisperService whisperService;
+
+    @Autowired
+    private NoticeService noticeService;
 
     /**
      * 打开私信，发起私信
@@ -49,7 +55,19 @@ public class WhisperController {
             return RequestResultCode.WHISPER_CANNOT_SELF.getResult();
         }
         int count = whisperService.sendWhisper(dto);
-        return count == 1 ? RequestResultCode.SUCCESS.getResult() : RequestResultCode.FAIL.getResult();
+        //发送成功，通知对方
+        if( count == 1) {
+            NoticeElem elem = new NoticeElem()
+                    .setFromUserId(dto.getUserId())
+                    .setFromUserName((String) session.getAttribute("userName"))
+                    .setContent(dto.getContent())
+                    .setWhisperId(dto.getWhisperId())
+                    .setTargetUserId(dto.getTargetUserId());
+            noticeService.sendWhisperNotice(NoticeMessage.TYPE_1, elem);
+        }
+        return count == 1 ? RequestResultCode.SUCCESS.getResult() :
+                    count == -1 ? RequestResultCode.YOU_ARE_BLACKLISTED.getResult() :
+                        RequestResultCode.FAIL.getResult();
     }
 
 
@@ -69,35 +87,40 @@ public class WhisperController {
     @PostMapping("/remove/{id}")
     public ResultVO remove(@PathVariable Integer id, HttpSession session){
         int count = whisperService.removeWhisper((Long)session.getAttribute("UID"),id);
-        return RequestResultCode.SUCCESS.getResult();
+        return count == 1 ? RequestResultCode.SUCCESS.getResult() : RequestResultCode.FAIL.getResult();
     }
 
 
     /**
      * 拉黑
      */
-    @PostMapping("addBlacklist/{userId}")
-    public ResultVO addBlacklist(@PathVariable Integer userId, HttpSession session){
-        // TODO
-        return RequestResultCode.SUCCESS.getResult();
+    @PostMapping("addBlacklist/{targetUserId}")
+    public ResultVO addBlacklist(@PathVariable Long targetUserId, HttpSession session){
+        Long uId = (long)session.getAttribute("UID");
+        if (uId == (long)targetUserId ){
+            return RequestResultCode.BLACKLIST_CANNOT_SELF.getResult();
+        }
+        int count = whisperService.addBlacklist((Long)session.getAttribute("UID"),targetUserId);
+        return count == 1 ? RequestResultCode.SUCCESS.getResult() : RequestResultCode.BLACKLIST_EXIST.getResult();
     }
+
 
     /**
      * 黑名单列表
      */
     @GetMapping("/blacklist/{page}")
     public ResultVO blacklist(@PathVariable Integer page, HttpSession session){
-        // TODO
-        return RequestResultCode.SUCCESS.getResult();
+        DataWithTotal vo = whisperService.getBlacklist((Long)session.getAttribute("UID"),page);
+        return RequestResultCode.SUCCESS.getResult().setData(vo);
     }
 
 
     /**
      * 移除黑名单
      */
-    @PostMapping("removeBlacklist/{userId}")
-    public ResultVO removeBlacklist(@PathVariable Integer userId, HttpSession session){
-        // TODO
-        return RequestResultCode.SUCCESS.getResult();
+    @PostMapping("removeBlacklist/{blacklistId}")
+    public ResultVO removeBlacklist(@PathVariable Integer blacklistId, HttpSession session){
+        int count = whisperService.removeBlacklist((Long)session.getAttribute("UID"),blacklistId);
+        return count == 1 ? RequestResultCode.SUCCESS.getResult() : RequestResultCode.FAIL.getResult();
     }
 }

@@ -1,5 +1,6 @@
 package com.boki.bokiclient.dao;
 
+import com.boki.bokiapi.entity.dto.request.ReportSendDTO;
 import com.boki.bokiapi.entity.po.PostPO;
 import com.boki.bokiapi.entity.po.ReplyPO;
 import com.boki.bokiapi.entity.po.StoreyReplyPO;
@@ -95,5 +96,20 @@ public interface PostDao {
      * 删楼中楼
      */
     int deleteStoreyReply(StoreyReplyPO po);
+
+    /**
+     * 举报帖子
+     */
+    int updatePostReport(ReportSendDTO dto);
+
+    /**
+     * 举报楼层
+     */
+    int updateReplyReport(ReportSendDTO dto);
+
+    /**
+     * 举报楼中楼
+     */
+    int updateStoreyReplyReport(ReportSendDTO dto);
 
 }
