@@ -15,4 +15,7 @@ public class ReplyHistoryDTO {
     private String title;           //帖子标题
     private Long repliesCount;      //帖子回复数
     private String content;         //回复内容
+
+    private Integer reportStatus;       //举报状态
+    private String reportReason;        //举报理由
 }

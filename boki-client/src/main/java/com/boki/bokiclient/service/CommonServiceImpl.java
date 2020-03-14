@@ -1,8 +1,10 @@
 package com.boki.bokiclient.service;
 
+import com.boki.bokiapi.entity.dto.PostDTO;
 import com.boki.bokiapi.entity.dto.postdetail.PostDetailDTO;
 import com.boki.bokiapi.entity.dto.postdetail.ReplyDTO;
 import com.boki.bokiapi.entity.dto.postdetail.StoreyReplyDTO;
+import com.boki.bokiapi.entity.vo.DataWithTotal;
 import com.boki.bokiapi.entity.vo.PostHistoryVO;
 import com.boki.bokiapi.entity.vo.postdetail.PostDetailVO;
 import com.boki.bokiapi.entity.vo.postdetail.ReplyVO;
@@ -85,26 +87,21 @@ public class CommonServiceImpl implements CommonService {
     }
 
     @Override
-    public ArrayList<PostHistoryVO> getUserLastPosts(Long userId) {
-        // 三天前
+    public DataWithTotal getUserLastPosts(Long userId) {
+        // 近72小时
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE,-3);
         String threeDaysAgo = sdf.format(calendar.getTime());
 
-//        ArrayList<PostDTO> dtoList = userDao.findUserLastPosts(userId,threeDaysAgo,null,null);
-//        ArrayList<PostHistoryVO> voList = null;
-//        if(dtoList != null && dtoList.size() != 0){
-//            voList = new ArrayList<>();
-//            for(PostDTO dto : dtoList){
-//                PostHistoryVO vo = new PostHistoryVO();
-//                BeanUtils.copyProperties(dto,vo);
-//                voList.add(vo);
-//            }
-//        }
-//
-//        return voList;
-        return null;
+        List<List<?>> result = userDao.findUserLastPosts(userId,threeDaysAgo,null,null);
+        for (Object dto : result.get(1)){
+            PostDTO postDTO = ((PostDTO)dto);
+            ((PostDTO)dto).setType(dbSource.getType(postDTO.getTypeId()));
+        }
+        DataWithTotal vo = new DataWithTotal();
+        vo.input(result,PostHistoryVO.class);
+        return vo;
     }
 
 }

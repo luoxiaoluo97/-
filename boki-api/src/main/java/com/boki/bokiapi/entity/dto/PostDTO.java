@@ -23,6 +23,8 @@ public class PostDTO {
     private Integer typeId;         //类型id
     private String Type;            //类型
     private String isTop;           //是否置顶
+    private Integer reportStatus;       //举报状态
+    private String reportReason;        //举报理由
 
     private String createTime;      //发帖时间
     private String lastReplier;     //最后回复者

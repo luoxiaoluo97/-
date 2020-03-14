@@ -16,5 +16,5 @@ import lombok.experimental.Accessors;
 public class RolePermissionDTO {
     private Integer id;             //角色id
     private String role;            //角色
-    private String url;             //接口权限
+    private String permission;      //接口权限口令
 }

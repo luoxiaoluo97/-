@@ -17,6 +17,7 @@ import lombok.experimental.Accessors;
 public class BusinessException extends RuntimeException {
 
     private RequestResultCode type;
+    private String info;
 
     public BusinessException(){
         super();

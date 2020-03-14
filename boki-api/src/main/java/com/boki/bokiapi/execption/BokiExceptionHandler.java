@@ -44,7 +44,7 @@ public class BokiExceptionHandler{
         log.warn("原因为:"+e.getMessage());
         if ( e.getType() != null ) {
             log.info(e.getType().getCode()+e.getType().getMsg());
-            return e.getType().getResult();
+            return e.getType().getResult().setData(e.getInfo());
         }else {
             log.info(RequestResultCode.SERVER_ERROR.getCode()+RequestResultCode.SERVER_ERROR.getMsg());
             return RequestResultCode.SERVER_ERROR.getResult();

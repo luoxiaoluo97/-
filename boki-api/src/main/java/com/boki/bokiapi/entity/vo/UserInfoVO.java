@@ -21,9 +21,12 @@ public class UserInfoVO {
     private String sex;                 //用户性别,保密，男，女
     private String birth;               //出生日期
     private String comeFrom;            //来自何地
+    private Integer level;              //等级
     private Long exp;                   //用户经验值
     private Integer creditDegree;        //用户信用度
+    private Integer honorId;            //荣誉id
     private Integer roleId;              //论坛角色
+    private String role;                //角色，职务
     private String intro;               //自我简介
     private String show;                //用户个性签名
     private Integer postAmount;            //发帖数

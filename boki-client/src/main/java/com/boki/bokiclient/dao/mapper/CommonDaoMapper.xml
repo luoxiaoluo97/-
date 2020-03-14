@@ -50,7 +50,7 @@
     </select>
 <!--    bean-->
     <select id="getPermissions" resultType="RolePermissionDTO">
-        SELECT br.id,br.role,bp.url FROM boki_role br
+        SELECT br.id,br.role,bp.permission FROM boki_role br
         JOIN boki_permission bp ON br.id = bp.role_id
         ORDER BY br.id
     </select>

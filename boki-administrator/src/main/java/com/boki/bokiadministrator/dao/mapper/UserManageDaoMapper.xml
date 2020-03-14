@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boki.bokiadministrator.dao.UserManageDao">
+    <resultMap id="Integer" type="Integer">
+        <result column="totalCount"></result>
+    </resultMap>
+
+    <resultMap id="UserBaseDTO" type="UserBaseDTO"></resultMap>
+    <select id="findUsers" parameterType="UserSelectDTO" resultMap="Integer,UserBaseDTO">
+        -- 总数
+        SELECT COUNT(1) AS totalCount FROM boki_user
+        WHERE 1=1
+        <if test="elem != null and elem != ''">AND (user_name LIKE "%"#{elem}"%" OR mail LIKE "%"#{elem}"%" )</if>
+        <if test="minExp != null and minExp != ''">AND `exp` &gt;= #{minExp}</if>
+        <if test="maxExp != null and maxExp != ''">AND `exp` &lt;= #{maxExp}</if>
+        <if test="minCreditDegree != null and minCreditDegree != ''">AND credit_degree &gt;= #{minCreditDegree}</if>
+        <if test="maxCreditDegree != null and maxCreditDegree != ''">AND credit_degree &lt;= #{maxCreditDegree}</if>
+        <if test="isBanned != null and isBanned != ''">AND is_banned = #{isBanned}</if>
+        ;
+        -- 符合条件的用户
+        SELECT id,mail,user_name,`exp`,credit_degree,ban_until FROM boki_user
+        WHERE 1=1
+        <if test="elem != null and elem != ''">AND (user_name LIKE "%"#{elem}"%" OR mail LIKE "%"#{elem}"%" )</if>
+        <if test="minExp != null and minExp != ''">AND `exp` &gt;= #{minExp}</if>
+        <if test="maxExp != null and maxExp != ''">AND `exp` &lt;= #{maxExp}</if>
+        <if test="minCreditDegree != null and minCreditDegree != ''">AND credit_degree &gt;= #{minCreditDegree}</if>
+        <if test="maxCreditDegree != null and maxCreditDegree != ''">AND credit_degree &lt;= #{maxCreditDegree}</if>
+        <if test="isBanned != null and isBanned != ''">AND is_banned = #{isBanned} </if>
+        LIMIT #{start},#{end};
+    </select>
+
+    <select id="findUser" resultType="UserDTO">
+        SELECT * FROM boki_user WHERE is_deleted = 'n'
+        AND (id = #{idOrName} OR user_name = #{idOrName});
+    </select>
+
+    <update id="modifyUserRole" parameterType="UserRoleChangeDTO">
+        UPDATE boki_user SET role_id = #{roleId} WHERE id = #{userId} AND role_id != 3;
+    </update>
+
+    <update id="updateToBanUser" parameterType="BanUserDTO">
+        -- 封号，设置解封日期
+        UPDATE boki_user SET is_banned = 'y' ,ban_until = #{banUntil} WHERE id = #{userId} AND role_id = 1;
+    </update>
+
+    <update id="updateToReleaseUser" >
+        -- 解封
+        UPDATE boki_user SET is_banned = 'n' ,ban_until = null WHERE id = #{userId} AND role_id = 1;
+    </update>
+
+    <resultMap id="PostDTO" type="PostDTO"></resultMap>
+    <select id="findPostHistory" resultMap="Integer,PostDTO" parameterType="UserHistoryDTO">
+        -- 总数，不包括回复
+        SELECT COUNT(1) AS totalCount FROM boki_post WHERE  user_id = #{userId}
+        <if test="mode != null and mode == '2'.toString()">AND report_status = 3 AND is_deleted = 'y'</if>
+        ;
+        -- 发帖
+        SELECT id,title,content,replies_count,type_id,report_status,report_reason,create_time FROM boki_post
+        WHERE user_id = #{userId}
+        <if test="mode != null and mode == '2'.toString()">AND report_status = 3 AND is_deleted = 'y'</if>
+        ORDER BY id DESC LIMIT #{start},#{end};
+    </select>
+
+    <resultMap id="ReplyHistoryDTO" type="ReplyHistoryDTO"></resultMap>
+    <select id="findReplyHistory" resultMap="Integer,ReplyHistoryDTO" parameterType="UserHistoryDTO">
+        -- 总数
+        SELECT COUNT(1) AS totalCount FROM (
+            SELECT br.post_id, bp.title, br.content ,bp.replies_count,br.create_time,br.report_status,br.report_reason FROM boki_reply  br
+            JOIN boki_post bp ON bp.id  = br.post_id
+            WHERE br.user_id = 1 AND br.floor_no != 1
+            <if test="mode != null and mode == '2'.toString()">AND br.report_status = 3 AND br.is_deleted = 'y'</if>
+            UNION ALL
+            SELECT bp.id AS post_id, bp.title,bsr.content,bp.replies_count, bsr.create_time,bsr.report_status,bsr.report_reason FROM boki_storey_reply bsr
+            JOIN boki_reply br ON bsr.storey_id = br.id
+            JOIN boki_post bp ON bp.id = br.post_id
+            WHERE bsr.user_id = 1
+            <if test="mode != null and mode == '2'.toString()">AND bsr.report_status = 3 AND bsr.is_deleted = 'y'</if>
+        ) a;
+        -- 回复与楼层回复共同作为 历史回复
+        SELECT post_id,title,content,replies_count,report_status,report_reason FROM (
+            SELECT br.post_id, bp.title, br.content ,bp.replies_count,br.create_time,br.report_status,br.report_reason FROM boki_reply  br
+            JOIN boki_post bp ON bp.id  = br.post_id
+            WHERE br.user_id = 1 AND br.floor_no != 1
+            <if test="mode != null and mode == '2'.toString()">AND br.report_status = 3 AND br.is_deleted = 'y'</if>
+            UNION ALL
+            SELECT bp.id AS post_id, bp.title,bsr.content,bp.replies_count, bsr.create_time,bsr.report_status,bsr.report_reason FROM boki_storey_reply bsr
+            JOIN boki_reply br ON bsr.storey_id = br.id
+            JOIN boki_post bp ON bp.id = br.post_id
+            WHERE bsr.user_id = 1
+            <if test="mode != null and mode == '2'.toString()">AND bsr.report_status = 3 AND bsr.is_deleted = 'y'</if>
+        ) a ORDER BY create_time DESC LIMIT #{start},#{end};
+    </select>
+</mapper>

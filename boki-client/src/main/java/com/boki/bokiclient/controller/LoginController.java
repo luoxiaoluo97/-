@@ -58,10 +58,6 @@ public class LoginController {
         return RequestResultCode.SUCCESS.getResult().setData(info);
     }
 
-    /**
-     * 登出
-     */
-    // TODO
 
     /**
      * 用户注册

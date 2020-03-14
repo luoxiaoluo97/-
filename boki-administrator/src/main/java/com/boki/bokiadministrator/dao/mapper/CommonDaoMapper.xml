@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boki.bokiadministrator.dao.CommonDao">
+    <resultMap id="Integer" type="Integer">
+        <result column="totalCount"></result>
+    </resultMap>
+
+<!--    bean-->
+    <select id="getPostType" resultType="PostTypeDTO">
+        SELECT id,`type` FROM boki_post_type
+    </select>
+<!--    bean-->
+    <select id="getPermissions" resultType="RolePermissionDTO">
+        SELECT br.id,br.role,bp.permission FROM boki_role br
+        JOIN boki_permission bp ON br.id = bp.role_id
+        ORDER BY br.id
+    </select>
+<!--    bean-->
+    <select id="getLevelTable" resultType="UserLevelDTO">
+        SELECT `level`,`exp` from boki_user_level
+    </select>
+<!--    bean-->
+    <select id="getHonorTable" resultType="UserHonorDTO">
+        SELECT * from boki_user_honor
+    </select>
+</mapper>

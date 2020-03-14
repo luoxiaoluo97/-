@@ -27,6 +27,7 @@ public class ShiroConfig {
     private static final String USER = "user";
     private static final String PERMS = "perms";
     private static final String ROLE = "role";
+    private static final String LOGOUT = "logout";
 
     @Autowired
     private ArrayList<RolePermissionDTO> permission;
@@ -48,21 +49,19 @@ public class ShiroConfig {
          * role     获得角色权限后访问,需要放在拦截所有的前面，否者失效
          */
         Map<String, String> map = new LinkedHashMap<>();
-        /*静态资源*/
+        //静态资源
         map.put("/static/**",ANON);
-        /*首页*/
+        //首页
         map.put("/",ANON);
         map.put("/home/*/*",ANON);
-        /*帖子访问*/
+        //帖子访问
         map.put("/p/**",ANON);
-        /*帖子操作*/
-//        map.put("/post/**",AUTHC);
-        /*用户操作*/
+        //用户操作
         map.put("/login",ANON);
         map.put("/login/register",ANON);
         map.put("/login/sendCheckCode/*",ANON);
-//        map.put("/login/modifyPwd",AUTHC);
-        /*授权访问*/
+        map.put("/login/exit",LOGOUT);
+        //授权访问
         // TODO 只为需要设置权限的url配置权限表
 //        map.put("/user/",PERMS+"[xxx]");
         map.put("/**",AUTHC);

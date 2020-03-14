@@ -2,6 +2,7 @@ package com.boki.bokiclient.shiro;
 
 import com.boki.bokiapi.entity.dto.request.UserLoginDTO;
 import com.boki.bokiapi.entity.vo.UserInfoVO;
+import com.boki.bokiapi.execption.BusinessException;
 import com.boki.bokiclient.service.inter.LoginService;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -52,6 +53,9 @@ public class ShiroRealm extends AuthorizingRealm {
         UserInfoVO userInfoVO = loginService.findByMailAndPwd(userLoginDTO);
         if(userInfoVO == null){
             return null;
+        }else if(userInfoVO.getIsBanned().equals('y')){
+            throw new BusinessException(userInfoVO.getMail()+"已被禁封至"+userInfoVO.getBanUntil())
+                    .setInfo("您已被禁封至"+userInfoVO.getBanUntil());
         }
         SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(userInfoVO,userLoginDTO.getPwd(),"");
         return info;

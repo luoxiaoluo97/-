@@ -24,6 +24,11 @@ public class StatusName {
     public static final String NULL_TARGET_USER = "NULL_TARGET_USER";
     public static final String NULL_TARGET_ID = "NULL_TARGET_ID";
     public static final String NULL_REASON = "NULL_REASON";
+    public static final String NULL_PAGE = "NULL_PAGE";
+    public static final String NULL_ROLE = "NULL_ROLE";
+    public static final String NULL_BAN_TIME = "NULL_BAN_TIME";
+    public static final String NULL_ONLY_DELETED = "NULL_ONLY_DELETED";
+    public static final String ERROR_MODE = "ERROR_MODE";
 
     /**
      * 数据状态
@@ -36,5 +41,8 @@ public class StatusName {
     public static final String ERROR_BIRTH = "ERROR_BIRTH";
     public static final String ERROR_SEX = "ERROR_SEX";
     public static final String ERROR_DATE = "ERROR_DATE";
+    public static final String ERROR_IS_BANNED = "ERROR_IS_BANNED";
+    public static final String ERROR_RANGE = "ERROR_RANGE";
+    public static final String ERROR_ROLE = "ERROR_ROLE";
 
 }

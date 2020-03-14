@@ -1,6 +1,6 @@
 package com.boki.bokiclient.controller;
 
-import com.boki.bokiapi.entity.vo.PostHistoryVO;
+import com.boki.bokiapi.entity.vo.DataWithTotal;
 import com.boki.bokiapi.entity.vo.ResultVO;
 import com.boki.bokiapi.entity.vo.UserInfoVO;
 import com.boki.bokiapi.entity.vo.postdetail.PostDetailVO;
@@ -83,8 +83,8 @@ public class CommonController {
      */
     @GetMapping("/user/{userId}/lastPosts")
     public ResultVO userLastPosts(@PathVariable("userId")Long userId){
-        ArrayList<PostHistoryVO> voList = commonService.getUserLastPosts(userId);
-        return RequestResultCode.SUCCESS.getResult().setData(voList);
+        DataWithTotal vo = commonService.getUserLastPosts(userId);
+        return RequestResultCode.SUCCESS.getResult().setData(vo);
     }
 
 }

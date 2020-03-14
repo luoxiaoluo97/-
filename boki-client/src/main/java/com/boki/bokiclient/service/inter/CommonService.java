@@ -1,6 +1,6 @@
 package com.boki.bokiclient.service.inter;
 
-import com.boki.bokiapi.entity.vo.PostHistoryVO;
+import com.boki.bokiapi.entity.vo.DataWithTotal;
 import com.boki.bokiapi.entity.vo.postdetail.PostDetailVO;
 import com.boki.bokiapi.entity.vo.postdetail.StoreyReplyVO;
 
@@ -23,5 +23,5 @@ public interface CommonService {
     /**
      * 用户近三天发帖情况
      */
-    ArrayList<PostHistoryVO> getUserLastPosts(Long userId);
+    DataWithTotal getUserLastPosts(Long userId);
 }

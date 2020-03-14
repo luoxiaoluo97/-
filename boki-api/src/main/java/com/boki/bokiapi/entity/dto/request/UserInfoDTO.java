@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 /**
@@ -24,7 +25,7 @@ public class UserInfoDTO {
     @Pattern(regexp = "男|女|保密",message = StatusName.ERROR_SEX)
     private String sex;             //用户性别
 
-    @NotEmpty(message = StatusName.NULL_BIRTH )
+    @NotNull(message = StatusName.NULL_BIRTH )
     private String birth;           //出生日期
 
     private String from;            //来自何地

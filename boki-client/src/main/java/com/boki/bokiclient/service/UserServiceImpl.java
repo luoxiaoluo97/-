@@ -39,6 +39,9 @@ public class UserServiceImpl implements UserService {
         UserDTO dto = userDao.findUserById(userId);
         UserInfoVO vo = new UserInfoVO();
         BeanUtils.copyProperties(dto,vo);
+        vo.setLevel(dbSource.getLv(vo.getExp()));
+        vo.setHonorId(dbSource.getHonorId(vo.getCreditDegree()));
+        vo.setRole(dbSource.getRoleById(vo.getRoleId()));
         return vo;
     }
 

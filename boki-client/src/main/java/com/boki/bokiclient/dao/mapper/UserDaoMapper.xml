@@ -119,12 +119,12 @@
         SELECT COUNT(1) AS totalCount FROM (
             SELECT br.post_id, bp.title, br.content ,br.create_time FROM boki_reply  br
             JOIN boki_post bp ON bp.id  = br.post_id
-            WHERE br.user_id = 2 AND br.floor_no != 1 AND br.is_deleted = 'n'
+            WHERE br.user_id = #{userId} AND br.floor_no != 1 AND br.is_deleted = 'n'
             UNION ALL
             SELECT bp.id AS post_id, bp.title,bsr.content, bsr.create_time FROM boki_storey_reply bsr
             JOIN boki_reply br ON bsr.storey_id = br.id
             JOIN boki_post bp ON bp.id = br.post_id
-            WHERE bsr.user_id = 2 AND bsr.is_deleted = 'n'
+            WHERE bsr.user_id = #{userId} AND bsr.is_deleted = 'n'
         ) a;
         -- 回复与楼层回复共同作为 历史回复
         SELECT post_id,title,content,replies_count FROM (
