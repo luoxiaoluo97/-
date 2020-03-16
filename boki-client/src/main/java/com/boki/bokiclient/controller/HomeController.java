@@ -7,7 +7,6 @@ import com.boki.bokiclient.service.inter.HomeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -43,11 +42,14 @@ public class HomeController {
 
     /**
      * 帖子列表
+     * @param type 1=所有帖子，2=只看精品
      * @return
      */
-    @GetMapping("/home/{page}")
-    public ResultVO index(@PathVariable Integer page){
-        DataWithTotal dwt = homeService.findPosts(page);
+    @GetMapping("/list")
+    public ResultVO index(Integer type, Integer page){
+        type = type == null ? 1 : type != 2 ? 1 : type;
+        page = page == null ? 1 : page <= 0 ? 1 : page;
+        DataWithTotal dwt = homeService.findPosts(type,page);
         return RequestResultCode.SUCCESS.getResult().setData(dwt);
     }
 

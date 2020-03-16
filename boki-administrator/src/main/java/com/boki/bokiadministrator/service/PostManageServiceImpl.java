@@ -8,6 +8,8 @@ import com.boki.bokiapi.entity.dto.ReportInfoDTO;
 import com.boki.bokiapi.entity.dto.postdetail.PostDetailDTO;
 import com.boki.bokiapi.entity.dto.postdetail.ReplyDTO;
 import com.boki.bokiapi.entity.dto.postdetail.StoreyReplyDTO;
+import com.boki.bokiapi.entity.dto.request.PostSetTopDTO;
+import com.boki.bokiapi.entity.dto.request.PostUpgradeDTO;
 import com.boki.bokiapi.entity.dto.request.ReportJudgeDTO;
 import com.boki.bokiapi.entity.vo.DataWithTotal;
 import com.boki.bokiapi.entity.vo.PostVO;
@@ -20,7 +22,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -64,8 +68,8 @@ public class PostManageServiceImpl implements PostManageService {
     }
 
     @Override
-    public DataWithTotal findPosts(Integer page) {
-        List<List<?>> result = postManageDao.findPosts((page-1)*30,30);
+    public DataWithTotal findPosts(Integer type,Integer page) {
+        List<List<?>> result = postManageDao.findPosts(type,(page-1)*30,30);
         DataWithTotal vo = new DataWithTotal();
         vo.input(result, PostVO.class);
         //复制List属性
@@ -125,4 +129,28 @@ public class PostManageServiceImpl implements PostManageService {
         }
         return voList;
     }
+
+    @Override
+    public Integer postUpgrade(PostUpgradeDTO dto) {
+        int count = postManageDao.updatePostType(dto);
+        return count;
+    }
+
+    @Override
+    public Integer postSetTop(PostSetTopDTO dto) {
+        //设置取消置顶时间
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE,dto.getTopDays());
+        dto.setTopUntil(sdf.format(calendar.getTime()));
+
+        return postManageDao.updateToSetTop(dto);
+    }
+
+    @Override
+    public Integer postCancelTop(Long postId, Long modifier) {
+        return postManageDao.updateToCancelTop(postId,modifier);
+    }
+
+
 }

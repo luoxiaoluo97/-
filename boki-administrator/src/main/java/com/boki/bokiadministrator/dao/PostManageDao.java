@@ -1,6 +1,8 @@
 package com.boki.bokiadministrator.dao;
 
 import com.boki.bokiapi.entity.dto.postdetail.StoreyReplyDTO;
+import com.boki.bokiapi.entity.dto.request.PostSetTopDTO;
+import com.boki.bokiapi.entity.dto.request.PostUpgradeDTO;
 import com.boki.bokiapi.entity.dto.request.ReportJudgeDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -32,7 +34,9 @@ public interface PostManageDao {
      * 获取帖子列表
      * @return
      */
-    List<List<?>> findPosts(@Param("start") Integer start, @Param("end")Integer end);
+    List<List<?>> findPosts(@Param("type")Integer type,
+                            @Param("start") Integer start,
+                            @Param("end")Integer end);
 
     /**
      * 帖子详情
@@ -48,4 +52,21 @@ public interface PostManageDao {
     ArrayList<StoreyReplyDTO> findStoreyReplyById(@Param("replyId") Long replyId,
                                                   @Param("start") Integer start,
                                                   @Param("end")Integer end);
+
+
+    /**
+     * 更改帖子类型，普通贴 精华贴
+     */
+    Integer updatePostType(PostUpgradeDTO dto);
+
+
+    /**
+     * 更新置顶与结束时间
+     */
+    Integer updateToSetTop(PostSetTopDTO dto);
+
+    /**
+     * 取消置顶
+     */
+    Integer updateToCancelTop(@Param("postId")Long postId,@Param("modifier")Long modifier);
 }

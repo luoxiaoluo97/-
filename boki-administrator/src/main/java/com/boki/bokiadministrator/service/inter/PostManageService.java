@@ -1,5 +1,7 @@
 package com.boki.bokiadministrator.service.inter;
 
+import com.boki.bokiapi.entity.dto.request.PostSetTopDTO;
+import com.boki.bokiapi.entity.dto.request.PostUpgradeDTO;
 import com.boki.bokiapi.entity.dto.request.ReportJudgeDTO;
 import com.boki.bokiapi.entity.vo.DataWithTotal;
 import com.boki.bokiapi.entity.vo.postdetail.PostDetailVO;
@@ -31,7 +33,7 @@ public interface PostManageService {
      * 获取帖子列表
      * @return
      */
-    DataWithTotal findPosts(Integer page);
+    DataWithTotal findPosts(Integer type,Integer page);
 
     /**
      * 帖子详情
@@ -44,4 +46,19 @@ public interface PostManageService {
      * 加载楼中楼
      */
     ArrayList<StoreyReplyVO> findStoreyReplyById(Long replyId, Integer page);
+
+    /**
+     * 加精或降级
+     */
+    Integer postUpgrade(PostUpgradeDTO dto);
+
+    /**
+     * 设置置顶
+     */
+    Integer postSetTop(PostSetTopDTO dto);
+
+    /**
+     * 取消置顶
+     */
+    Integer postCancelTop(Long postId,Long modifier);
 }

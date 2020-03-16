@@ -51,8 +51,10 @@ public class CommonController {
      * @param id
      * @return
      */
-    @GetMapping("/{id}/{page}")
-    public ResultVO findPostById(@PathVariable("id") Long id,@PathVariable("page") Integer page){
+    @GetMapping("/open")
+    public ResultVO findPostById(Long id,Integer page){
+        if ( id == null)return RequestResultCode.FAIL.getResult();
+        page = page == null ? 1 : page <= 0 ? 1 : page;
         PostDetailVO post = commonService.getPostDetail(id,page);
         return RequestResultCode.SUCCESS.getResult().setData(post);
     }
@@ -60,8 +62,10 @@ public class CommonController {
     /**
      * 加载楼中楼
      */
-    @GetMapping("/reply/{id}/{page}")
-    public ResultVO findStoreyReply(@PathVariable("id") Long id,@PathVariable("page") Integer page){
+    @GetMapping("/reply/open")
+    public ResultVO findStoreyReply( Long id,Integer page){
+        if ( id == null)return RequestResultCode.FAIL.getResult();
+        page = page == null ? 1 : page <= 0 ? 1 : page;
         ArrayList<StoreyReplyVO> storeyReplies = commonService.findStoreyReplyById(id,page);
         return RequestResultCode.SUCCESS.getResult().setData(storeyReplies);
     }
@@ -79,7 +83,7 @@ public class CommonController {
     /**
      * 用户近三天发帖情况
      */
-    @GetMapping("/user/{userId}/lastPosts")
+    @GetMapping("/user/lastPosts/UID{userId}")
     public ResultVO userLastPosts(@PathVariable("userId")Long userId){
         DataWithTotal vo = commonService.getUserLastPosts(userId);
         return RequestResultCode.SUCCESS.getResult().setData(vo);

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boki.bokiadministrator.dao.BokiDataDao">
+
+    <resultMap id="userCount" type="Integer">
+        <result column="user_count"></result>
+    </resultMap>
+    <resultMap id="postCount" type="Integer">
+        <result column="post_count"></result>
+    </resultMap>
+    <resultMap id="deletedCount" type="Integer">
+        <result column="deleted_count"></result>
+    </resultMap>
+    <resultMap id="monthlyPosting" type="Integer">
+        <result column="monthly_posting"></result>
+    </resultMap>
+
+    <select id="findSomeData" resultMap="userCount,postCount,deletedCount,monthlyPosting">
+        -- 用户总数
+        SELECT COUNT(1) AS user_count FROM boki_user WHERE is_deleted = 'n';
+        -- 帖子数
+        SELECT COUNT(1) AS post_count FROM boki_post WHERE is_deleted = 'n';
+        -- 管理员删帖数
+        SELECT COUNT(1) AS deleted_count FROM boki_post WHERE report_status = 3;
+        -- 近一个月发帖量
+        SELECT COUNT(1) AS monthly_posting FROM boki_post WHERE is_deleted = 'n' AND create_time > DATE_SUB(CURDATE(),INTERVAL 1 MONTH) ;
+
+    </select>
+
+</mapper>

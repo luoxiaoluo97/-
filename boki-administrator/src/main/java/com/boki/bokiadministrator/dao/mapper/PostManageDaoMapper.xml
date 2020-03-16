@@ -92,7 +92,8 @@
 
     <select id="findPosts" resultMap="Integer,PostDTO">
         -- 帖子总数
-        SELECT COUNT(1) AS totalCount FROM boki_post WHERE is_deleted = 'n';
+        SELECT COUNT(1) AS totalCount FROM boki_post WHERE is_deleted = 'n'
+        <if test="type == '2'.toString()">AND type_id = 2</if>;
         -- 首页帖子列表
         SELECT bp.id,bp.title,bp.content,bp.create_time,bp.modified_time,bp.user_id,bp.replies_count,bp.type_id,bp.is_top,
 	    bu1.user_name,bu1.credit_degree,
@@ -100,7 +101,7 @@
         FROM boki_post bp
         JOIN boki_user bu1 ON bp.user_id = bu1.id
         JOIN boki_user bu2 ON bp.last_replier_id = bu2.id
-        WHERE bp.is_deleted = 'n'
+        WHERE bp.is_deleted = 'n' <if test="type == '2'.toString()">AND type_id = 2</if>
         ORDER BY bp.is_top DESC, bp.create_time DESC
         LIMIT #{start},#{end};
     </select>
@@ -144,4 +145,20 @@
         WHERE bsr.storey_id = #{replyId}
         LIMIT #{start},#{end}
     </select>
+
+    <update id="updatePostType" parameterType="PostUpgradeDTO">
+        -- 更新帖子类型
+        UPDATE boki_post SET type_id = #{typeId},`modifier` = #{uId} WHERE id = #{postId};
+    </update>
+
+    <update id="updateToSetTop" parameterType="PostSetTopDTO">
+        -- 更新置顶与结束时间
+        UPDATE boki_post SET is_top = 'y',top_until = #{topUntil},`modifier`= #{uId} WHERE id = #{postId};
+    </update>
+
+    <update id="updateToCancelTop" >
+        -- 取消置顶
+        UPDATE boki_post SET is_top = 'n',top_until = NULL,`modifier`= #{modifier} WHERE id = #{postId};
+    </update>
+
 </mapper>

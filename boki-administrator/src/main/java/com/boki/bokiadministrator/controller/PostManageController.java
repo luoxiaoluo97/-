@@ -2,6 +2,8 @@ package com.boki.bokiadministrator.controller;
 
 import com.boki.bokiadministrator.service.inter.NoticeService;
 import com.boki.bokiadministrator.service.inter.PostManageService;
+import com.boki.bokiapi.entity.dto.request.PostSetTopDTO;
+import com.boki.bokiapi.entity.dto.request.PostUpgradeDTO;
 import com.boki.bokiapi.entity.dto.request.ReportJudgeDTO;
 import com.boki.bokiapi.entity.vo.DataWithTotal;
 import com.boki.bokiapi.entity.vo.ResultVO;
@@ -87,11 +89,14 @@ public class PostManageController {
 
     /**
      * 帖子列表
+     * @param type 1=所有帖子，2=只看精品
      * @return
      */
-    @GetMapping("/list/{page}")
-    public ResultVO index(@PathVariable Integer page){
-        DataWithTotal dwt = postManageService.findPosts(page);
+    @GetMapping("/list")
+    public ResultVO index(Integer type, Integer page){
+        type = type == null ? 1 : type != 2 ? 1 : type;
+        page = page == null ? 1 : page <= 0 ? 1 : page;
+        DataWithTotal dwt = postManageService.findPosts(type,page);
         return RequestResultCode.SUCCESS.getResult().setData(dwt);
     }
 
@@ -100,8 +105,10 @@ public class PostManageController {
      * @param id
      * @return
      */
-    @GetMapping("/{id}/{page}")
-    public ResultVO findPostById(@PathVariable("id") Long id,@PathVariable("page") Integer page){
+    @GetMapping("/open")
+    public ResultVO findPostById(Long id,Integer page){
+        if ( id == null)return RequestResultCode.FAIL.getResult();
+        page = page == null ? 1 : page <= 0 ? 1 : page;
         PostDetailVO post = postManageService.getPostDetail(id,page);
         return RequestResultCode.SUCCESS.getResult().setData(post);
     }
@@ -109,8 +116,10 @@ public class PostManageController {
     /**
      * 加载楼中楼
      */
-    @GetMapping("/reply/{id}/{page}")
-    public ResultVO findStoreyReply(@PathVariable("id") Long id,@PathVariable("page") Integer page){
+    @GetMapping("/reply/open")
+    public ResultVO findStoreyReply(Long id,Integer page){
+        if ( id == null)return RequestResultCode.FAIL.getResult();
+        page = page == null ? 1 : page <= 0 ? 1 : page;
         ArrayList<StoreyReplyVO> storeyReplies = postManageService.findStoreyReplyById(id,page);
         return RequestResultCode.SUCCESS.getResult().setData(storeyReplies);
     }
@@ -118,14 +127,32 @@ public class PostManageController {
 
 
     /**
-     * 加精
+     * 加精或降级
      */
-//    @PostMapping("/upgrade")
-    //TODO
+    @PostMapping("/upgrade")
+    public ResultVO postUpgrade(@RequestBody @Valid PostUpgradeDTO dto,HttpSession session){
+        dto.setUId( (Long)session.getAttribute("UID"));
+        int count = postManageService.postUpgrade(dto);
+        return count > 0 ? RequestResultCode.SUCCESS.getResult() : RequestResultCode.FAIL.getResult();
+    }
 
     /**
      * 置顶
      */
-//    @PostMapping("top")
-    //TODO
+    @PostMapping("/setTop")
+    public ResultVO postSetTop(@RequestBody @Valid PostSetTopDTO dto, HttpSession session){
+        dto.setUId( (Long)session.getAttribute("UID"));
+        int count = postManageService.postSetTop(dto);
+        return count > 0 ? RequestResultCode.SUCCESS.getResult() : RequestResultCode.FAIL.getResult();
+    }
+
+    /**
+     * 取消置顶
+     */
+    @PostMapping("/cancelTop/{postId}")
+    public ResultVO cancelTop(@PathVariable Long postId , HttpSession session){
+        int count = postManageService.postCancelTop(postId,(Long)session.getAttribute("UID"));
+        return count > 0 ? RequestResultCode.SUCCESS.getResult() : RequestResultCode.FAIL.getResult();
+    }
+
 }

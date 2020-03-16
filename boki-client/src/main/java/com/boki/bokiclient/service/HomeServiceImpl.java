@@ -30,9 +30,8 @@ public class HomeServiceImpl implements HomeService {
     private DBSourceSelectBean dbSource;
 
     @Override
-    public DataWithTotal findPosts(Integer page) {
-//        ArrayList<PostDTO> posts = homeDao.findPosts((page-1)*30,30);
-        List<List<?>> result = homeDao.findPosts((page-1)*30,30);
+    public DataWithTotal findPosts(Integer type,Integer page) {
+        List<List<?>> result = homeDao.findPosts(type,(page-1)*30,30);
         DataWithTotal vo = new DataWithTotal();
         vo.input(result, PostVO.class);
         //复制List属性

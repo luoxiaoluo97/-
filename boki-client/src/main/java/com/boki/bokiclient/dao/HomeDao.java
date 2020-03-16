@@ -18,6 +18,8 @@ public interface HomeDao {
      * 获取帖子列表
      * @return
      */
-    List<List<?>> findPosts(@Param("start") Integer start, @Param("end")Integer end);
+    List<List<?>> findPosts(@Param("type")Integer type,
+                            @Param("start") Integer start,
+                            @Param("end")Integer end);
 
 }
