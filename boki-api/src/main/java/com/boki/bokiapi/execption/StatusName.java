@@ -28,7 +28,8 @@ public class StatusName {
     public static final String NULL_ROLE = "NULL_ROLE";
     public static final String NULL_BAN_TIME = "NULL_BAN_TIME";
     public static final String NULL_ONLY_DELETED = "NULL_ONLY_DELETED";
-    public static final String ERROR_MODE = "ERROR_MODE";
+    public static final String NULL_TYPE = "NULL_TYPE";
+
 
     /**
      * 数据状态
@@ -44,5 +45,6 @@ public class StatusName {
     public static final String ERROR_IS_BANNED = "ERROR_IS_BANNED";
     public static final String ERROR_RANGE = "ERROR_RANGE";
     public static final String ERROR_ROLE = "ERROR_ROLE";
-
+    public static final String ERROR_MODE = "ERROR_MODE";
+    public static final String ERROR_TYPE = "ERROR_TYPE";
 }

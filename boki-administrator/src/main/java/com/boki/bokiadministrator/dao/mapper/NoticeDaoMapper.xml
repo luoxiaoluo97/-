@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boki.bokiadministrator.dao.NoticeDao">
+    <resultMap id="Integer" type="Integer">
+        <result column="totalCount"></result>
+    </resultMap>
+
+    <!--单独通知-->
+    <update id="insertNotice" parameterType="NoticePO">
+        -- post_id字段用于后续打开帖子
+        INSERT boki_notice(user_id,notice,type_id,post_id,creator)
+        VALUE(#{userId},#{notice},#{typeId},#{postId},#{creator});
+    </update>
+
+    <select id="findPostTitle" resultType="Map">
+        SELECT id AS post_id ,title FROM boki_post WHERE id = #{id};
+    </select>
+
+    <select id="findReplyContent" resultType="Map">
+        SELECT post_id,content AS reply FROM boki_reply WHERE id = #{id};
+    </select>
+
+    <select id="findStoreyReplyContent" resultType="Map">
+        SELECT br.post_id,bsr.content AS storey_reply FROM boki_storey_reply bsr
+        JOIN boki_reply br ON bsr.storey_id = br.id
+        WHERE bsr.id = #{id};
+    </select>
+
+</mapper>

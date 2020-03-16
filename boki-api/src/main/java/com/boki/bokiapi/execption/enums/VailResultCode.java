@@ -32,7 +32,7 @@ public enum VailResultCode {
     NULL_ROLE(2000,"必须赋予角色."),
     NULL_BAN_TIME(2000,"请输入禁封时长."),
     NULL_ONLY_DELETED(2000,"是否只看管理员删帖."),
-
+    NULL_TYPE(2000,"类型不能为空"),
     /**
      * 数据格式错误 2001
      */
@@ -46,6 +46,7 @@ public enum VailResultCode {
     ERROR_MODE(2001,"错误了浏览方式."),
     ERROR_RANGE(2001,"错误的数据范围."),
     ERROR_ROLE(2001,"错误赋予角色."),
+    ERROR_TYPE(2001,"错误的帖子类型."),
 
     /**
      * 日期错误 2003

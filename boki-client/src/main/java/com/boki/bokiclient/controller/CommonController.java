@@ -52,8 +52,7 @@ public class CommonController {
      * @return
      */
     @GetMapping("/{id}/{page}")
-    public ResultVO findPostById(@PathVariable("id") Long id,
-                                 @PathVariable("page") Integer page){
+    public ResultVO findPostById(@PathVariable("id") Long id,@PathVariable("page") Integer page){
         PostDetailVO post = commonService.getPostDetail(id,page);
         return RequestResultCode.SUCCESS.getResult().setData(post);
     }
@@ -62,8 +61,7 @@ public class CommonController {
      * 加载楼中楼
      */
     @GetMapping("/reply/{id}/{page}")
-    public ResultVO findStoreyReply(@PathVariable("id") Long id,
-                                    @PathVariable("page") Integer page){
+    public ResultVO findStoreyReply(@PathVariable("id") Long id,@PathVariable("page") Integer page){
         ArrayList<StoreyReplyVO> storeyReplies = commonService.findStoreyReplyById(id,page);
         return RequestResultCode.SUCCESS.getResult().setData(storeyReplies);
     }

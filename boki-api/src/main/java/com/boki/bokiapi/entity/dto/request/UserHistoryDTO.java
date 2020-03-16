@@ -23,7 +23,7 @@ public class UserHistoryDTO {
     private Integer page;           //页数
 
     /**
-     * 浏览方式：查看所有，只看管理员删帖，只看自己删帖
+     * 浏览方式：查看所有，只看管理员删帖
      */
     @NotNull(message = StatusName.NULL_ONLY_DELETED)
     @Pattern(regexp = "1|2",message = StatusName.ERROR_MODE)

@@ -47,7 +47,7 @@ public enum NoticeMessage {
                 return String.format(raw,elem.getReply(),elem.getReason());
             }
             case 6:{
-                return String.format(raw,elem.getStoreyReply());
+                return String.format(raw,elem.getStoreyReply(),elem.getReason());
             }
             case 7:{
                 return String.format(raw,elem.getFromUserName(),elem.getTitle());

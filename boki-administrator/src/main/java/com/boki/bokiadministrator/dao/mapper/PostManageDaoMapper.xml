@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boki.bokiadministrator.dao.PostManageDao">
+    <resultMap id="Integer" type="Integer">
+        <result column="totalCount"></result>
+    </resultMap>
+
+    <resultMap id="ReportInfoDTO" type="ReportInfoDTO"></resultMap>
+    <select id="findReports" resultMap="Integer,ReportInfoDTO">
+        -- 总数
+        SELECT COUNT(1) AS totalCount FROM
+        <if test="type == 'post'.toString()">boki_post</if>
+        <if test="type == 'reply'.toString()">boki_reply</if>
+        <if test="type == 'storeyReply'.toString()">boki_storey_reply</if>
+        b WHERE b.report_status = 2 AND b.is_deleted = 'n';
+        -- id ，用户id，用户名，标题或内容，理由，修改时间
+        SELECT b.id,b.user_id,bu.user_name,b.report_reason,b.modified_time AS report_time,
+        <if test="type == 'post'.toString()">b.title AS content </if>
+        <if test="type != 'post'.toString()">b.content </if>
+        FROM
+        <if test="type == 'post'.toString()">boki_post </if>
+        <if test="type == 'reply'.toString()">boki_reply </if>
+        <if test="type == 'storeyReply'.toString()">boki_storey_reply </if>
+        b JOIN boki_user bu ON b.user_id = bu.id
+        WHERE b.report_status = 2 AND b.is_deleted = 'n'
+        ORDER BY b.modified_time DESC LIMIT #{start},#{end};
+    </select>
+
+    <update id="updateToReportReject" parameterType="ReportJudgeDTO">
+        -- 驳回举报
+        UPDATE
+        <if test="type == 'post'.toString()">boki_post </if>
+        <if test="type == 'reply'.toString()">boki_reply </if>
+        <if test="type == 'storeyReply'.toString()">boki_storey_reply </if>
+        SET report_status = 1,report_reason = NULL WHERE id = #{id} AND user_id = #{userId};
+    </update>
+
+    <update id="updateToReportPass" parameterType="ReportJudgeDTO">
+        -- 举报删帖,举报状态为3,根据被举报的帖子类型执行更新
+        <if test="type == 'post'.toString()">
+            -- 删帖，连同回复，楼中楼一起删
+            UPDATE boki_post SET is_deleted = 'y',report_status = 3, report_reason = #{reason}
+            WHERE id = #{id} AND user_id = #{userId};
+            UPDATE boki_reply SET is_deleted = 'y' WHERE post_id = (
+                SELECT id FROM boki_post  WHERE id = #{id} AND user_id = #{userId}
+            );
+            UPDATE boki_storey_reply bsr,(
+                SELECT br.id brid FROM boki_reply br
+                JOIN boki_post bp ON br.post_id = bp.id
+                WHERE bp.id = #{id} AND bp.user_id = #{userId}
+            ) a SET bsr.is_deleted = 'y' WHERE bsr.storey_id = a.brid;
+            -- 被举报者信誉值结算 -10
+            UPDATE boki_user SET credit_degree = credit_degree-10 WHERE id = #{userId} AND role_id != 3;
+        </if>
+        <if test="type == 'reply'.toString()">
+            -- 删楼,连同楼中楼一起删
+            -- 帖子回复数 -(1 + n)（n 楼中楼数量）
+            UPDATE boki_post SET replies_count = replies_count - (
+                SELECT COUNT(1)+1 FROM boki_storey_reply WHERE storey_id = #{id}  AND is_deleted = 'n'
+            ) WHERE id =(
+                SELECT post_id FROM boki_reply WHERE id = #{id} AND user_id = #{userId} AND floor_no != 1
+                AND is_deleted = 'n' LIMIT 1
+            );
+            UPDATE boki_reply SET is_deleted = 'y',report_status = 3, report_reason = #{reason}
+            WHERE id = #{id} AND user_id = #{userId} AND floor_no != 1;
+            UPDATE boki_storey_reply SET is_deleted = 'y' WHERE storey_id = (
+                SELECT id FROM boki_reply WHERE id = #{id} AND user_id = #{userId} AND floor_no != 1
+            );
+            -- 被举报者信誉值结算 -5
+            UPDATE boki_user SET credit_degree = credit_degree-5 WHERE id = #{userId} AND role_id != 3;
+        </if>
+        <if test="type == 'storeyReply'.toString()">
+            -- 删除楼层回复
+            -- 帖子回复数-1
+            UPDATE boki_post SET replies_count = replies_count -1 WHERE id =(
+                SELECT br.post_id FROM boki_reply br
+                JOIN boki_storey_reply bsr ON br.id = bsr.storey_id
+                WHERE bsr.id = #{id} AND bsr.user_id = #{userId}
+            );
+            -- 楼层回复数-1
+            UPDATE boki_reply SET replies_count = replies_count - 1 WHERE id =(
+                SELECT storey_id FROM boki_storey_reply WHERE id = #{id} AND user_id = #{userId}
+            );
+            UPDATE boki_storey_reply SET is_deleted = 'y',report_status = 3, report_reason = #{reason}
+            WHERE id = #{id} AND user_id = #{userId};
+            -- 被举报者信誉值结算 -5
+            UPDATE boki_user SET credit_degree = credit_degree-5 WHERE id = #{userId} AND role_id != 3;
+        </if>
+    </update>
+
+    <select id="findPosts" resultMap="Integer,PostDTO">
+        -- 帖子总数
+        SELECT COUNT(1) AS totalCount FROM boki_post WHERE is_deleted = 'n';
+        -- 首页帖子列表
+        SELECT bp.id,bp.title,bp.content,bp.create_time,bp.modified_time,bp.user_id,bp.replies_count,bp.type_id,bp.is_top,
+	    bu1.user_name,bu1.credit_degree,
+	    bu2.user_name AS last_replier
+        FROM boki_post bp
+        JOIN boki_user bu1 ON bp.user_id = bu1.id
+        JOIN boki_user bu2 ON bp.last_replier_id = bu2.id
+        WHERE bp.is_deleted = 'n'
+        ORDER BY bp.is_top DESC, bp.create_time DESC
+        LIMIT #{start},#{end};
+    </select>
+
+    <resultMap id="PostDetailDTO" type="PostDetailDTO"></resultMap>
+    <resultMap id="ReplyDTO" type="ReplyDTO"></resultMap>
+    <resultMap id="Integer2" type="Integer">
+        <result column="totalCount"></result>
+    </resultMap>
+    <select id="getPostDetail" resultMap="PostDetailDTO,Integer2,ReplyDTO">
+        -- 帖子基本信息
+        SELECT id,user_id,title,replies_count,type_id FROM boki_post WHERE id = #{postId};
+        -- 楼层总数
+        SELECT COUNT(1) AS totalCount FROM boki_reply br
+        JOIN boki_user bu ON br.user_id = bu.id
+        WHERE br.post_id = #{postId};
+        -- 楼层列表
+        SELECT br.id,
+        br.user_id,br.post_id,br.floor_no,br.create_time,br.content,br.replies_count,
+	        bu.user_name,bu.photo,bu.exp,bu.credit_degree,bu.role_id
+        FROM boki_reply br
+        JOIN boki_user bu ON br.user_id = bu.id
+        WHERE br.post_id = #{postId}
+        ORDER BY br.floor_no
+        LIMIT #{start},#{end};
+    </select>
+
+    <select id="findStoreyReplyById"  resultType="StoreyReplyDTO">
+        SELECT
+            bsr.id,
+            bsr.storey_id,
+            bsr.user_id,
+            bu1.user_name,
+--             bsr.to_user_id,
+--             bu2.user_name AS to_user_name,
+            bsr.content,
+            bsr.create_time
+        FROM boki_storey_reply bsr
+        JOIN boki_user bu1 ON bsr.user_id = bu1.id
+--         JOIN boki_user bu2 ON bsr.user_id = bu2.id
+        WHERE bsr.storey_id = #{replyId}
+        LIMIT #{start},#{end}
+    </select>
+</mapper>

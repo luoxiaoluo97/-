@@ -19,6 +19,8 @@ public enum  RequestResultCode {
     MAIL_ALREADY_EXIST(1000,"邮箱已被注册."),
     USERNAME_ALREADY_EXIST(1000,"昵称已被占用."),
     ERROR_FLOOR(1001,"错误的楼层回复：1楼."),
+    NULL_REASON(2000,"必须附带删帖理由."),
+
     /**
      * 请求状态码 10xxx
      */
@@ -49,8 +51,10 @@ public enum  RequestResultCode {
     /**
      * 服务器错误 500xx
      */
+    REQUEST_ERROR(40000,"错误的请求."),
     SERVER_ERROR(50000,"服务器错误."),
     SQL_ERROR(50001,"错误的数据.");
+
 
     private Integer code;
     private String msg;

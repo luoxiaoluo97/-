@@ -9,6 +9,7 @@
       <module fileurl="file://$PROJECT_DIR$/boki-eureka/boki-eureka.iml" filepath="$PROJECT_DIR$/boki-eureka/boki-eureka.iml" />
       <module fileurl="file://$PROJECT_DIR$/boki-feign/boki-feign.iml" filepath="$PROJECT_DIR$/boki-feign/boki-feign.iml" />
       <module fileurl="file://$PROJECT_DIR$/boki-hystrix/boki-hystrix.iml" filepath="$PROJECT_DIR$/boki-hystrix/boki-hystrix.iml" />
+      <module fileurl="file://$PROJECT_DIR$/boki-repository/boki-repository.iml" filepath="$PROJECT_DIR$/boki-repository/boki-repository.iml" />
       <module fileurl="file://$PROJECT_DIR$/demo/demo.iml" filepath="$PROJECT_DIR$/demo/demo.iml" />
     </modules>
   </component>

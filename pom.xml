@@ -18,6 +18,7 @@
         <module>boki-administrator</module>
         <module>boki-feign</module>
         <module>boki-hystrix</module>
+        <module>boki-repository</module>
     </modules>
 
 

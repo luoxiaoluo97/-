@@ -9,6 +9,8 @@ package com.boki.bokiapi;
 public class Test {
     public static void main(String[] args) {
 
+        Object s = null;
+        String a = (String)s;
 //        String source = "回复 @我日你仙人板板1 :回复 @我日你仙人板板2 :回复 @我日你仙人板板3 :";
 //        Matcher matcher = Pattern.compile("@[^@ ]{1,12}[ ]").matcher(source);
 //        matcher.replaceFirst("");

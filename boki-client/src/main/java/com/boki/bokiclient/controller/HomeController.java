@@ -45,7 +45,7 @@ public class HomeController {
      * 帖子列表
      * @return
      */
-    @GetMapping("/home/page/{page}")
+    @GetMapping("/home/{page}")
     public ResultVO index(@PathVariable Integer page){
         DataWithTotal dwt = homeService.findPosts(page);
         return RequestResultCode.SUCCESS.getResult().setData(dwt);

@@ -14,6 +14,7 @@ public class NoticeElem {
     /**
      * 通知元素,均为可能用到的值，按需取值
      */
+    private Long id;             //id，保留字段
     private Long fromUserId;      //来源用户id
     private String fromUserName;    //来源用户名
     private String content;         //内容
@@ -23,7 +24,6 @@ public class NoticeElem {
     private String reason;          //理由
     private String floorNo;         //第几楼
     private Long storeyId;          //楼层id
-
     /**
      * 被通知用户信息
      */

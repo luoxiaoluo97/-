@@ -18,7 +18,7 @@
         JOIN boki_user bu1 ON bp.user_id = bu1.id
         JOIN boki_user bu2 ON bp.last_replier_id = bu2.id
         WHERE bp.is_deleted = 'n'
-        ORDER BY bp.is_top DESC, bp.create_time DESC
+        ORDER BY bp.is_top DESC, bp.modified_time DESC
         LIMIT #{start},#{end};
     </select>
 

@@ -14,6 +14,7 @@
         <module name="boki-administrator" />
         <module name="boki-api" />
         <module name="boki-hystrix" />
+        <module name="boki-repository" />
         <module name="boki-eureka" />
       </profile>
     </annotationProcessing>
@@ -25,6 +26,7 @@
       <module name="boki-eureka" target="1.8" />
       <module name="boki-feign" target="1.8" />
       <module name="boki-hystrix" target="1.8" />
+      <module name="boki-repository" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -33,6 +35,7 @@
       <module name="boki-client" options="" />
       <module name="boki-feign" options="" />
       <module name="boki-hystrix" options="" />
+      <module name="boki-repository" options="" />
       <module name="demo" options="-parameters" />
     </option>
   </component>
