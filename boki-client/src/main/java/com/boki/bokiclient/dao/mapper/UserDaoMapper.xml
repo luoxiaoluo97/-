@@ -28,6 +28,10 @@
         WHERE id = #{id}
     </update>
 
+    <update id="updateUserPhoto" >
+        UPDATE boki_user SET photo = #{url} WHERE id = #{UID};
+    </update>
+
     <select id="isPostCollectionExist" resultType="Integer">
         -- 收藏记录是否存在
         SELECT id FROM boki_post_collection

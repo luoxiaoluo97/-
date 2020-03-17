@@ -58,14 +58,21 @@ public class UserInfoController {
         }
         dto.setId((Long)session.getAttribute("UID"));
         int count = userService.modifyInfo(dto);
-        return count >= 0 ? RequestResultCode.SUCCESS.getResult() : RequestResultCode.FAIL.getResult();
+        return count >= 1 ? RequestResultCode.SUCCESS.getResult() :
+                count == 0 ? RequestResultCode.NOTHING_HAS_CHANGED.getResult() :
+                        RequestResultCode.FAIL.getResult();
     }
 
     /**
      * 用户头像上传
      */
-//    @PostMapping("/modifyPhoto")
-    // TODO
+    @PostMapping("/modifyPhoto")
+    public ResultVO modifyPhoto(@RequestParam("url")String url,HttpSession session){
+        int count = userService.setUserPhoto((Long)session.getAttribute("UID"),url);
+        return count >= 1 ? RequestResultCode.SUCCESS.getResult() :
+                count == 0 ? RequestResultCode.NOTHING_HAS_CHANGED.getResult() :
+                        RequestResultCode.FAIL.getResult();
+    }
 
     /**
      * 收藏帖子

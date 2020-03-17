@@ -4,6 +4,12 @@ server:
 dataservice:
   host: 192.168.0.9
 
+base:
+  imagesPath: file:/D:/fileUpload/
+  actualPath: D:/fileUpload/
+  serverHost: http://localhost:9001/images/
+
+
 spring:
   application:
     name: boki-admin
@@ -34,7 +40,10 @@ spring:
     password: kkmcfiljavcpdjgg
     host: smtp.qq.com
     default-encoding: utf-8
-
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
 
 mybatis:
   configuration:

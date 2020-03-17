@@ -20,7 +20,8 @@ public enum  RequestResultCode {
     USERNAME_ALREADY_EXIST(1000,"昵称已被占用."),
     ERROR_FLOOR(1001,"错误的楼层回复：1楼."),
     NULL_REASON(2000,"必须附带删帖理由."),
-
+    NULL_FILE(2000,"空文件."),
+    EXIST_FILE(2002,"已存在的文件."),
     /**
      * 请求状态码 10xxx
      */
@@ -28,6 +29,7 @@ public enum  RequestResultCode {
     SUCCESS(10000,"成功."),
     LOGIN_FAIL(10001,"登陆失败，邮箱或密码错误."),
     LOGIN_TODO(10002,"登陆后可操作."),
+    NOTHING_HAS_CHANGED(10003,"未做出任何修改."),
     MAIL_SEND_FAIL(10101,"验证码发送失败.。"),
     REGISTER_FAIL(10201,"注册失败."),
     CHECK_CODE_INVALID(10301,"失效的验证码."),

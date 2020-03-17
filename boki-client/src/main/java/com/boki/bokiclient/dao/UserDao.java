@@ -27,7 +27,12 @@ public interface UserDao {
     /**
      * 更新用户数据
      */
-    int updateUser(UserPO po);
+    Integer updateUser(UserPO po);
+
+    /**
+     * 更新头像
+     */
+    Integer updateUserPhoto(@Param("UID")Long uid,@Param("url")String url);
 
     /**
      * 是否重复收藏

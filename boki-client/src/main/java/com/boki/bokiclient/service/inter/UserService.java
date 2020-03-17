@@ -23,6 +23,11 @@ public interface UserService {
     int modifyInfo(UserInfoDTO dto);
 
     /**
+     * 设置头像
+     */
+    int setUserPhoto(Long uId,String url);
+
+    /**
      * 收藏帖子
      */
     int collectPost(Long postId,Long userId);

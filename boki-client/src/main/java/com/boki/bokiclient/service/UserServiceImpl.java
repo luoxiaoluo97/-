@@ -53,6 +53,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public int setUserPhoto(Long uId, String url) {
+        return userDao.updateUserPhoto(uId,url);
+    }
+
+    @Override
     public int collectPost(Long postId, Long userId) {
         PostCollectionPO po = new PostCollectionPO();
         po.setPostId(postId);

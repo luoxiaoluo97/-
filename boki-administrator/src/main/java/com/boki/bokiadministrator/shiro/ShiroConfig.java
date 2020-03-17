@@ -51,6 +51,7 @@ public class ShiroConfig {
          */
         Map<String, String> map = new LinkedHashMap<>();
         //静态资源
+        map.put("/images/**",ANON);
         map.put("/static/**",ANON);
         //首页
         map.put("/",ANON);
