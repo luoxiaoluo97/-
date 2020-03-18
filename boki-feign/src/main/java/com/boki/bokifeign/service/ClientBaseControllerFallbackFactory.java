@@ -1,6 +1,9 @@
-package com.boki.bokiapi.service;
+package com.boki.bokifeign.service;
 
-import com.boki.bokiapi.service.inter.ClientBaseController;
+
+import com.boki.bokifeign.entity.RequestResultCode;
+import com.boki.bokifeign.entity.ResultVO;
+import com.boki.bokifeign.service.inter.ClientBaseController;
 import feign.hystrix.FallbackFactory;
 import org.springframework.stereotype.Component;
 
@@ -10,10 +13,10 @@ public class ClientBaseControllerFallbackFactory implements FallbackFactory<Clie
     @Override
     public ClientBaseController create(Throwable throwable) {
         return new ClientBaseController() {
+
             @Override
-            public Object test(int id) {
-                System.out.println("这里");
-                return "莫得1号啊";
+            public ResultVO findPostById(Long id, Integer page) {
+                return RequestResultCode.SERVER_ERROR.getResult();
             }
         };
     }

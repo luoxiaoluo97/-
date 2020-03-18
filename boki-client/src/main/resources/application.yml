@@ -58,6 +58,8 @@ eureka:
     service-url:
       defaultZone: http://${eureka-server.name}:${eureka-server.password}@${eureka-server.host}:${eureka-server.port}/eureka/
 
+
+
 logging:
   level:
     root: info

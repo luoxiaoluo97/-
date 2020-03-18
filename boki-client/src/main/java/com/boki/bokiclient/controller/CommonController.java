@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 
@@ -25,7 +24,7 @@ import java.util.ArrayList;
  */
 @Slf4j
 @RestController
-@RequestMapping("/p")
+@RequestMapping(value = "/p",produces = {"application/json;charset=UTF-8"})
 public class CommonController {
 
     @Autowired
@@ -34,29 +33,18 @@ public class CommonController {
     @Autowired
     private UserService userService;
 
-    /**
-     * 到注册页面
-     * @param mv
-     * @return
-     */
-    @GetMapping("/register")
-    public ModelAndView registerPage(ModelAndView mv){
-        mv.setViewName("register");
-        return mv;
-    }
-
 
     /**
      * 打开帖子
      * @param id
      * @return
      */
-    @GetMapping("/open")
-    public ResultVO findPostById(Long id,Integer page){
-        if ( id == null)return RequestResultCode.FAIL.getResult();
+    @GetMapping(value = "/{postId}")
+    public ResultVO findPostById(@PathVariable("postId") Long id, Integer page){
         page = page == null ? 1 : page <= 0 ? 1 : page;
         PostDetailVO post = commonService.getPostDetail(id,page);
-        return RequestResultCode.SUCCESS.getResult().setData(post);
+        return post != null ? RequestResultCode.SUCCESS.getResult().setData(post)
+                : RequestResultCode.FAIL.getResult();
     }
 
     /**

@@ -8,7 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @EnableEurekaClient
-@EnableFeignClients(basePackages = {"com.boki.bokiapi"})
+@EnableFeignClients(basePackages = {"com.boki.bokifeign"})
 @ComponentScan(basePackages = "com.boki")
 public class BokiFeignApplication {
 

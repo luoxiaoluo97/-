@@ -4,17 +4,37 @@ server:
 spring:
   application:
     name: boki-feign
+  # mail和db配置是历史遗留问题，应为把相关的依赖放在了api模块，不得不把它的配置写上
+  mail:
+    username: 253@qq.com
+    password: kkmcujhyavcpdjgg
+    host: smtp.qq.com
+    default-encoding: utf-8
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver              # 驱动包
+    url: jdbc
+    username: r
+    password: 12
+
+eureka-server:
+  host: localhost
+  port: 8000
+  name: bokieureka
+  password: 123456
+
 
 
 feign:
+  httpclient:
+    enabled: true
   hystrix:
     enabled: true
 
 eureka:
   instance:
-    instance-id: boki-feign
+    instance-id: boki-feign-8001
     prefer-ip-address: true
   client:
     service-url:
-      defaultZone: http://localhost:8000/eureka/
-    register-with-eureka: false
+      defaultZone: http://${eureka-server.name}:${eureka-server.password}@${eureka-server.host}:${eureka-server.port}/eureka/
+#    register-with-eureka: false

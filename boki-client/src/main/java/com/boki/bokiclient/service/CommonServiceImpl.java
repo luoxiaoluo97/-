@@ -46,6 +46,9 @@ public class CommonServiceImpl implements CommonService {
     @Override
     public PostDetailVO getPostDetail(Long postId,Integer page) {
         List<List<?>> result = commonDao.getPostDetail(postId,(page-1)*15,15);
+        if(result.get(0).size() == 0){
+            return null;
+        }
         PostDetailVO vo = new PostDetailVO();
         //帖子基本信息
         BeanUtils.copyProperties(result.get(0).get(0),vo);
