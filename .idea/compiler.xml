@@ -9,7 +9,6 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="boki-feign" />
-        <module name="demo" />
         <module name="boki-client" />
         <module name="boki-administrator" />
         <module name="boki-api" />

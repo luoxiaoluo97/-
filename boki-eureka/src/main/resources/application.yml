@@ -4,6 +4,12 @@ server:
 spring:
   application:
     name: boki-eureka
+  security:
+    user:
+      name: bokieureka
+      password: 123456
+
+
 
 eureka:
   instance:
@@ -13,3 +19,4 @@ eureka:
       defaultZone: http://localhost:${server.port}/eureka/
     fetch-registry: false
     registerWithEureka: false
+

@@ -11,6 +11,7 @@
     <artifactId>boki-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>boki-api</name>
+    <packaging>jar</packaging>
     <description>Api for boki</description>
 
     <properties>

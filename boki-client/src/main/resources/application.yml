@@ -4,6 +4,13 @@ server:
 dataservice:
   host: 192.168.0.9
 
+eureka-server:
+  host: localhost
+  port: 8000
+  name: bokieureka
+  password: 123456
+
+
 spring:
   application:
     name: boki-client
@@ -43,13 +50,13 @@ mybatis:
   mapper-locations: classpath*:/com/boki/bokiclient/dao/mapper/*Mapper.xml
   type-aliases-package: com.boki.bokiapi.entity
 
-#eureka:
-#  instance:
-#    instance-id: boki-client-9000
-#    prefer-ip-address: true
-#  client:
-#    service-url:
-#      defaultZone: http://localhost:8000/eureka/
+eureka:
+  instance:
+    instance-id: boki-client-9000
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://${eureka-server.name}:${eureka-server.password}@${eureka-server.host}:${eureka-server.port}/eureka/
 
 logging:
   level:

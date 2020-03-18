@@ -1,5 +1,6 @@
 package com.boki.bokiapi.service;
 
+import com.boki.bokiapi.service.inter.ClientBaseController;
 import feign.hystrix.FallbackFactory;
 import org.springframework.stereotype.Component;
 

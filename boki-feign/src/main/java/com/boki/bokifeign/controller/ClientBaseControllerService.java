@@ -1,6 +1,6 @@
 package com.boki.bokifeign.controller;
 
-import com.boki.bokiapi.service.ClientBaseController;
+import com.boki.bokiapi.service.inter.ClientBaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

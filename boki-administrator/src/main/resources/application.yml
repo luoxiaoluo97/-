@@ -9,6 +9,12 @@ base:
   actualPath: D:/fileUpload/
   serverHost: http://localhost:9001/images/
 
+eureka-server:
+  host: localhost
+  port: 8000
+  name: bokieureka
+  password: 123456
+
 
 spring:
   application:
@@ -51,13 +57,15 @@ mybatis:
     map-underscore-to-camel-case: true
   mapper-locations: classpath*:/com/boki/bokiadministrator/dao/mapper/*Mapper.xml
   type-aliases-package: com.boki.bokiapi.entity
-#eureka:
-#  instance:
-#    instance-id: boki-admin-9001
-#    prefer-ip-address: true
-#  client:
-#    service-url:
-#      defaultZone: http://localhost:8000/eureka/
+
+
+eureka:
+  instance:
+    instance-id: boki-admin-9001
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://${eureka-server.name}:${eureka-server.password}@${eureka-server.host}:${eureka-server.port}/eureka/
 
 logging:
   level:

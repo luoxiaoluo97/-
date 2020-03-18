@@ -1,5 +1,6 @@
-package com.boki.bokiapi.service;
+package com.boki.bokiapi.service.inter;
 
+import com.boki.bokiapi.service.ClientBaseControllerFallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
