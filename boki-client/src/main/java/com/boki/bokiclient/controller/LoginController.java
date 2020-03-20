@@ -12,20 +12,16 @@ import com.boki.bokiapi.util.PwdEncryption;
 import com.boki.bokiapi.value.Common;
 import com.boki.bokiclient.service.inter.LoginService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.regex.Pattern;
 
 @Slf4j
 @RestController
-@RequestMapping("/login")
+@RequestMapping(value = "/login",produces = {"application/json;charset=UTF-8"})
 public class LoginController {
 
 
@@ -36,26 +32,14 @@ public class LoginController {
     /**
      * 登陆请求
      * @param user
-     * @param session
      * @return
      */
     @PostMapping(value = "")
-    public ResultVO login(@Valid @RequestBody UserLoginDTO user,
-                          HttpSession session){
+    public ResultVO login(@Valid @RequestBody UserLoginDTO user,HttpServletRequest request){
         user.setPwd(PwdEncryption.doubleMd5(user.getPwd()));
-        Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken(user.getMail(),user.getPwd());
-        UserInfoVO info;
-        try{
-            subject.login(token);
-            info = (UserInfoVO)subject.getPrincipal();
-        }catch (UnknownAccountException e){
-            throw new BusinessException(e.getMessage()).setType(RequestResultCode.LOGIN_FAIL);
-        }
-        session.setAttribute("UID",info.getId());
-        session.setAttribute("mail",info.getMail());
-        session.setAttribute("userName",info.getUserName());
-        return RequestResultCode.SUCCESS.getResult().setData(info);
+        UserInfoVO info = loginService.findByMailAndPwd(user);
+        return info != null ? RequestResultCode.SUCCESS.getResult().setData(info) :
+                RequestResultCode.LOGIN_FAIL.getResult();
     }
 
 
@@ -93,10 +77,10 @@ public class LoginController {
      * @return
      */
     @PostMapping("/modifyPwd")
-    public ResultVO updatePwd(@RequestBody @Valid UserUpdatePwdDTO userUpdatePwdDTO, HttpSession session){
-        String mail = (String)session.getAttribute("mail");
-        userUpdatePwdDTO.setMail(mail);
-        int count = loginService.updatePwdByMail(userUpdatePwdDTO);
+    public ResultVO updatePwd(@RequestBody @Valid UserUpdatePwdDTO dto, HttpServletRequest request){
+        String mail = request.getHeader("mail");
+        dto.setMail(mail);
+        int count = loginService.updatePwdByMail(dto);
         return count == 1 || count == 0 ?
                 RequestResultCode.SUCCESS.getResult() : RequestResultCode.SERVER_ERROR.getResult();
     }

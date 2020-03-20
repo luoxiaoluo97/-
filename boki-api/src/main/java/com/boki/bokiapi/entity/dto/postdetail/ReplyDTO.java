@@ -32,5 +32,5 @@ public class ReplyDTO {
     private Long exp;               //层主经验值
     private Integer creditDegree;    //层主信用度
     private Integer roleId;         //论坛角色
-
+    private String show;            //个性签名
 }

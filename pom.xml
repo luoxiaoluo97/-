@@ -16,7 +16,7 @@
         <module>boki-eureka</module>
         <module>boki-client</module>
         <module>boki-administrator</module>
-        <module>boki-feign</module>
+        <module>boki-ribbon</module>
         <module>boki-hystrix</module>
     </modules>
 

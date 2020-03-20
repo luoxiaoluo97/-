@@ -19,7 +19,7 @@
         -- 楼层列表
         SELECT br.id,
         br.user_id,br.post_id,br.floor_no,br.create_time,br.content,br.replies_count,
-	        bu.user_name,bu.photo,bu.exp,bu.credit_degree,bu.role_id
+	        bu.user_name,bu.photo,bu.exp,bu.credit_degree,bu.role_id,bu.show
         FROM boki_reply br
         JOIN boki_user bu ON br.user_id = bu.id
         WHERE br.post_id = #{postId}

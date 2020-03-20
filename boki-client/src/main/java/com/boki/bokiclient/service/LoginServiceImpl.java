@@ -92,9 +92,11 @@ public class LoginServiceImpl implements LoginService {
             result.put("effectiveTime",redisTemplate.getExpire(mail,TimeUnit.SECONDS)+"s");
             return result;
         }
-        String mailCode = mailCheck.mailSend(mail);
-        redisTemplate.opsForValue().set(mail,mailCode);
-        redisTemplate.expire(mail, 300, TimeUnit.SECONDS);
+        new Thread(() -> {
+            String mailCode = mailCheck.mailSend(mail);
+            redisTemplate.opsForValue().set(mail,mailCode);
+            redisTemplate.expire(mail, 300, TimeUnit.SECONDS);
+        }).start();
         result.put("effectiveTime","300s");
         return result;
     }

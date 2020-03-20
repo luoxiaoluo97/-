@@ -15,6 +15,7 @@
         <option value="$PROJECT_DIR$/boki-feign/pom.xml" />
         <option value="$PROJECT_DIR$/boki-hystrix/pom.xml" />
         <option value="$PROJECT_DIR$/boki-repository/pom.xml" />
+        <option value="$PROJECT_DIR$/boki-ribbon/pom.xml" />
       </list>
     </option>
   </component>

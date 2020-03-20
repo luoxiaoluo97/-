@@ -1,0 +1,26 @@
+server:
+  port: 8001
+  #post: 80
+spring:
+  application:
+    name: boki-ribbon
+
+eureka-server:
+  host: localhost
+  port: 8000
+  name: bokieureka
+  password: 123456
+
+feign:
+  httpclient:
+    enabled: true
+  hystrix:
+    enabled: true
+
+eureka:
+  instance:
+    instance-id: boki-feign-8001
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://${eureka-server.name}:${eureka-server.password}@${eureka-server.host}:${eureka-server.port}/eureka/
