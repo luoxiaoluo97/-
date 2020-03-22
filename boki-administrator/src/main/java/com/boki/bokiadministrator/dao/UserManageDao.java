@@ -25,7 +25,7 @@ public interface UserManageDao {
     /**
      * 用户信息
      */
-    UserDTO findUser(@Param("idOrName")String idOrName);
+    UserDTO findUser(@Param("idOrMail")String idOrMail);
 
     /**
      * 调整角色

@@ -8,12 +8,14 @@ import com.boki.bokiapi.entity.dto.request.UserSelectDTO;
 import com.boki.bokiapi.entity.vo.DataWithTotal;
 import com.boki.bokiapi.entity.vo.ResultVO;
 import com.boki.bokiapi.entity.vo.UserInfoVO;
+import com.boki.bokiapi.execption.BusinessException;
 import com.boki.bokiapi.execption.enums.RequestResultCode;
+import com.boki.bokiapi.value.Common;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 /**
@@ -32,9 +34,25 @@ public class UserManageController {
     /**
      * 普通用户列表,查询所有,mail或userName模糊查询，是否禁封查询，等级范围查询，信誉范围查询
      */
-    @PostMapping("/list")
-    public ResultVO userList(@RequestBody @Valid UserSelectDTO dto){
-        DataWithTotal dwt = userManageService.getUserList(dto);
+    @GetMapping("/list")
+    public ResultVO userList(String elem,
+                             Integer maxLevel,
+                             Integer minLevel,
+                             Integer maxCreditDegree,
+                             Integer minCreditDegree,
+                             String isBanned,
+                             Integer page){
+        page = page == null ? 1 : page <= 0 ? 1 : page;
+        DataWithTotal dwt = userManageService.getUserList(
+                new UserSelectDTO()
+                    .setElem(elem)
+                    .setMaxLevel(maxLevel)
+                    .setMinLevel(minLevel)
+                    .setMaxCreditDegree(maxCreditDegree)
+                    .setMinCreditDegree(minCreditDegree)
+                    .setIsBanned(isBanned)
+                    .setPage(page)
+        );
         return RequestResultCode.SUCCESS.getResult().setData(dwt);
     }
 
@@ -42,18 +60,25 @@ public class UserManageController {
     /**
      * 用户个人信息,id或mail精准查询
      */
-    @GetMapping("/info/{idOrName}")
-    public ResultVO userInfo(@PathVariable String idOrName){
-        UserInfoVO vo = userManageService.getUserInfo(idOrName);
-        return vo != null ? RequestResultCode.SUCCESS.getResult().setData(vo) : RequestResultCode.FAIL.getResult();
+    @GetMapping("/info")
+    public ResultVO userInfo(String idOrMail){
+        if (Common.EMPTY.equals(idOrMail)){
+            throw new BusinessException().setType(RequestResultCode.FAIL);
+        }
+        UserInfoVO vo = userManageService.getUserInfo(idOrMail);
+        return RequestResultCode.SUCCESS.getResult().setData(vo);
     }
 
     /**
      * 晋升或贬职，站长专属权力
      */
     @PostMapping("/role/change")
-    public ResultVO roleChange(@RequestBody @Valid UserRoleChangeDTO dto, HttpSession session){
-        dto.setId((Long)session.getAttribute("UID"));
+    public ResultVO roleChange(@RequestBody @Valid UserRoleChangeDTO dto, HttpServletRequest request){
+        dto.setId(Long.parseLong(request.getHeader("UID")));
+        if (!"3".equals(request.getHeader("roleId"))){
+            throw new BusinessException("用户"+request.getHeader("userName")+"试图动用站长权限.")
+                    .setType(RequestResultCode.NO_AUTHORIZATION);
+        }
         int count = userManageService.roleChange(dto);
         return count == 1? RequestResultCode.SUCCESS.getResult() : RequestResultCode.FAIL.getResult();
     }
@@ -62,7 +87,8 @@ public class UserManageController {
      * 封号，即小黑屋，只能对一般水友生效
      */
     @PostMapping("/ban")
-    public ResultVO banUser(@RequestBody @Valid BanUserDTO dto){
+    public ResultVO banUser(@RequestBody @Valid BanUserDTO dto,HttpServletRequest request){
+        dto.setModifier(Long.parseLong(request.getHeader("UID")));
         int count = userManageService.banUser(dto);
         return count == 1? RequestResultCode.SUCCESS.getResult() : RequestResultCode.FAIL.getResult();
     }
@@ -78,20 +104,36 @@ public class UserManageController {
 
 
     /**
-     * 用户发帖记录，查看所有，仅看管理员删帖
+     * 用户发帖记录
+     * @param mode 1 查看所有，2仅看管理员删回复
      */
-    @PostMapping("/post/history")
-    public ResultVO postHistory(@RequestBody @Valid UserHistoryDTO dto){
-        DataWithTotal dwt = userManageService.postHistory(dto);
+    @GetMapping("/post/history")
+    public ResultVO postHistory(Long userId,Integer page,Integer mode){
+        if (userId == null){
+            throw new BusinessException().setInfo("用户id不可为空.").setType(RequestResultCode.ERROR_DATE);
+        }
+        page = page == null ? 1 : page <= 0 ? 1 : page;
+        mode = mode == null ? 1 : mode != 2 ? 1 : mode;
+        DataWithTotal dwt = userManageService.postHistory(
+                new UserHistoryDTO().setUserId(userId).setPage(page).setMode(mode)
+        );
         return RequestResultCode.SUCCESS.getResult().setData(dwt);
     }
 
     /**
-     * 用户回复记录，查看所有，仅看管理员删回复
+     * 用户回复记录
+     * @param mode 1 查看所有，2仅看管理员删回复
      */
-    @PostMapping("/reply/history")
-    public ResultVO replyHistory(@RequestBody @Valid UserHistoryDTO dto){
-        DataWithTotal dwt = userManageService.replyHistory(dto);
+    @GetMapping("/reply/history")
+    public ResultVO replyHistory(Long userId,Integer page,Integer mode){
+        if (userId == null){
+            throw new BusinessException().setInfo("用户id不可为空.").setType(RequestResultCode.ERROR_DATE);
+        }
+        page = page == null ? 1 : page <= 0 ? 1 : page;
+        mode = mode == null ? 1 : mode != 2 ? 1 : mode;
+        DataWithTotal dwt = userManageService.replyHistory(
+                new UserHistoryDTO().setUserId(userId).setPage(page).setMode(mode)
+        );
         return RequestResultCode.SUCCESS.getResult().setData(dwt);
     }
 

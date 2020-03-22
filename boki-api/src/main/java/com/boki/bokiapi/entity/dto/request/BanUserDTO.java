@@ -16,6 +16,8 @@ import javax.validation.constraints.NotNull;
 @Accessors(chain = true)
 public class BanUserDTO {
 
+    private Long modifier;                //操作者id
+
     @NotNull(message = StatusName.NULL_TARGET_USER)
     private Long userId;            //禁封角色
 

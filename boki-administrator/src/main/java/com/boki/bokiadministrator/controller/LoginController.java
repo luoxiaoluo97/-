@@ -8,17 +8,12 @@ import com.boki.bokiapi.execption.BusinessException;
 import com.boki.bokiapi.execption.enums.RequestResultCode;
 import com.boki.bokiapi.util.PwdEncryption;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Slf4j
@@ -34,26 +29,17 @@ public class LoginController {
     /**
      * 登陆请求
      * @param user
-     * @param session
      * @return
      */
     @PostMapping(value = "")
-    public ResultVO login(@Valid @RequestBody UserLoginDTO user,
-                          HttpSession session){
+    public ResultVO login(@Valid @RequestBody UserLoginDTO user){
         user.setPwd(PwdEncryption.doubleMd5(user.getPwd()));
-        Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken(user.getMail(),user.getPwd());
-        UserInfoVO info;
-        try{
-            subject.login(token);
-            info = (UserInfoVO)subject.getPrincipal();
-        }catch (UnknownAccountException e){
-            throw new BusinessException(e.getMessage()).setType(RequestResultCode.LOGIN_FAIL);
+        UserInfoVO info = loginService.findByMailAndPwd(user);
+        if (info != null && 1 == info.getRoleId().intValue()){
+            throw new BusinessException("水友"+user.getMail()+"试图登陆管理端.").setType(RequestResultCode.NO_AUTHORIZATION);
         }
-        session.setAttribute("UID",info.getId());
-        session.setAttribute("mail",info.getMail());
-        session.setAttribute("userName",info.getUserName());
-        return RequestResultCode.SUCCESS.getResult().setData(info);
+        return info != null ? RequestResultCode.SUCCESS.getResult().setData(info) :
+                RequestResultCode.LOGIN_FAIL.getResult();
     }
 
 

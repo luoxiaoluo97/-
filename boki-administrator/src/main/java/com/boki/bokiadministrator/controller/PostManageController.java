@@ -16,9 +16,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 /**
  * @Author: LJF
@@ -40,8 +41,9 @@ public class PostManageController {
     /**
      * 帖子举报待审核列表
      */
-    @GetMapping("/report/{type}/{page}")
-    public ResultVO reportList(@PathVariable String type,@PathVariable Integer page){
+    @GetMapping("/report/{type}")
+    public ResultVO reportList(@PathVariable String type,Integer page){
+        page = page == null ? 1 : page <= 0 ? 1 : page;
         if(type == null || !type.equals("post") && !type.equals("reply") && !type.equals("storeyReply")){
             return RequestResultCode.REQUEST_ERROR.getResult();
         }
@@ -64,15 +66,15 @@ public class PostManageController {
      * 举报成功，同意删帖
      */
     @PostMapping("/report/pass")
-    public ResultVO pass(@RequestBody @Valid ReportJudgeDTO dto, HttpSession session){
-        if(dto.getReason() == null || dto.getReason().isEmpty()){
+    public ResultVO pass(@RequestBody @Valid ReportJudgeDTO dto, HttpServletRequest request){
+        if(dto.getReason() == null || !Pattern.compile(".*[\\S]+.*").matcher(dto.getReason()).matches()){
             return RequestResultCode.NULL_REASON.getResult();
         }
         int count = postManageService.reportPass(dto);
         // 通知被删帖用户
         if (count > 0){
             NoticeElem elem = new NoticeElem()
-                    .setFromUserId((Long)session.getAttribute("UID"))
+                    .setFromUserId(Long.parseLong(request.getHeader("UID")))
                     .setTargetUserId(dto.getUserId())
                     .setId(dto.getId())
                     .setReason(dto.getReason());
@@ -93,7 +95,7 @@ public class PostManageController {
      * @return
      */
     @GetMapping("/list")
-    public ResultVO index(Integer type, Integer page){
+    public ResultVO postList(Integer type, Integer page){
         type = type == null ? 1 : type != 2 ? 1 : type;
         page = page == null ? 1 : page <= 0 ? 1 : page;
         DataWithTotal dwt = postManageService.findPosts(type,page);
@@ -130,8 +132,8 @@ public class PostManageController {
      * 加精或降级
      */
     @PostMapping("/upgrade")
-    public ResultVO postUpgrade(@RequestBody @Valid PostUpgradeDTO dto,HttpSession session){
-        dto.setUId( (Long)session.getAttribute("UID"));
+    public ResultVO postUpgrade(@RequestBody @Valid PostUpgradeDTO dto,HttpServletRequest request){
+        dto.setUId( Long.parseLong(request.getHeader("UID")) );
         int count = postManageService.postUpgrade(dto);
         return count > 0 ? RequestResultCode.SUCCESS.getResult() : RequestResultCode.FAIL.getResult();
     }
@@ -140,8 +142,8 @@ public class PostManageController {
      * 置顶
      */
     @PostMapping("/setTop")
-    public ResultVO postSetTop(@RequestBody @Valid PostSetTopDTO dto, HttpSession session){
-        dto.setUId( (Long)session.getAttribute("UID"));
+    public ResultVO postSetTop(@RequestBody @Valid PostSetTopDTO dto, HttpServletRequest request){
+        dto.setUId( Long.parseLong(request.getHeader("UID")));
         int count = postManageService.postSetTop(dto);
         return count > 0 ? RequestResultCode.SUCCESS.getResult() : RequestResultCode.FAIL.getResult();
     }
@@ -150,8 +152,8 @@ public class PostManageController {
      * 取消置顶
      */
     @PostMapping("/cancelTop/{postId}")
-    public ResultVO cancelTop(@PathVariable Long postId , HttpSession session){
-        int count = postManageService.postCancelTop(postId,(Long)session.getAttribute("UID"));
+    public ResultVO cancelTop(@PathVariable Long postId , HttpServletRequest request){
+        int count = postManageService.postCancelTop(postId,Long.parseLong(request.getHeader("UID")));
         return count > 0 ? RequestResultCode.SUCCESS.getResult() : RequestResultCode.FAIL.getResult();
     }
 

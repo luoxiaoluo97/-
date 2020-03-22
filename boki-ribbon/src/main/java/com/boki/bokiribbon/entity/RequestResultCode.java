@@ -53,7 +53,7 @@ public enum RequestResultCode {
      * 服务器错误 500xx
      */
     REQUEST_ERROR(40000,"错误的请求."),
-    SERVER_ERROR(50000,"服务器错误."),
+    SERVER_ERROR(50000,"服务器错误或延迟，稍后再试试哦~."),
     SQL_ERROR(50001,"错误的数据.");
 
 

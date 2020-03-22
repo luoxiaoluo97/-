@@ -42,14 +42,14 @@
         <if test="type == 'post'.toString()">
             -- 删帖，连同回复，楼中楼一起删
             UPDATE boki_post SET is_deleted = 'y',report_status = 3, report_reason = #{reason}
-            WHERE id = #{id} AND user_id = #{userId};
+            WHERE id = #{id} AND user_id = #{userId} AND report_status = 2;
             UPDATE boki_reply SET is_deleted = 'y' WHERE post_id = (
-                SELECT id FROM boki_post  WHERE id = #{id} AND user_id = #{userId}
+                SELECT id FROM boki_post  WHERE id = #{id} AND user_id = #{userId} AND report_status = 3
             );
             UPDATE boki_storey_reply bsr,(
                 SELECT br.id brid FROM boki_reply br
                 JOIN boki_post bp ON br.post_id = bp.id
-                WHERE bp.id = #{id} AND bp.user_id = #{userId}
+                WHERE bp.id = #{id} AND bp.user_id = #{userId} AND bp.report_status = 3
             ) a SET bsr.is_deleted = 'y' WHERE bsr.storey_id = a.brid;
             -- 被举报者信誉值结算 -10
             UPDATE boki_user SET credit_degree = credit_degree-10 WHERE id = #{userId} AND role_id != 3;
@@ -64,9 +64,9 @@
                 AND is_deleted = 'n' LIMIT 1
             );
             UPDATE boki_reply SET is_deleted = 'y',report_status = 3, report_reason = #{reason}
-            WHERE id = #{id} AND user_id = #{userId} AND floor_no != 1;
+            WHERE id = #{id} AND user_id = #{userId} AND floor_no != 1 AND report_status = 2;
             UPDATE boki_storey_reply SET is_deleted = 'y' WHERE storey_id = (
-                SELECT id FROM boki_reply WHERE id = #{id} AND user_id = #{userId} AND floor_no != 1
+                SELECT id FROM boki_reply WHERE id = #{id} AND user_id = #{userId} AND floor_no != 1 AND report_status = 3
             );
             -- 被举报者信誉值结算 -5
             UPDATE boki_user SET credit_degree = credit_degree-5 WHERE id = #{userId} AND role_id != 3;
@@ -84,7 +84,7 @@
                 SELECT storey_id FROM boki_storey_reply WHERE id = #{id} AND user_id = #{userId}
             );
             UPDATE boki_storey_reply SET is_deleted = 'y',report_status = 3, report_reason = #{reason}
-            WHERE id = #{id} AND user_id = #{userId};
+            WHERE id = #{id} AND user_id = #{userId} AND report_status = 2;
             -- 被举报者信誉值结算 -5
             UPDATE boki_user SET credit_degree = credit_degree-5 WHERE id = #{userId} AND role_id != 3;
         </if>

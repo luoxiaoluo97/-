@@ -28,12 +28,12 @@ public class ImageSupportController {
 
     /**
      * 上传支持，返回图片url
-     * @param file
+     * @param fileName
      * @return
      */
     @PostMapping("/upload")
-    public ResultVO uploadFile(@RequestParam("fileName") MultipartFile file) {
-        String  url = imageSupportService.saveImage(file);
+    public ResultVO uploadFile(@RequestParam("fileName") MultipartFile fileName) {
+        String  url = imageSupportService.saveImage(fileName);
         return RequestResultCode.SUCCESS.getResult().setData(url);
     }
 

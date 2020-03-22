@@ -41,7 +41,9 @@ public class BokiExceptionHandler{
     @ResponseBody
     @ExceptionHandler(BusinessException.class)
     public ResultVO handleValException(BusinessException e){
-        log.warn("原因为:"+e.getMessage());
+        if (e.getMessage() != null) {
+            log.warn("原因:" + e.getMessage());
+        }
         if ( e.getType() != null ) {
             log.info(e.getType().getCode()+e.getType().getMsg());
             return e.getType().getResult().setData(e.getInfo());

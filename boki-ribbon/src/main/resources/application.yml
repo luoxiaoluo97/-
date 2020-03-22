@@ -12,10 +12,24 @@ eureka-server:
   password: 123456
 
 feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+
   httpclient:
     enabled: true
   hystrix:
     enabled: true
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000
 
 eureka:
   instance:

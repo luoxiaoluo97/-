@@ -3,6 +3,8 @@ package com.boki.bokiclient.service;
 import com.boki.bokiapi.entity.po.NoticePO;
 import com.boki.bokiapi.entity.vo.DataWithTotal;
 import com.boki.bokiapi.entity.vo.NoticeVO;
+import com.boki.bokiapi.execption.BusinessException;
+import com.boki.bokiapi.execption.enums.RequestResultCode;
 import com.boki.bokiapi.value.notice.NoticeElem;
 import com.boki.bokiapi.value.notice.NoticeMessage;
 import com.boki.bokiclient.dao.NoticeDao;
@@ -15,6 +17,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -52,6 +56,20 @@ public class NoticeServiceImpl implements NoticeService {
      * 通知用户名关键字
      */
     public static final String NOTIFY_BY_USERNAME = "NOTIFY_BY_USERNAME";
+
+    /**
+     * 请求头用户名中文译码
+     */
+    public static String decode(String userName,Long uId){
+        try {
+            userName = URLDecoder.decode(userName,"utf-8");
+        } catch (UnsupportedEncodingException e) {
+            log.warn("用户Id"+uId+"的userName解码错误，原因是"+e.getMessage());
+            throw new BusinessException().setType(RequestResultCode.SERVER_ERROR);
+        }
+        return userName;
+    }
+
 
     @Override
     public void sendWhisperNotice(NoticeMessage msg, NoticeElem elem) {

@@ -1,9 +1,7 @@
 package com.boki.bokiapi;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 /**
  * @Author: LJF
@@ -14,12 +12,7 @@ import java.io.IOException;
 public class Test {
     public static void main(String[] args) throws IOException {
 
-
-        BufferedImage bi = ImageIO.read(new File("D:\\temporary\\1608010125林峻锋 毕业论文.jpg"));
-        if(bi == null){
-            System.out.println("false");
-        }
-
+        Pattern.compile(".*[\\S]+.*").matcher("    ").matches();
 
 //        String source = "回复 @我日你仙人板板1 :回复 @我日你仙人板板2 :回复 @我日你仙人板板3 :";
 //        Matcher matcher = Pattern.compile("@[^@ ]{1,12}[ ]").matcher(source);

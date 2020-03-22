@@ -16,7 +16,7 @@ public class PostSetTopDTO {
 
     private Long postId;        //帖子id
 
-    private Integer topDays;    //置顶持续时间
+    private Integer topDays;    //置顶持续时间，单位：天
 
     private String topUntil;
 }

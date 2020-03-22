@@ -136,6 +136,9 @@
 
 
     <insert id="insertBlacklist" parameterType="BlacklistPO">
+        <selectKey resultType="Long" order="BEFORE" keyProperty="targetUserId" >
+            SELECT id AS target_user_id FROM boki_user WHERE id = #{targetUserId};
+        </selectKey>
         -- 防止重复拉黑
         INSERT INTO boki_blacklist(user_id,target_user_id,creator,`modifier`)
         SELECT #{userId},#{targetUserId},#{userId},#{userId}

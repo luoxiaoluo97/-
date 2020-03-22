@@ -63,8 +63,9 @@ public class UserManageServiceImpl implements UserManageService {
     }
 
     @Override
-    public UserInfoVO getUserInfo(String idOrName) {
-        UserDTO dto = userManageDao.findUser(idOrName);
+    public UserInfoVO getUserInfo(String idOrMail) {
+        UserDTO dto = userManageDao.findUser(idOrMail);
+        if (dto == null)return null;
         UserInfoVO vo = new UserInfoVO();
         BeanUtils.copyProperties(dto,vo);
         vo.setLevel(dbSource.getLv(vo.getExp()));

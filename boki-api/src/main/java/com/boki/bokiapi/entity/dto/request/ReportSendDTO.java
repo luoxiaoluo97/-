@@ -4,7 +4,9 @@ import com.boki.bokiapi.execption.StatusName;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 /**
  * @Author: LJF
@@ -20,6 +22,7 @@ public class ReportSendDTO {
 
     private Long userId;            //举报者
 
-    @NotNull(message = StatusName.NULL_REASON)
+    @NotEmpty(message = StatusName.NULL_REASON)
+    @Pattern(regexp = ".*[\\S]+.*",message = StatusName.NULL_REASON)    //不能全空格
     private String reason;          //理由
 }

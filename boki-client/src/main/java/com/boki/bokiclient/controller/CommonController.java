@@ -44,7 +44,7 @@ public class CommonController {
         page = page == null ? 1 : page <= 0 ? 1 : page;
         PostDetailVO post = commonService.getPostDetail(id,page);
         return post != null ? RequestResultCode.SUCCESS.getResult().setData(post)
-                : RequestResultCode.FAIL.getResult();
+                : RequestResultCode.POST_NOTFOUND.getResult();
     }
 
     /**

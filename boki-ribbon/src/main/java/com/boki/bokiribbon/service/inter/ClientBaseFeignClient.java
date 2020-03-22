@@ -1,10 +1,7 @@
 package com.boki.bokiribbon.service.inter;
 
 import com.boki.bokiribbon.entity.ResultVO;
-import com.boki.bokiribbon.entity.request.UserInfoDTO;
-import com.boki.bokiribbon.entity.request.UserLoginDTO;
-import com.boki.bokiribbon.entity.request.UserRegisterDTO;
-import com.boki.bokiribbon.entity.request.UserUpdatePwdDTO;
+import com.boki.bokiribbon.entity.request.*;
 import com.boki.bokiribbon.service.ClientBaseControllerFallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
@@ -12,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Component
 @FeignClient(value = "boki-client",fallbackFactory = ClientBaseControllerFallbackFactory.class)
-public interface ClientBaseController {
+public interface ClientBaseFeignClient {
 
 
     @PostMapping("/login/register")
@@ -77,4 +74,64 @@ public interface ClientBaseController {
 
     @GetMapping("/p/user/lastPosts/UID{userId}")
     ResultVO userLastPosts(@PathVariable("userId")Long userId);
+
+    @PostMapping("/post/send")
+    ResultVO sendPost(@RequestBody PostSendDTO dto);
+
+    @PostMapping("/post/reply/send")
+    ResultVO sendReply(@RequestBody ReplySendDTO dto);
+
+    @PostMapping("/post/storeyReply/send")
+    ResultVO sendStoreyReply(@RequestBody StoreyReplySendDTO dto);
+
+    @PostMapping("/post/delete/{id}")
+    ResultVO deletePost(@PathVariable("id") Long id);
+
+    @PostMapping("/post/reply/delete/{id}")
+    ResultVO deleteReply(@PathVariable("id") Long id);
+
+    @PostMapping("/post/storeyReply/delete/{id}")
+    ResultVO deleteStoreyReply(@PathVariable("id") Long id);
+
+    @PostMapping("/post/report")
+    ResultVO reportPost(@RequestBody ReportSendDTO dto);
+
+    @PostMapping("/post/reply/report")
+    ResultVO reportReply(@RequestBody ReportSendDTO dto);
+
+    @PostMapping("/post/storyReply/report")
+    ResultVO reportStoryReply(@RequestBody ReportSendDTO dto);
+
+    @PostMapping("/whisper/open/{targetUserId}")
+    ResultVO openWhisper(@PathVariable("targetUserId") Long targetUserId);
+
+    @PostMapping("/whisper/send")
+    ResultVO sendWhisper(@RequestBody WhisperSendDTO dto);
+
+    @GetMapping("/whisper/list")
+    ResultVO whisperList(@RequestParam("page") Integer page);
+
+    @PostMapping("/whisper/remove/{id}")
+    ResultVO removeWhisper(@PathVariable("id") Integer id);
+
+    @PostMapping("/whisper/addBlacklist/{targetUserId}")
+    ResultVO addBlacklist(@PathVariable("targetUserId") Long targetUserId);
+
+    @GetMapping("/whisper/blacklist")
+    ResultVO blacklist(@RequestParam("page")Integer page);
+
+    @PostMapping("/whisper/removeBlacklist/{blacklistId}")
+    ResultVO removeBlacklist(@PathVariable("blacklistId") Integer blacklistId);
+
+    @GetMapping("/notice/count")
+    ResultVO noticeCount();
+
+    @GetMapping("/notice/list")
+    ResultVO noticeList(@RequestParam("page")Integer page);
+
+    @PostMapping("/notice/remove/{id}")
+    ResultVO removeNotice(@PathVariable("id") Integer id);
+
+    @PostMapping("/notice/clear")
+    ResultVO clearNotice();
 }

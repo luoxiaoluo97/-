@@ -16,6 +16,6 @@ public class PostUpgradeDTO {
 
     private Long postId;        //帖子id
 
-    private String typeId;      //帖子类型
+    private String typeId;      //将要成为的帖子类型,1普通，2精品
 
 }

@@ -5,18 +5,36 @@ import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.unit.DataSize;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.MultipartConfigElement;
 
 @Configuration
-public class WebMvcConfig implements WebMvcConfigurer{
+public class AdminMvcConfig implements WebMvcConfigurer{
     /**
      * 在配置文件中配置的文件保存路径
      */
     @Value("${base.imagesPath}")
     private String mImagesPath;
+
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        //注册TestInterceptor拦截器
+        InterceptorRegistration registration = registry.addInterceptor(new AdminInterceptor());
+        registration.addPathPatterns("/**");
+        registration.excludePathPatterns(
+                "/login",                            //登录
+//                "/images/upload",                           //上传图片
+                "/images/*",
+                "/error",
+                "/static/**"                         //静态资源
+        );
+    }
+
 
     @Bean
     public MultipartConfigElement multipartConfigElement(){
@@ -31,7 +49,7 @@ public class WebMvcConfig implements WebMvcConfigurer{
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         if(mImagesPath.equals("") || mImagesPath.equals("${cbs.imagesPath}")){
-            String imagesPath = WebMvcConfig.class.getClassLoader().getResource("").getPath();
+            String imagesPath = AdminMvcConfig.class.getClassLoader().getResource("").getPath();
 //            System.out.print("1.上传配置类imagesPath=="+imagesPath+"\n");
             if(imagesPath.indexOf(".jar")>0){
                 imagesPath = imagesPath.substring(0, imagesPath.indexOf(".jar"));

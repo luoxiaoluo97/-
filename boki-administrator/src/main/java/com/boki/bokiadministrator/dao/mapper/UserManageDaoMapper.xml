@@ -33,7 +33,7 @@
 
     <select id="findUser" resultType="UserDTO">
         SELECT * FROM boki_user WHERE is_deleted = 'n'
-        AND (id = #{idOrName} OR user_name = #{idOrName});
+        AND (id = #{idOrMail} OR mail = #{idOrMail});
     </select>
 
     <update id="modifyUserRole" parameterType="UserRoleChangeDTO">
@@ -42,7 +42,8 @@
 
     <update id="updateToBanUser" parameterType="BanUserDTO">
         -- 封号，设置解封日期
-        UPDATE boki_user SET is_banned = 'y' ,ban_until = #{banUntil} WHERE id = #{userId} AND role_id = 1;
+        UPDATE boki_user SET is_banned = 'y' ,ban_until = #{banUntil},`modifier`= #{modifier}
+        WHERE id = #{userId} AND role_id = 1;
     </update>
 
     <update id="updateToReleaseUser" >

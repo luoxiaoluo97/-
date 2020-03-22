@@ -3,20 +3,22 @@ package com.boki.bokiribbon.service;
 
 import com.boki.bokiribbon.entity.RequestResultCode;
 import com.boki.bokiribbon.entity.ResultVO;
-import com.boki.bokiribbon.entity.request.UserInfoDTO;
-import com.boki.bokiribbon.entity.request.UserLoginDTO;
-import com.boki.bokiribbon.entity.request.UserRegisterDTO;
-import com.boki.bokiribbon.entity.request.UserUpdatePwdDTO;
-import com.boki.bokiribbon.service.inter.ClientBaseController;
+import com.boki.bokiribbon.entity.request.*;
+import com.boki.bokiribbon.service.inter.ClientBaseFeignClient;
 import feign.hystrix.FallbackFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ClientBaseControllerFallbackFactory implements FallbackFactory<ClientBaseController> {
+public class ClientBaseControllerFallbackFactory implements FallbackFactory<ClientBaseFeignClient> {
 
+    /**
+     * 别看了，都是server error
+     * @param throwable
+     * @return
+     */
     @Override
-    public ClientBaseController create(Throwable throwable) {
-        return new ClientBaseController() {
+    public ClientBaseFeignClient create(Throwable throwable) {
+        return new ClientBaseFeignClient() {
 
             @Override
             public ResultVO register(UserRegisterDTO dto) {
@@ -120,6 +122,106 @@ public class ClientBaseControllerFallbackFactory implements FallbackFactory<Clie
 
             @Override
             public ResultVO userLastPosts(Long userId) {
+                return RequestResultCode.SERVER_ERROR.getResult();
+            }
+
+            @Override
+            public ResultVO sendPost(PostSendDTO dto) {
+                return RequestResultCode.SERVER_ERROR.getResult();
+            }
+
+            @Override
+            public ResultVO sendReply(ReplySendDTO dto) {
+                return RequestResultCode.SERVER_ERROR.getResult();
+            }
+
+            @Override
+            public ResultVO sendStoreyReply(StoreyReplySendDTO dto) {
+                return RequestResultCode.SERVER_ERROR.getResult();
+            }
+
+            @Override
+            public ResultVO deletePost(Long id) {
+                return RequestResultCode.SERVER_ERROR.getResult();
+            }
+
+            @Override
+            public ResultVO deleteReply(Long id) {
+                return RequestResultCode.SERVER_ERROR.getResult();
+            }
+
+            @Override
+            public ResultVO deleteStoreyReply(Long id) {
+                return RequestResultCode.SERVER_ERROR.getResult();
+            }
+
+            @Override
+            public ResultVO reportPost(ReportSendDTO dto) {
+                return RequestResultCode.SERVER_ERROR.getResult();
+            }
+
+            @Override
+            public ResultVO reportReply(ReportSendDTO dto) {
+                return RequestResultCode.SERVER_ERROR.getResult();
+            }
+
+            @Override
+            public ResultVO reportStoryReply(ReportSendDTO dto) {
+                return RequestResultCode.SERVER_ERROR.getResult();
+            }
+
+            @Override
+            public ResultVO openWhisper(Long targetUserId) {
+                return RequestResultCode.SERVER_ERROR.getResult();
+            }
+
+            @Override
+            public ResultVO sendWhisper(WhisperSendDTO dto) {
+                return RequestResultCode.SERVER_ERROR.getResult();
+            }
+
+            @Override
+            public ResultVO whisperList(Integer page) {
+                return RequestResultCode.SERVER_ERROR.getResult();
+            }
+
+            @Override
+            public ResultVO removeWhisper(Integer id) {
+                return RequestResultCode.SERVER_ERROR.getResult();
+            }
+
+            @Override
+            public ResultVO addBlacklist(Long targetUserId) {
+                return RequestResultCode.SERVER_ERROR.getResult();
+            }
+
+            @Override
+            public ResultVO blacklist(Integer page) {
+                return RequestResultCode.SERVER_ERROR.getResult();
+            }
+
+            @Override
+            public ResultVO removeBlacklist(Integer blacklistId) {
+                return RequestResultCode.SERVER_ERROR.getResult();
+            }
+
+            @Override
+            public ResultVO noticeCount() {
+                return RequestResultCode.SERVER_ERROR.getResult();
+            }
+
+            @Override
+            public ResultVO noticeList(Integer page) {
+                return RequestResultCode.SERVER_ERROR.getResult();
+            }
+
+            @Override
+            public ResultVO removeNotice(Integer id) {
+                return RequestResultCode.SERVER_ERROR.getResult();
+            }
+
+            @Override
+            public ResultVO clearNotice() {
                 return RequestResultCode.SERVER_ERROR.getResult();
             }
         };

@@ -5,6 +5,8 @@ import com.boki.bokiapi.entity.po.BlacklistPO;
 import com.boki.bokiapi.entity.po.WhisperDetailPO;
 import com.boki.bokiapi.entity.po.WhisperPO;
 import com.boki.bokiapi.entity.vo.*;
+import com.boki.bokiapi.execption.BusinessException;
+import com.boki.bokiapi.execption.enums.RequestResultCode;
 import com.boki.bokiclient.dao.WhisperDao;
 import com.boki.bokiclient.service.inter.WhisperService;
 import lombok.extern.slf4j.Slf4j;
@@ -46,6 +48,9 @@ public class WhisperServiceImpl implements WhisperService {
         }
         //返回会话结果
         List<List<?>> result = whisperDao.findWhisper(po);
+        if(result.get(0).size() == 0){
+            throw new BusinessException().setType(RequestResultCode.FAIL).setInfo("UID"+secondUserId+"不存在，私信打开失败。");
+        }
         WhisperVO vo = new WhisperVO();
         BeanUtils.copyProperties(result.get(0).get(0),vo);
         if(result.get(1).size() > 0 ) {

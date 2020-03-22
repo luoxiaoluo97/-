@@ -36,6 +36,7 @@ public enum  RequestResultCode {
     CHECK_CODE_VALIDATION_FAILED(10302,"邮箱验证失败."),
 
     SHOULD_WAIT(10401,"防灌水，15秒后可继续发帖."),
+    POST_NOTFOUND(10404,"抱歉，帖子已被删除."),
     POST_DELETE_FAIL(10501,"删贴失败."),
     BIRTH_IN_THE_PATH(10601,"生日必须是过去."),
     COLLECTION_EXIST(10700,"已存在于收藏列表."),

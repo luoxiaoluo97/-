@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @Author: LJF
@@ -27,8 +27,8 @@ public class NoticeController {
      * 获取通知数量
      */
     @GetMapping("/count")
-    public ResultVO noticeCount(HttpSession session){
-        Integer count = noticeService.getNoticeCount((Long)session.getAttribute("UID"));
+    public ResultVO noticeCount(HttpServletRequest request){
+        Integer count = noticeService.getNoticeCount(Long.parseLong(request.getHeader("UID")));
         return RequestResultCode.SUCCESS.getResult().setData(count);
     }
 
@@ -36,9 +36,10 @@ public class NoticeController {
     /**
      * 通知列表
      */
-    @GetMapping("/list/{page}")
-    public ResultVO noticeList(@PathVariable Integer page, HttpSession session){
-        DataWithTotal dwt = noticeService.getNoticeList((Long)session.getAttribute("UID"),page);
+    @GetMapping("/list")
+    public ResultVO noticeList(Integer page, HttpServletRequest request){
+        page = page == null ? 1 : page <= 0 ? 1 : page;
+        DataWithTotal dwt = noticeService.getNoticeList(Long.parseLong(request.getHeader("UID")),page);
         return RequestResultCode.SUCCESS.getResult().setData(dwt);
     }
 
@@ -47,8 +48,8 @@ public class NoticeController {
      * 移除单个通知
      */
     @PostMapping("/remove/{id}")
-    public ResultVO removeNotice(@PathVariable Integer id,HttpSession session){
-        int count = noticeService.removeNotice((Long)session.getAttribute("UID"),id);
+    public ResultVO removeNotice(@PathVariable Integer id,HttpServletRequest request){
+        int count = noticeService.removeNotice(Long.parseLong(request.getHeader("UID")),id);
         return count == 1 ? RequestResultCode.SUCCESS.getResult() : RequestResultCode.FAIL.getResult();
     }
 
@@ -57,8 +58,8 @@ public class NoticeController {
      * 清空通知列表
      */
     @PostMapping("/clear")
-    public ResultVO clearNotice(HttpSession session){
-        int count = noticeService.clearNotice((Long)session.getAttribute("UID"));
+    public ResultVO clearNotice(HttpServletRequest request){
+        int count = noticeService.clearNotice(Long.parseLong(request.getHeader("UID")));
         return count > 0 ? RequestResultCode.SUCCESS.getResult() : RequestResultCode.FAIL.getResult();
     }
 }

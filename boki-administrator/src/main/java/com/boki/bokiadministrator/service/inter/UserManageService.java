@@ -19,7 +19,7 @@ public interface UserManageService {
     /**
      * 用户信息，id或userName精准查询
      */
-    UserInfoVO getUserInfo(String idOrName);
+    UserInfoVO getUserInfo(String idOrMail);
 
     /**
      * 晋升或贬职，不适用站长

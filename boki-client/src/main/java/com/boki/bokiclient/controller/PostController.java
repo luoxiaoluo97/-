@@ -11,13 +11,14 @@ import com.boki.bokiapi.entity.vo.ResultVO;
 import com.boki.bokiapi.execption.enums.RequestResultCode;
 import com.boki.bokiapi.value.notice.NoticeElem;
 import com.boki.bokiapi.value.notice.NoticeMessage;
+import com.boki.bokiclient.service.NoticeServiceImpl;
 import com.boki.bokiclient.service.inter.NoticeService;
 import com.boki.bokiclient.service.inter.PostService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 /**
@@ -39,18 +40,18 @@ public class PostController {
     /**
      * 发帖
      * @param dto
-     * @param session
      * @return
      */
-    @PostMapping("/sendPost")
-    public ResultVO sendPost(@RequestBody @Valid PostSendDTO dto, HttpSession session){
-        dto.setUserId( (Long)session.getAttribute("UID") );
+    @PostMapping("/send")
+    public ResultVO sendPost(@RequestBody @Valid PostSendDTO dto, HttpServletRequest request){
+        dto.setUserId(Long.parseLong(request.getHeader("UID")));
+        String userName = NoticeServiceImpl.decode(request.getHeader("userName"),dto.getUserId());
         int i = postService.sendPost(dto);
         //给粉丝发送通知
         if(i >= 1){
             NoticeElem elem = new NoticeElem()
                     .setFromUserId(dto.getUserId())
-                    .setFromUserName((String) session.getAttribute("userName"))
+                    .setFromUserName(userName)
                     .setTitle(dto.getTitle());
             noticeService.sendNoticeToFans(NoticeMessage.TYPE_7, elem);
         }
@@ -61,17 +62,17 @@ public class PostController {
     /**
      * 回帖
      * @param dto ReplySendDTO
-     * @param session
      * @return
      */
-    @PostMapping("/sendReply")
-    public ResultVO sendReply(@RequestBody @Valid ReplySendDTO dto, HttpSession session){
-        dto.setUserId( (Long) session.getAttribute("UID"));
+    @PostMapping("/reply/send")
+    public ResultVO sendReply(@RequestBody @Valid ReplySendDTO dto,HttpServletRequest request){
+        dto.setUserId(Long.parseLong(request.getHeader("UID")));
+        String userName = NoticeServiceImpl.decode(request.getHeader("userName"),dto.getUserId());
         int i = postService.sendReply(dto);
         if ( i >= 1){
             NoticeElem elem = new NoticeElem()
                     .setFromUserId(dto.getUserId())
-                    .setFromUserName((String) session.getAttribute("userName"))
+                    .setFromUserName(userName)
                     .setContent(dto.getContent())
                     .setPostId(dto.getPostId());
             //给楼主通知
@@ -86,17 +87,17 @@ public class PostController {
     /**
      * 回复层主
      * @param dto
-     * @param session
      * @return
      */
-    @PostMapping("/sendStoreyReply")
-    public ResultVO sendStoreyReply(@RequestBody @Valid StoreyReplySendDTO dto, HttpSession session){
-        dto.setUserId( (Long) session.getAttribute("UID"));
+    @PostMapping("/storeyReply/send")
+    public ResultVO sendStoreyReply(@RequestBody @Valid StoreyReplySendDTO dto,HttpServletRequest request){
+        dto.setUserId(Long.parseLong(request.getHeader("UID")));
+        String userName = NoticeServiceImpl.decode(request.getHeader("userName"),dto.getUserId());
         int i = postService.sendStoreyReply(dto);
         if ( i >= 1){
             NoticeElem elem = new NoticeElem()
                     .setFromUserId(dto.getUserId())
-                    .setFromUserName((String) session.getAttribute("userName"))
+                    .setFromUserName(userName)
                     .setContent(dto.getContent())
                     .setStoreyId(dto.getStoreyId());
             //给层主通知
@@ -112,37 +113,36 @@ public class PostController {
 
     /**
      * 删帖
-     * @param session
      * @param id
      * @return
      */
-    @PostMapping("/deletePost/{id}")
-    public ResultVO deletePost(HttpSession session, @PathVariable("id") Long id){
+    @PostMapping("/delete/{id}")
+    public ResultVO deletePost(HttpServletRequest request, @PathVariable("id") Long id){
         int count = postService.deletePost(new PostDTO()
                 .setId(id)
-                .setUserId( (Long)session.getAttribute("UID") ));
+                .setUserId(Long.parseLong(request.getHeader("UID"))));
         return count == 1 ? RequestResultCode.SUCCESS.getResult() : RequestResultCode.POST_DELETE_FAIL.getResult();
     }
 
     /**
      * 删楼
      */
-    @PostMapping("/deleteReply/{id}")
-    public ResultVO deleteReply(HttpSession session, @PathVariable("id") Long id){
+    @PostMapping("/reply/delete/{id}")
+    public ResultVO deleteReply(HttpServletRequest request, @PathVariable("id") Long id){
         int count = postService.deleteReply(new ReplyDTO()
             .setId(id)
-            .setUserId( (Long)session.getAttribute("UID") ));
+            .setUserId( Long.parseLong(request.getHeader("UID"))) );
         return count == 1 ? RequestResultCode.SUCCESS.getResult() : RequestResultCode.POST_DELETE_FAIL.getResult();
     }
 
     /**
      * 删除楼层回复，即删除楼中楼
      */
-    @PostMapping("deleteStoreyReply/{id}")
-    public ResultVO deleteStoreyReply(HttpSession session, @PathVariable("id") Long id){
+    @PostMapping("/storeyReply/delete/{id}")
+    public ResultVO deleteStoreyReply(HttpServletRequest request, @PathVariable("id") Long id){
         int count = postService.deleteStoreyReply(new StoreyReplyDTO()
                 .setId(id)
-                .setUserId( (Long)session.getAttribute("UID") ));
+                .setUserId( Long.parseLong(request.getHeader("UID")) ));
         return count == 1 ? RequestResultCode.SUCCESS.getResult() : RequestResultCode.POST_DELETE_FAIL.getResult();
     }
 
@@ -150,8 +150,8 @@ public class PostController {
      * 举报帖子
      */
     @PostMapping("/report")
-    public ResultVO reportPost(HttpSession session,@RequestBody @Valid ReportSendDTO dto){
-        dto.setUserId((Long)session.getAttribute("UID"));
+    public ResultVO reportPost(HttpServletRequest request,@RequestBody @Valid ReportSendDTO dto){
+        dto.setUserId(Long.parseLong(request.getHeader("UID")));
         int count = postService.reportPost(dto);
         return count >= 0 ? RequestResultCode.SUCCESS.getResult() : RequestResultCode.FAIL.getResult();
     }
@@ -160,9 +160,9 @@ public class PostController {
     /**
      * 举报楼层
      */
-    @PostMapping("/report/reply")
-    public ResultVO reportReply(HttpSession session,@RequestBody @Valid ReportSendDTO dto){
-        dto.setUserId((Long)session.getAttribute("UID"));
+    @PostMapping("/reply/report")
+    public ResultVO reportReply(HttpServletRequest request,@RequestBody @Valid ReportSendDTO dto){
+        dto.setUserId(Long.parseLong(request.getHeader("UID")));
         int count = postService.reportReply(dto);
         return count >= 0 ? RequestResultCode.SUCCESS.getResult() : RequestResultCode.FAIL.getResult();
     }
@@ -171,9 +171,9 @@ public class PostController {
     /**
      * 举报楼中楼
      */
-    @PostMapping("/report/storyReply")
-    public ResultVO reportStoryReply(HttpSession session,@RequestBody @Valid ReportSendDTO dto){
-        dto.setUserId((Long)session.getAttribute("UID"));
+    @PostMapping("/storyReply/report")
+    public ResultVO reportStoryReply(HttpServletRequest request,@RequestBody @Valid ReportSendDTO dto){
+        dto.setUserId(Long.parseLong(request.getHeader("UID")));
         int count = postService.reportStoreyReply(dto);
         return count >= 0 ? RequestResultCode.SUCCESS.getResult() : RequestResultCode.FAIL.getResult();
     }
