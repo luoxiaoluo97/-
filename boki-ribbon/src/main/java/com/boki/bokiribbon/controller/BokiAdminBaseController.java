@@ -5,7 +5,6 @@ import com.boki.bokiribbon.entity.request.*;
 import com.boki.bokiribbon.service.inter.AdminBaseFeignClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.util.Map;
@@ -200,15 +199,15 @@ public class BokiAdminBaseController {
         return vo;
     }
 
-    /**
-     * 上传支持
-     * @return 返回图片url
-     */
-    @PostMapping("/images/upload")
-    public ResultVO uploadFile(@RequestParam("fileName") MultipartFile file){
-        ResultVO vo = adminBaseFeignClient.uploadFile(file);
-        return vo;
-    }
+//    /**
+//     * 上传支持
+//     * @return 返回图片url
+//     */
+//    @PostMapping("/images/upload")
+//    public ResultVO uploadFile(@RequestParam("fileName") MultipartFile file, HttpServletRequest request){
+//        ResultVO vo = adminBaseFeignClient.uploadFile(file);
+//        return vo;
+//    }
 
 
 }

@@ -58,10 +58,6 @@ public class BokiRibbonApplication {
                             String values = request.getHeader(name);
                             requestTemplate.header(name, values);
                         }
-                        if (name.equals("content-type")){
-                            String values = request.getHeader(name);
-                            requestTemplate.header(name, values);
-                        }
                     }
                 }
             }

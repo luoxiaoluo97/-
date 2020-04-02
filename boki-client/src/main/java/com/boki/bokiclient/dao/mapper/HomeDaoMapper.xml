@@ -13,8 +13,8 @@
         <if test="type == '2'.toString()">AND type_id = 2</if>;
         -- 首页帖子列表
         SELECT bp.id,bp.title,bp.content,bp.create_time,bp.modified_time,bp.user_id,bp.replies_count,bp.type_id,bp.is_top,
-	    bu1.user_name,bu1.credit_degree,
-	    bu2.user_name AS last_replier
+	    bu1.user_name,bu1.credit_degree AS host_credit_degree,
+	    bu2.user_name AS last_replier, bu2.credit_degree AS last_replier_credit_degree
         FROM boki_post bp
         JOIN boki_user bu1 ON bp.user_id = bu1.id
         JOIN boki_user bu2 ON bp.last_replier_id = bu2.id

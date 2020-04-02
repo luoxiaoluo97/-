@@ -17,6 +17,12 @@ public class Common {
     public static final String WAITING = "waiting";
 
     /**
+     * token缓存关键字
+     */
+    public static final String TOKEN = "TOKEN";
+
+
+    /**
      * 空字符串
      */
     public static final String EMPTY = "";
@@ -24,11 +30,11 @@ public class Common {
     /**
      * 艾特机制正则
      */
-    public static final String CALL = "@[^@ ]{1,12}[ ]";
+    public static final String CALL = "@[^@ ]{1,8}[ ]";
 
     /**
      * 楼层回复正则
      */
-    public static final String STOREY_REPLY = "回复[ ]@[^@ ]{1,12}[ ]:";
+    public static final String STOREY_REPLY = "回复[ ][^@ ]{1,8}[ ]:";
 
 }

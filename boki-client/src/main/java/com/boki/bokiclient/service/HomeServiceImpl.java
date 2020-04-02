@@ -31,7 +31,7 @@ public class HomeServiceImpl implements HomeService {
 
     @Override
     public DataWithTotal findPosts(Integer type,Integer page) {
-        List<List<?>> result = homeDao.findPosts(type,(page-1)*30,30);
+        List<List<?>> result = homeDao.findPosts(type,(page-1)*20,20);
         DataWithTotal vo = new DataWithTotal();
         vo.input(result, PostVO.class);
         //复制List属性
@@ -44,6 +44,12 @@ public class HomeServiceImpl implements HomeService {
                 //vo属性，帖子类型
                 Integer typeId = ((PostDTO)(result.get(1).get(i))).getTypeId();
                 postVO.setType(dbSource.getType(typeId));
+                //楼主的荣誉id
+                Integer hostCreditDegree = ((PostDTO)(result.get(1).get(i))).getHostCreditDegree();
+                postVO.setHostHonorId(dbSource.getHonorId(hostCreditDegree));
+                //最后回复者荣誉id
+                Integer lastReplierCreditDegree = ((PostDTO)(result.get(1).get(i))).getLastReplierCreditDegree();
+                postVO.setLastReplierHonorId(dbSource.getHonorId(lastReplierCreditDegree));
             }
         }
         return vo;

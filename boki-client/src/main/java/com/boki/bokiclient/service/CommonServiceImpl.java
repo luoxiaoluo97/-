@@ -77,7 +77,7 @@ public class CommonServiceImpl implements CommonService {
 
     @Override
     public ArrayList<StoreyReplyVO> findStoreyReplyById(Long replyId,Integer page) {
-        ArrayList<StoreyReplyDTO> dtoList = commonDao.findStoreyReplyById(replyId,(page-1)*20,20);
+        ArrayList<StoreyReplyDTO> dtoList = commonDao.findStoreyReplyById(replyId,(page-1)*5,5);
         ArrayList<StoreyReplyVO> voList = null;
         if (dtoList != null && dtoList.size() != 0) {
             voList = new ArrayList<>();

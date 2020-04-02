@@ -1,5 +1,6 @@
 package com.boki.bokiclient.controller;
 
+import com.auth0.jwt.JWT;
 import com.boki.bokiapi.entity.dto.PostDTO;
 import com.boki.bokiapi.entity.dto.postdetail.ReplyDTO;
 import com.boki.bokiapi.entity.dto.postdetail.StoreyReplyDTO;
@@ -9,9 +10,10 @@ import com.boki.bokiapi.entity.dto.request.ReportSendDTO;
 import com.boki.bokiapi.entity.dto.request.StoreyReplySendDTO;
 import com.boki.bokiapi.entity.vo.ResultVO;
 import com.boki.bokiapi.execption.enums.RequestResultCode;
+import com.boki.bokiapi.value.Common;
 import com.boki.bokiapi.value.notice.NoticeElem;
 import com.boki.bokiapi.value.notice.NoticeMessage;
-import com.boki.bokiclient.service.NoticeServiceImpl;
+import com.boki.bokiclient.security.Token;
 import com.boki.bokiclient.service.inter.NoticeService;
 import com.boki.bokiclient.service.inter.PostService;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @Author: LJF
@@ -42,10 +45,12 @@ public class PostController {
      * @param dto
      * @return
      */
+    @Token
     @PostMapping("/send")
     public ResultVO sendPost(@RequestBody @Valid PostSendDTO dto, HttpServletRequest request){
-        dto.setUserId(Long.parseLong(request.getHeader("UID")));
-        String userName = NoticeServiceImpl.decode(request.getHeader("userName"),dto.getUserId());
+        List<String> audience= JWT.decode(request.getHeader(Common.TOKEN)).getAudience();
+        dto.setUserId(Long.parseLong(audience.get(0)));
+        String userName = audience.get(2);
         int i = postService.sendPost(dto);
         //给粉丝发送通知
         if(i >= 1){
@@ -64,10 +69,12 @@ public class PostController {
      * @param dto ReplySendDTO
      * @return
      */
+    @Token
     @PostMapping("/reply/send")
     public ResultVO sendReply(@RequestBody @Valid ReplySendDTO dto,HttpServletRequest request){
-        dto.setUserId(Long.parseLong(request.getHeader("UID")));
-        String userName = NoticeServiceImpl.decode(request.getHeader("userName"),dto.getUserId());
+        List<String> audience= JWT.decode(request.getHeader(Common.TOKEN)).getAudience();
+        dto.setUserId(Long.parseLong(audience.get(0)));
+        String userName = audience.get(2);
         int i = postService.sendReply(dto);
         if ( i >= 1){
             NoticeElem elem = new NoticeElem()
@@ -89,10 +96,12 @@ public class PostController {
      * @param dto
      * @return
      */
+    @Token
     @PostMapping("/storeyReply/send")
     public ResultVO sendStoreyReply(@RequestBody @Valid StoreyReplySendDTO dto,HttpServletRequest request){
-        dto.setUserId(Long.parseLong(request.getHeader("UID")));
-        String userName = NoticeServiceImpl.decode(request.getHeader("userName"),dto.getUserId());
+        List<String> audience= JWT.decode(request.getHeader(Common.TOKEN)).getAudience();
+        dto.setUserId(Long.parseLong(audience.get(0)));
+        String userName = audience.get(2);
         int i = postService.sendStoreyReply(dto);
         if ( i >= 1){
             NoticeElem elem = new NoticeElem()
@@ -116,42 +125,50 @@ public class PostController {
      * @param id
      * @return
      */
+    @Token
     @PostMapping("/delete/{id}")
     public ResultVO deletePost(HttpServletRequest request, @PathVariable("id") Long id){
+        List<String> audience= JWT.decode(request.getHeader(Common.TOKEN)).getAudience();
         int count = postService.deletePost(new PostDTO()
                 .setId(id)
-                .setUserId(Long.parseLong(request.getHeader("UID"))));
+                .setUserId(Long.parseLong(audience.get(0))));
         return count == 1 ? RequestResultCode.SUCCESS.getResult() : RequestResultCode.POST_DELETE_FAIL.getResult();
     }
 
     /**
      * 删楼
      */
+    @Token
     @PostMapping("/reply/delete/{id}")
     public ResultVO deleteReply(HttpServletRequest request, @PathVariable("id") Long id){
+        List<String> audience= JWT.decode(request.getHeader(Common.TOKEN)).getAudience();
         int count = postService.deleteReply(new ReplyDTO()
             .setId(id)
-            .setUserId( Long.parseLong(request.getHeader("UID"))) );
+            .setUserId( Long.parseLong(audience.get(0))) );
         return count == 1 ? RequestResultCode.SUCCESS.getResult() : RequestResultCode.POST_DELETE_FAIL.getResult();
     }
 
     /**
      * 删除楼层回复，即删除楼中楼
      */
+    @Token
     @PostMapping("/storeyReply/delete/{id}")
     public ResultVO deleteStoreyReply(HttpServletRequest request, @PathVariable("id") Long id){
+        List<String> audience= JWT.decode(request.getHeader(Common.TOKEN)).getAudience();
         int count = postService.deleteStoreyReply(new StoreyReplyDTO()
                 .setId(id)
-                .setUserId( Long.parseLong(request.getHeader("UID")) ));
+                .setUserId( Long.parseLong(audience.get(0))) );
         return count == 1 ? RequestResultCode.SUCCESS.getResult() : RequestResultCode.POST_DELETE_FAIL.getResult();
     }
 
     /**
      * 举报帖子
      */
+    @Token
     @PostMapping("/report")
     public ResultVO reportPost(HttpServletRequest request,@RequestBody @Valid ReportSendDTO dto){
-        dto.setUserId(Long.parseLong(request.getHeader("UID")));
+        List<String> audience= JWT.decode(request.getHeader(Common.TOKEN)).getAudience();
+        dto.setUserId(Long.parseLong(audience.get(0)));
         int count = postService.reportPost(dto);
         return count >= 0 ? RequestResultCode.SUCCESS.getResult() : RequestResultCode.FAIL.getResult();
     }
@@ -160,9 +177,11 @@ public class PostController {
     /**
      * 举报楼层
      */
+    @Token
     @PostMapping("/reply/report")
     public ResultVO reportReply(HttpServletRequest request,@RequestBody @Valid ReportSendDTO dto){
-        dto.setUserId(Long.parseLong(request.getHeader("UID")));
+        List<String> audience= JWT.decode(request.getHeader(Common.TOKEN)).getAudience();
+        dto.setUserId(Long.parseLong(audience.get(0)));
         int count = postService.reportReply(dto);
         return count >= 0 ? RequestResultCode.SUCCESS.getResult() : RequestResultCode.FAIL.getResult();
     }
@@ -171,9 +190,11 @@ public class PostController {
     /**
      * 举报楼中楼
      */
+    @Token
     @PostMapping("/storyReply/report")
     public ResultVO reportStoryReply(HttpServletRequest request,@RequestBody @Valid ReportSendDTO dto){
-        dto.setUserId(Long.parseLong(request.getHeader("UID")));
+        List<String> audience= JWT.decode(request.getHeader(Common.TOKEN)).getAudience();
+        dto.setUserId(Long.parseLong(audience.get(0)));
         int count = postService.reportStoreyReply(dto);
         return count >= 0 ? RequestResultCode.SUCCESS.getResult() : RequestResultCode.FAIL.getResult();
     }

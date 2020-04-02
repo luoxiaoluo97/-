@@ -50,6 +50,7 @@ mybatis:
   mapper-locations: classpath*:/com/boki/bokiclient/dao/mapper/*Mapper.xml
   type-aliases-package: com.boki.bokiapi.entity
 
+
 eureka:
   instance:
     instance-id: boki-client-9000

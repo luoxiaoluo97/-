@@ -89,7 +89,7 @@ public class LoginServiceImpl implements LoginService {
         result.put("mail",mail);
         if ( redisTemplate.hasKey(mail) ){
             /*返回有效期*/
-            result.put("effectiveTime",redisTemplate.getExpire(mail,TimeUnit.SECONDS)+"s");
+            result.put("expire",redisTemplate.getExpire(mail,TimeUnit.SECONDS)+"s");
             return result;
         }
         new Thread(() -> {
@@ -97,7 +97,7 @@ public class LoginServiceImpl implements LoginService {
             redisTemplate.opsForValue().set(mail,mailCode);
             redisTemplate.expire(mail, 300, TimeUnit.SECONDS);
         }).start();
-        result.put("effectiveTime","300s");
+        result.put("expire","300s");
         return result;
     }
 

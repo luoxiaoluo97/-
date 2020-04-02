@@ -17,17 +17,18 @@ public class PostDTO {
     private Long id;                //帖子id
     private Long userId;            //楼主id
     private String userName;        //楼主昵称
-    private Long creditDegree;      //楼主信用度
+    private Integer hostCreditDegree;              //楼主信用度,用于获取勋章id
     private String title;           //标题
     private String content;         //内容
     private Integer typeId;         //类型id
-    private String Type;            //类型
+    private String type;            //类型
     private String isTop;           //是否置顶
     private Integer reportStatus;       //举报状态
     private String reportReason;        //举报理由
 
     private String createTime;      //发帖时间
     private String lastReplier;     //最后回复者
+    private Integer lastReplierCreditDegree;   //新增===最后回复者主信用度,用于获取勋章id
     private String modifiedTime;    //最后回复时间
     private Long repliesCount;      //回复数
 

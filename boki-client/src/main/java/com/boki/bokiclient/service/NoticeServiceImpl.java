@@ -52,10 +52,6 @@ public class NoticeServiceImpl implements NoticeService {
      */
     public static final String NOTIFY_BY_UID = "NOTIFY_BY_ID";
 
-    /**
-     * 通知用户名关键字
-     */
-    public static final String NOTIFY_BY_USERNAME = "NOTIFY_BY_USERNAME";
 
     /**
      * 请求头用户名中文译码
@@ -277,12 +273,12 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     /**
-     * 是否楼中楼回复格式，以正则开头     回复[ ]@[^@ ]{1,12}[ ]
+     * 是否楼中楼回复格式，以正则开头     回复[ ][^@ ]{1,12}[ ]
      * @param fromUserName 用于排除自己
      * @return 返回用户id
      */
     private Long getReceiverFromContent(String content,String fromUserName){
-        Matcher matcher = Pattern.compile("回复[ ]@[^@ ]{1,12}[ ]:").matcher(content);
+        Matcher matcher = Pattern.compile("回复[ ][^@ ]{1,8}[ ]:").matcher(content);
         if(matcher.find() && matcher.start() == 0){
             String group = matcher.group();
             String userName = group.substring(4,group.length()-2);
@@ -299,14 +295,14 @@ public class NoticeServiceImpl implements NoticeService {
 
     /**
      * 被@ 的用户id列表， 提取所有用户名之后，返回用户id列表
-     * @param where 用于判断是帖子回复，还是楼层回复，当楼层回复的时候应去除回复前缀 回复[ ]@[^@ ]{1,12}[ ]:
+     * @param where 用于判断是帖子回复，还是楼层回复，当楼层回复的时候应去除回复前缀 回复[ ][^@ ]{1,12}[ ]:
      *              0表示帖子回复，1表示楼层回复
      */
     private List getAtIdFromContent(String content,String fromUserName,Integer where){
         if(where == 1){
-            content = Pattern.compile("回复[ ]@[^@ ]{1,12}[ ]:").matcher(content).replaceFirst("");
+            content = Pattern.compile("回复[ ][^@ ]{1,8}[ ]:").matcher(content).replaceFirst("");
         }
-        Matcher matcher = Pattern.compile("@[^@ ]{1,12}[ ]").matcher(content);
+        Matcher matcher = Pattern.compile("@[^@ ]{1,8}[ ]").matcher(content);
         List<String> userList = new ArrayList();
         while (matcher.find()){
             String userName = matcher.group();

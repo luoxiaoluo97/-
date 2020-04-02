@@ -1,5 +1,6 @@
 package com.boki.bokiclient.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -13,10 +14,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class ClientWebConf implements WebMvcConfigurer {
 
+    @Autowired
+    private ClientInterceptor clientInterceptor;
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         //注册TestInterceptor拦截器
-        InterceptorRegistration registration = registry.addInterceptor(new ClientInterceptor());
+        InterceptorRegistration registration = registry.addInterceptor(clientInterceptor);
         registration.addPathPatterns("/**");
         registration.excludePathPatterns(
                 "/p/**",                            //开放性页面
@@ -24,8 +28,8 @@ public class ClientWebConf implements WebMvcConfigurer {
                 "/login/register",                   //注册
                 "/login/sendCheckCode/*",           //发送邮箱校验码
                 "/login",                               //登录
-                "/static/**"                          //静态资源
-
+                "/static/**"                         //静态资源
         );
     }
+
 }

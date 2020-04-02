@@ -5,6 +5,7 @@ import com.boki.bokiribbon.entity.ResultVO;
 import com.boki.bokiribbon.entity.request.*;
 import com.boki.bokiribbon.service.AdminBaseControllerFallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -73,6 +74,14 @@ public interface AdminBaseFeignClient {
     @GetMapping("/user/reply/history")
     ResultVO replyHistory(@RequestParam("userId")Long userId,@RequestParam("page")Integer page,@RequestParam("mode")Integer mode);
 
-    @PostMapping("/images/upload")
-    ResultVO uploadFile(@RequestParam("fileName") MultipartFile fileName);
+    @PostMapping(value = "/images/upload",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    ResultVO uploadFile(@RequestPart("fileName") MultipartFile fileName);
+
+//    @Configuration
+//    class MultipartSupportConfig {
+//        @Bean
+//        public Encoder feignFormEncoder() {
+//            return new SpringFormEncoder();
+//        }
+//    }
 }

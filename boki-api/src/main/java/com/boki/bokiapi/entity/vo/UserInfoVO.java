@@ -32,4 +32,6 @@ public class UserInfoVO {
     private Integer postAmount;            //发帖数
     private String isBanned;            //是否禁封
     private String banUntil;            //解封日期
+
+    private String token;           //认证字段
 }

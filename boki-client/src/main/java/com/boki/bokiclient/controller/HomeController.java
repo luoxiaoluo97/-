@@ -22,20 +22,6 @@ public class HomeController {
     @Autowired
     private HomeService homeService;
 
-//    /**
-//     * 论坛首页
-//     * @param session
-//     * @return
-//     */
-//    @GetMapping("/")
-//    public ModelAndView home(HttpSession session){
-//        if(session.getAttribute("UID") != null) {
-//            // TODO 访问首页 如果已经登陆，还应该显示动态、私信、和其他可能的消息
-//        }
-//        ModelAndView mv = new ModelAndView();
-//        mv.setViewName("index");
-//        return mv;
-//    }
 
     /**
      * 帖子列表
