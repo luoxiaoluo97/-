@@ -2,7 +2,7 @@ server:
   port: 9001
 
 dataservice:
-  host: 192.168.0.9
+  host: 192.168.0.13
 
 base:
   imagesPath: file:/D:/fileUpload/

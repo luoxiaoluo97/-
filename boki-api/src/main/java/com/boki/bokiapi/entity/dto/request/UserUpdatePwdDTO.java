@@ -18,6 +18,7 @@ import javax.validation.constraints.Pattern;
 @NoArgsConstructor
 public class UserUpdatePwdDTO {
 
+    @NotEmpty(message = StatusName.NULL_MAIL)
     private String mail;		//邮箱即是账号
 
     @NotEmpty(message = StatusName.NULL_PWD)

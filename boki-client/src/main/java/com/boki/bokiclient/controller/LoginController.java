@@ -1,7 +1,6 @@
 package com.boki.bokiclient.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.auth0.jwt.JWT;
 import com.boki.bokiapi.entity.dto.request.UserLoginDTO;
 import com.boki.bokiapi.entity.dto.request.UserRegisterDTO;
 import com.boki.bokiapi.entity.dto.request.UserUpdatePwdDTO;
@@ -18,9 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.List;
 import java.util.regex.Pattern;
 
 @Slf4j
@@ -32,7 +29,6 @@ public class LoginController {
     @Autowired
     private LoginService loginService;
 
-
     @Autowired
     private JwtUser jwtUser;
 
@@ -42,14 +38,24 @@ public class LoginController {
      * @return
      */
     @PostMapping(value = "")
-    public ResultVO login(@Valid @RequestBody UserLoginDTO user,HttpServletRequest request){
+    public ResultVO login(@Valid @RequestBody UserLoginDTO user){
         user.setPwd(PwdEncryption.doubleMd5(user.getPwd()));
         UserInfoVO info = loginService.findByMailAndPwd(user);
+        if( info == null ){
+            return RequestResultCode.LOGIN_FAIL.getResult();
+        }
         info.setToken(jwtUser.getToken(info));
-        return info != null ? RequestResultCode.SUCCESS.getResult().setData(info) :
-                RequestResultCode.LOGIN_FAIL.getResult();
+        return RequestResultCode.SUCCESS.getResult().setData(info);
     }
 
+    /**
+     * 仅用于判断当前token是否有效，通过拦截就判定为有效
+     */
+    @Token
+    @GetMapping("/judge")
+    public ResultVO judge(){
+        return RequestResultCode.SUCCESS.getResult();
+    }
 
     /**
      * 用户注册
@@ -84,14 +90,10 @@ public class LoginController {
      * 改密请求
      * @return
      */
-    @Token
     @PostMapping("/modifyPwd")
-    public ResultVO updatePwd(@RequestBody @Valid UserUpdatePwdDTO dto, HttpServletRequest request){
-        List<String> audience= JWT.decode(request.getHeader(Common.TOKEN)).getAudience();
-        dto.setMail(audience.get(1));
+    public ResultVO updatePwd(@RequestBody @Valid UserUpdatePwdDTO dto){
         int count = loginService.updatePwdByMail(dto);
-        return count == 1 || count == 0 ?
-                RequestResultCode.SUCCESS.getResult() : RequestResultCode.SERVER_ERROR.getResult();
+        return count == 1 ? RequestResultCode.SUCCESS.getResult() : RequestResultCode.SERVER_ERROR.getResult();
     }
 
 }

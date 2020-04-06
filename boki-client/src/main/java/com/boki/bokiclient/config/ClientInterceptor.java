@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -51,11 +52,12 @@ public class ClientInterceptor implements HandlerInterceptor {
         String userId;
         try {
             userId = JWT.decode(token).getAudience().get(0);
-            if (!redisTemplate.hasKey(Common.TOKEN + userId)){
+            Map tokenCache = redisTemplate.opsForHash().entries(Common.TOKEN + userId);
+            if (tokenCache.size() == 0){
                 throw new BusinessException().setType(RequestResultCode.LOGIN_TODO);
             }
-            String time = redisTemplate.opsForValue().get(Common.TOKEN + userId).toString();
-            JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(time)).build();
+            String time = tokenCache.get("time").toString();
+            JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256( time )).build();
             jwtVerifier.verify(token);
             redisTemplate.expire(Common.TOKEN + userId, 1800, TimeUnit.SECONDS);
         } catch (JWTDecodeException j) {

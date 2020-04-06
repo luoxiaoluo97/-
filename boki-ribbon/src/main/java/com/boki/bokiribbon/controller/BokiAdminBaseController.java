@@ -6,9 +6,6 @@ import com.boki.bokiribbon.service.inter.AdminBaseFeignClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
-import java.util.Map;
-
 /**
  * @Author: LJF
  * @Date: 2020/3/21
@@ -21,21 +18,6 @@ public class BokiAdminBaseController {
     @Autowired
     private AdminBaseFeignClient adminBaseFeignClient;
 
-    /**
-     * 登陆
-     */
-    @PostMapping(value = "/login")
-    public ResultVO login(@RequestBody UserLoginDTO user, HttpSession session){
-        ResultVO vo = adminBaseFeignClient.login(user);
-        // 50000 = 服务错误，10001 = 账号或密码错误，9999 = 失败，12001 = 无权限账号
-        if (vo.getCode() != 50000 && vo.getCode() != 10001 && vo.getCode() != 9999 && vo.getCode() != 12001) {
-            session.setAttribute("UID", ((Map) vo.getData()).get("id"));
-            session.setAttribute("userName", ((Map) vo.getData()).get("userName"));
-            session.setAttribute("mail", ((Map) vo.getData()).get("mail"));
-            session.setAttribute("roleId",((Map) vo.getData()).get("roleId"));
-        }
-        return vo;
-    }
 
     /**
      * 数据总览：用户数，帖子数，管理员删帖数，用户人均发帖，近一个月日均发帖量，
@@ -73,33 +55,6 @@ public class BokiAdminBaseController {
         return vo;
     }
 
-    /**
-     * 帖子列表
-     * @param type 1=所有帖子，2=只看精品
-     */
-    @GetMapping("/post/list")
-    public ResultVO postList(Integer type, Integer page){
-        ResultVO vo = adminBaseFeignClient.postList(type,page);
-        return vo;
-    }
-
-    /**
-     * 打开帖子
-     */
-    @GetMapping("/post/open/{id}")
-    public ResultVO findPostById(@PathVariable Long id,Integer page){
-        ResultVO vo = adminBaseFeignClient.findPostById(id,page);
-        return vo;
-    }
-
-    /**
-     * 加载楼中楼
-     */
-    @GetMapping("/post/reply/open")
-    public ResultVO findStoreyReply(Long id,Integer page){
-        ResultVO vo = adminBaseFeignClient.findStoreyReply(id,page);
-        return vo;
-    }
 
     /**
      * 加精或降级

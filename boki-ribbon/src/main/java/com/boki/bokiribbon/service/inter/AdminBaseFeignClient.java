@@ -14,8 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 @FeignClient(value = "boki-admin",fallbackFactory = AdminBaseControllerFallbackFactory.class)
 public interface AdminBaseFeignClient {
 
-    @PostMapping(value = "/login")
-    ResultVO login(@RequestBody UserLoginDTO user);
 
     @GetMapping("/statistics")
     ResultVO statistics();
@@ -29,14 +27,6 @@ public interface AdminBaseFeignClient {
     @PostMapping("/post/report/pass")
     ResultVO pass(@RequestBody ReportJudgeDTO dto);
 
-    @GetMapping("/post/list")
-    ResultVO postList(@RequestParam("type")Integer type,@RequestParam("page") Integer page);
-
-    @GetMapping("/post/open")
-    ResultVO findPostById(@RequestParam("id")Long id,@RequestParam("page")Integer page);
-
-    @GetMapping("/post/reply/open")
-    ResultVO findStoreyReply(@RequestParam("id")Long id,@RequestParam("page")Integer page);
 
     @PostMapping("/post/upgrade")
     ResultVO postUpgrade(@RequestBody PostUpgradeDTO dto);
@@ -77,11 +67,4 @@ public interface AdminBaseFeignClient {
     @PostMapping(value = "/images/upload",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     ResultVO uploadFile(@RequestPart("fileName") MultipartFile fileName);
 
-//    @Configuration
-//    class MultipartSupportConfig {
-//        @Bean
-//        public Encoder feignFormEncoder() {
-//            return new SpringFormEncoder();
-//        }
-//    }
 }

@@ -17,6 +17,6 @@
     </insert>
 
     <update id="updatePwdByMail" parameterType="UserPO" >
-        UPDATE boki_user SET `pwd`=#{pwd} WHERE `mail`=#{mail}
+        UPDATE boki_user SET `pwd`=#{pwd} ,modified_time = CURRENT_TIMESTAMP WHERE `mail`=#{mail}
     </update>
 </mapper>

@@ -36,6 +36,11 @@ public class ClientBaseControllerFallbackFactory implements FallbackFactory<Clie
             }
 
             @Override
+            public ResultVO loginJudge() {
+                return RequestResultCode.SERVER_ERROR.getResult();
+            }
+
+            @Override
             public ResultVO updatePwd(UserUpdatePwdDTO dto) {
                 return RequestResultCode.SERVER_ERROR.getResult();
             }

@@ -2,7 +2,7 @@ server:
   port: 9000
 
 dataservice:
-  host: 192.168.0.9
+  host: 192.168.0.13
 
 eureka-server:
   host: localhost

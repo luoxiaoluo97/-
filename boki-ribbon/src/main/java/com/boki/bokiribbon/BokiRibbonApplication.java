@@ -12,9 +12,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.Enumeration;
 
 @Slf4j
 @SpringBootApplication
@@ -22,6 +19,8 @@ import java.util.Enumeration;
 @EnableFeignClients(basePackages = {"com.boki.bokiribbon"})
 @ComponentScan(basePackages = "com.boki")
 public class BokiRibbonApplication {
+
+    public static final String TOKEN = "TOKEN";
 
     public static void main(String[] args) {
         SpringApplication.run(BokiRibbonApplication.class, args);
@@ -34,31 +33,8 @@ public class BokiRibbonApplication {
 
             if(null != attributes){
                 HttpServletRequest request = attributes.getRequest();
-                if (request.getSession().getAttribute("UID") != null
-                        && request.getSession().getAttribute("mail") != null
-                        && request.getSession().getAttribute("mail") != null
-                        && request.getSession().getAttribute("roleId") != null) {
-                    requestTemplate.header("UID", request.getSession().getAttribute("UID").toString());
-                    String userName;
-                    try {
-                        userName = URLEncoder.encode(request.getSession().getAttribute("userName").toString(),"utf-8");
-                    } catch (UnsupportedEncodingException e) {
-                        log.warn("userName编码错误，原因是："+e.getMessage());
-                        throw new RuntimeException();
-                    }
-                    requestTemplate.header("userName", userName);
-                    requestTemplate.header("mail", request.getSession().getAttribute("mail").toString());
-                    requestTemplate.header("roleId", request.getSession().getAttribute("roleId").toString());
-                }
-                Enumeration<String> headerNames = request.getHeaderNames();
-                if (headerNames != null) {
-                    while (headerNames.hasMoreElements()) {
-                        String name = headerNames.nextElement();
-                        if(name.equals("cookie")){
-                            String values = request.getHeader(name);
-                            requestTemplate.header(name, values);
-                        }
-                    }
+                if (request.getHeader(TOKEN) != null) {
+                    requestTemplate.header(TOKEN, request.getHeader(TOKEN));
                 }
             }
         };

@@ -6,9 +6,6 @@ import com.boki.bokiribbon.service.inter.ClientBaseFeignClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
-import java.util.Map;
-
 /**
  * @Author: LJF
  * @Date: 2020/3/19
@@ -43,14 +40,17 @@ public class BokiClientBaseController {
      * 登陆
      */
     @PostMapping(value = "/login")
-    public ResultVO doLogin(@RequestBody UserLoginDTO dto,HttpSession session){
+    public ResultVO doLogin(@RequestBody UserLoginDTO dto){
         ResultVO vo = clientBaseFeignClient.login(dto);
-        if (vo.getCode() != 50000 && vo.getCode() != 10001 && vo.getCode() != 9999) {
-            session.setAttribute("UID", ((Map) vo.getData()).get("id"));
-            session.setAttribute("userName", ((Map) vo.getData()).get("userName"));
-            session.setAttribute("mail", ((Map) vo.getData()).get("mail"));
-            session.setAttribute("roleId",((Map) vo.getData()).get("roleId"));
-        }
+        return vo;
+    }
+
+    /**
+     * 校验本地token
+     */
+    @GetMapping("/login/judge")
+    public ResultVO loginJudge(){
+        ResultVO vo = clientBaseFeignClient.loginJudge();
         return vo;
     }
 

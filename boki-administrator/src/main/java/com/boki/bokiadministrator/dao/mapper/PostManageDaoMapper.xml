@@ -90,61 +90,10 @@
         </if>
     </update>
 
-    <select id="findPosts" resultMap="Integer,PostDTO">
-        -- 帖子总数
-        SELECT COUNT(1) AS totalCount FROM boki_post WHERE is_deleted = 'n'
-        <if test="type == '2'.toString()">AND type_id = 2</if>;
-        -- 首页帖子列表
-        SELECT bp.id,bp.title,bp.content,bp.create_time,bp.modified_time,bp.user_id,bp.replies_count,bp.type_id,bp.is_top,
-	    bu1.user_name,bu1.credit_degree,
-	    bu2.user_name AS last_replier
-        FROM boki_post bp
-        JOIN boki_user bu1 ON bp.user_id = bu1.id
-        JOIN boki_user bu2 ON bp.last_replier_id = bu2.id
-        WHERE bp.is_deleted = 'n' <if test="type == '2'.toString()">AND type_id = 2</if>
-        ORDER BY bp.is_top DESC, bp.create_time DESC
-        LIMIT #{start},#{end};
-    </select>
 
     <resultMap id="PostDetailDTO" type="PostDetailDTO"></resultMap>
     <resultMap id="ReplyDTO" type="ReplyDTO"></resultMap>
-    <resultMap id="Integer2" type="Integer">
-        <result column="totalCount"></result>
-    </resultMap>
-    <select id="getPostDetail" resultMap="PostDetailDTO,Integer2,ReplyDTO">
-        -- 帖子基本信息
-        SELECT id,user_id,title,replies_count,type_id FROM boki_post WHERE id = #{postId};
-        -- 楼层总数
-        SELECT COUNT(1) AS totalCount FROM boki_reply br
-        JOIN boki_user bu ON br.user_id = bu.id
-        WHERE br.post_id = #{postId};
-        -- 楼层列表
-        SELECT br.id,
-        br.user_id,br.post_id,br.floor_no,br.create_time,br.content,br.replies_count,
-	        bu.user_name,bu.photo,bu.exp,bu.credit_degree,bu.role_id
-        FROM boki_reply br
-        JOIN boki_user bu ON br.user_id = bu.id
-        WHERE br.post_id = #{postId}
-        ORDER BY br.floor_no
-        LIMIT #{start},#{end};
-    </select>
 
-    <select id="findStoreyReplyById"  resultType="StoreyReplyDTO">
-        SELECT
-            bsr.id,
-            bsr.storey_id,
-            bsr.user_id,
-            bu1.user_name,
---             bsr.to_user_id,
---             bu2.user_name AS to_user_name,
-            bsr.content,
-            bsr.create_time
-        FROM boki_storey_reply bsr
-        JOIN boki_user bu1 ON bsr.user_id = bu1.id
---         JOIN boki_user bu2 ON bsr.user_id = bu2.id
-        WHERE bsr.storey_id = #{replyId}
-        LIMIT #{start},#{end}
-    </select>
 
     <update id="updatePostType" parameterType="PostUpgradeDTO">
         -- 更新帖子类型

@@ -25,10 +25,6 @@ public class AdminBaseControllerFallbackFactory implements FallbackFactory<Admin
     public AdminBaseFeignClient create(Throwable throwable) {
         return new AdminBaseFeignClient() {
 
-            @Override
-            public ResultVO login(UserLoginDTO user) {
-                return RequestResultCode.SERVER_ERROR.getResult();
-            }
 
             @Override
             public ResultVO statistics() {
@@ -47,21 +43,6 @@ public class AdminBaseControllerFallbackFactory implements FallbackFactory<Admin
 
             @Override
             public ResultVO pass(ReportJudgeDTO dto) {
-                return RequestResultCode.SERVER_ERROR.getResult();
-            }
-
-            @Override
-            public ResultVO postList(Integer type, Integer page) {
-                return RequestResultCode.SERVER_ERROR.getResult();
-            }
-
-            @Override
-            public ResultVO findPostById(Long id, Integer page) {
-                return RequestResultCode.SERVER_ERROR.getResult();
-            }
-
-            @Override
-            public ResultVO findStoreyReply(Long id,Integer page) {
                 return RequestResultCode.SERVER_ERROR.getResult();
             }
 

@@ -21,6 +21,9 @@ public interface ClientBaseFeignClient {
     @PostMapping("/login")
     ResultVO login(@RequestBody UserLoginDTO user);
 
+    @GetMapping("/login/judge")
+    ResultVO loginJudge();
+
     @PostMapping("/login/modifyPwd")
     ResultVO updatePwd(@RequestBody UserUpdatePwdDTO dto);
 

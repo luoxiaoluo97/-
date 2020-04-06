@@ -4,10 +4,6 @@ import com.boki.bokiapi.entity.dto.request.PostSetTopDTO;
 import com.boki.bokiapi.entity.dto.request.PostUpgradeDTO;
 import com.boki.bokiapi.entity.dto.request.ReportJudgeDTO;
 import com.boki.bokiapi.entity.vo.DataWithTotal;
-import com.boki.bokiapi.entity.vo.postdetail.PostDetailVO;
-import com.boki.bokiapi.entity.vo.postdetail.StoreyReplyVO;
-
-import java.util.ArrayList;
 
 public interface PostManageService {
 
@@ -29,23 +25,7 @@ public interface PostManageService {
      */
     Integer reportPass(ReportJudgeDTO dto);
 
-    /**
-     * 获取帖子列表
-     * @return
-     */
-    DataWithTotal findPosts(Integer type,Integer page);
 
-    /**
-     * 帖子详情
-     * @param postId
-     * @return
-     */
-    PostDetailVO getPostDetail(Long postId, Integer page);
-
-    /**
-     * 加载楼中楼
-     */
-    ArrayList<StoreyReplyVO> findStoreyReplyById(Long replyId, Integer page);
 
     /**
      * 加精或降级

@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -28,13 +28,16 @@ public class JwtUser {
         String token= JWT.create().withAudience(
                 vo.getId().toString(),
                 vo.getMail(),
-                vo.getUserName(),
-                vo.getRoleId().toString())
+                vo.getUserName())
 //                .withExpiresAt(new Date(System.currentTimeMillis() + 2 * 60 * 1000))
                 .sign(Algorithm.HMAC256( time ));
-        redisTemplate.opsForValue().set(Common.TOKEN + vo.getId(), time);
+        Map tokenCache = new HashMap();
+        tokenCache.put("time",time);
+        tokenCache.put("roleId",vo.getRoleId().toString());
+        redisTemplate.opsForHash().putAll(Common.TOKEN + vo.getId(),tokenCache);
         redisTemplate.expire(Common.TOKEN + vo.getId(), 1800, TimeUnit.SECONDS);
         return token;
+
     }
 
 //    public Boolean

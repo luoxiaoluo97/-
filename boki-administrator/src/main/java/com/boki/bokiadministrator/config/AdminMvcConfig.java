@@ -1,5 +1,6 @@
 package com.boki.bokiadministrator.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
@@ -20,11 +21,13 @@ public class AdminMvcConfig implements WebMvcConfigurer{
     @Value("${base.imagesPath}")
     private String mImagesPath;
 
+    @Autowired
+    private AdminInterceptor adminInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         //注册TestInterceptor拦截器
-        InterceptorRegistration registration = registry.addInterceptor(new AdminInterceptor());
+        InterceptorRegistration registration = registry.addInterceptor(adminInterceptor);
         registration.addPathPatterns("/**");
         registration.excludePathPatterns(
                 "/login",                            //登录

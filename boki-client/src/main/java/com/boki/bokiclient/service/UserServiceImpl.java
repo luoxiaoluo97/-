@@ -37,6 +37,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserInfoVO userInfo(Long userId) {
         UserDTO dto = userDao.findUserById(userId);
+        if(dto == null){
+            return null;
+        }
         UserInfoVO vo = new UserInfoVO();
         BeanUtils.copyProperties(dto,vo);
         vo.setLevel(dbSource.getLv(vo.getExp()));
