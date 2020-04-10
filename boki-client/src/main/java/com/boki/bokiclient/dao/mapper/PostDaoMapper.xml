@@ -4,8 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.boki.bokiclient.dao.PostDao">
     <insert id="insertPost" parameterType="PostPO">
-        INSERT INTO boki_post(user_id,title,content,last_replier_id,creator,`modifier`)
-        VALUE(#{userId},#{title},#{content},#{userId},#{userId},#{userId});
+        INSERT INTO boki_post(user_id,title,content,short_content,last_replier_id,creator,`modifier`)
+        VALUE(#{userId},#{title},#{content},#{shortContent},#{userId},#{userId},#{userId});
     </insert>
     <insert id="insertFirstReply" parameterType="PostPO">
         <selectKey order="BEFORE" keyProperty="id" resultType="Long" >

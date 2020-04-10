@@ -3,6 +3,7 @@ package com.boki.bokiclient.service;
 import com.boki.bokiapi.entity.dto.PostDTO;
 import com.boki.bokiapi.entity.vo.DataWithTotal;
 import com.boki.bokiapi.entity.vo.PostVO;
+import com.boki.bokiapi.value.Common;
 import com.boki.bokiclient.bean.DBSourceSelectBean;
 import com.boki.bokiclient.dao.HomeDao;
 import com.boki.bokiclient.service.inter.HomeService;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * @Author: LJF
@@ -30,8 +32,11 @@ public class HomeServiceImpl implements HomeService {
     private DBSourceSelectBean dbSource;
 
     @Override
-    public DataWithTotal findPosts(Integer type,Integer page) {
-        List<List<?>> result = homeDao.findPosts(type,(page-1)*20,20);
+    public DataWithTotal findPosts(Integer type,Integer page, String titleKey) {
+        if(titleKey != null){
+            titleKey = Pattern.compile("\\s+").matcher(titleKey).matches() ? Common.EMPTY : titleKey;
+        }
+        List<List<?>> result = homeDao.findPosts(type,titleKey,(page-1)*20,20);
         DataWithTotal vo = new DataWithTotal();
         vo.input(result, PostVO.class);
         //复制List属性

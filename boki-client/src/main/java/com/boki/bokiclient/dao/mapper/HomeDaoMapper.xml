@@ -10,15 +10,18 @@
     <select id="findPosts" resultMap="Integer,PostDTO">
         -- 帖子总数
         SELECT COUNT(1) AS totalCount FROM boki_post WHERE is_deleted = 'n'
-        <if test="type == '2'.toString()">AND type_id = 2</if>;
+        <if test="type == '2'.toString()">AND type_id = 2</if>
+        <if test="titleKey != '' and titleKey != null">AND title LIKE CONCAT('%','${titleKey}','%')</if>;
         -- 首页帖子列表
-        SELECT bp.id,bp.title,bp.content,bp.create_time,bp.modified_time,bp.user_id,bp.replies_count,bp.type_id,bp.is_top,
+        SELECT bp.id,bp.title,bp.short_content,bp.create_time,bp.modified_time,bp.user_id,bp.replies_count,bp.type_id,bp.is_top,
 	    bu1.user_name,bu1.credit_degree AS host_credit_degree,
 	    bu2.user_name AS last_replier, bu2.credit_degree AS last_replier_credit_degree
         FROM boki_post bp
         JOIN boki_user bu1 ON bp.user_id = bu1.id
         JOIN boki_user bu2 ON bp.last_replier_id = bu2.id
-        WHERE bp.is_deleted = 'n' <if test="type == '2'.toString()">AND type_id = 2</if>
+        WHERE bp.is_deleted = 'n'
+            <if test="type == '2'.toString()">AND type_id = 2</if>
+            <if test="titleKey != '' and titleKey != null">AND title LIKE CONCAT('%','${titleKey}','%')</if>
         ORDER BY bp.is_top DESC, bp.modified_time DESC
         LIMIT #{start},#{end};
     </select>

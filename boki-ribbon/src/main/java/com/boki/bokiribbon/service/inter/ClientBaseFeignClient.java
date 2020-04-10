@@ -64,7 +64,7 @@ public interface ClientBaseFeignClient {
     ResultVO replyHistory(@RequestParam("page")Integer page);
 
     @GetMapping("/")
-    ResultVO index(@RequestParam("type")Integer type,@RequestParam("page") Integer page);
+    ResultVO index(@RequestParam("type")Integer type,@RequestParam("page") Integer page,@RequestParam("titleKey") String titleKey);
 
     @GetMapping("/p/{postId}")
     ResultVO findPostById(@PathVariable("postId") Long id, @RequestParam("page") Integer page);

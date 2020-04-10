@@ -28,7 +28,7 @@ public class UserInfoDTO {
     @NotNull(message = StatusName.NULL_BIRTH )
     private String birth;           //出生日期
 
-    private String from;            //来自何地
+    private String comeFrom;            //来自何地
     private String intro;           //自我简介
     private String show;            //用户个性签名
 

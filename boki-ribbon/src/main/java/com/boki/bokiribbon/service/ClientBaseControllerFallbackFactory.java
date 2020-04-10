@@ -106,7 +106,7 @@ public class ClientBaseControllerFallbackFactory implements FallbackFactory<Clie
             }
 
             @Override
-            public ResultVO index(Integer type, Integer page) {
+            public ResultVO index(Integer type, Integer page,String titleKey) {
                 return RequestResultCode.SERVER_ERROR.getResult();
             }
 

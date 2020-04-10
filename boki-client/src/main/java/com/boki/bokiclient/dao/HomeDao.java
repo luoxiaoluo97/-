@@ -19,6 +19,7 @@ public interface HomeDao {
      * @return
      */
     List<List<?>> findPosts(@Param("type")Integer type,
+                            @Param("titleKey")String titleKey,
                             @Param("start") Integer start,
                             @Param("end")Integer end);
 

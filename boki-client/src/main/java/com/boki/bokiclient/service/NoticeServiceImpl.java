@@ -225,7 +225,7 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Override
     public DataWithTotal getNoticeList(Long userId, Integer page) {
-        List<List<?>> result = noticeDao.findNoticeByUid(userId,(page-1)*15,15);
+        List<List<?>> result = noticeDao.findNoticeByUid(userId,(page-1)*10,10);
         DataWithTotal vo = new DataWithTotal();
         vo.input(result, NoticeVO.class);
         // 打开通知列表后，清空通知数量

@@ -19,4 +19,6 @@ public class PostSendDTO {
     private String title;           //标题
 
     private String content;         //内容
+
+    private String shortContent;         //缩略内容，无html
 }

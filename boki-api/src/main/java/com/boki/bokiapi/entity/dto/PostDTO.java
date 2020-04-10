@@ -20,6 +20,7 @@ public class PostDTO {
     private Integer hostCreditDegree;              //楼主信用度,用于获取勋章id
     private String title;           //标题
     private String content;         //内容
+    private String shortContent;         //缩略内容
     private Integer typeId;         //类型id
     private String type;            //类型
     private String isTop;           //是否置顶

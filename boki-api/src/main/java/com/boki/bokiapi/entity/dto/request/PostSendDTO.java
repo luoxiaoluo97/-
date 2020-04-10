@@ -24,4 +24,7 @@ public class PostSendDTO {
 
     @NotBlank(message = StatusName.NULL_CONTENT)
     private String content;         //内容
+
+    @NotBlank(message = StatusName.NULL_CONTENT)
+    private String shortContent;         //缩略内容，无html
 }

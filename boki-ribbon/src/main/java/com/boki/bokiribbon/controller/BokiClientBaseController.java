@@ -176,8 +176,8 @@ public class BokiClientBaseController {
      * @param type 1=所有帖子，2=只看精品
      */
     @GetMapping("")
-    public ResultVO index(Integer type, Integer page){
-        ResultVO vo = clientBaseFeignClient.index(type,page);
+    public ResultVO index(Integer type, Integer page,String titleKey){
+        ResultVO vo = clientBaseFeignClient.index(type,page,titleKey);
         return vo;
     }
 

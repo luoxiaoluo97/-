@@ -20,6 +20,7 @@ public class PostPO {
     private Long userId;                //楼主id
     private String title;               //标题
     private String content;             //内容
+    private String shortContent;         //缩略内容，无html
     private Long lastReplierId;         //最后回复者id
     private Long repliesCount;          //回复数
     private Integer typeId;             //帖子类型，精品贴或其他

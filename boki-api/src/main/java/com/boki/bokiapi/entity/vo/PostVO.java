@@ -18,6 +18,7 @@ public class PostVO {
     private String userName;                //楼主昵称
     private Integer hostHonorId;            //新增===楼主勋章id
     private String title;                   //标题
+    private String shortContent;            //短内容
     private String content;                 //内容
     private String createTime;              //发帖时间
     private String lastReplier;             //最后回复者

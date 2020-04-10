@@ -15,13 +15,13 @@
         UPDATE boki_user
         <set>
             sex = #{sex},birth = #{birth},
-            <if test="comeFrom != null and comeFrom != ''">
+            <if test="comeFrom != null ">
                 come_from = #{comeFrom},
             </if>
-            <if test="intro != null and intro != ''">
+            <if test="intro != null">
                 intro = #{intro},
             </if>
-            <if test="show != null and show != ''">
+            <if test="show != null ">
                 `show` = #{show}
             </if>
         </set>

@@ -29,10 +29,10 @@ public class HomeController {
      * @return
      */
     @GetMapping("/")
-    public ResultVO index(Integer type, Integer page){
+    public ResultVO index(Integer type, Integer page,String titleKey){
         type = type == null ? 1 : type != 2 ? 1 : type;
         page = page == null ? 1 : page <= 0 ? 1 : page;
-        DataWithTotal dwt = homeService.findPosts(type,page);
+        DataWithTotal dwt = homeService.findPosts(type,page,titleKey);
         return RequestResultCode.SUCCESS.getResult().setData(dwt);
     }
 
