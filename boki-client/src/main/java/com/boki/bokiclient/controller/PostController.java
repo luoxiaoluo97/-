@@ -81,6 +81,7 @@ public class PostController {
                     .setFromUserId(dto.getUserId())
                     .setFromUserName(userName)
                     .setContent(dto.getContent())
+                    .setShortContent(dto.getShortContent())
                     .setPostId(dto.getPostId());
             //给楼主通知
             noticeService.sendReplyNotice(NoticeMessage.TYPE_2, elem);

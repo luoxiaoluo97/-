@@ -35,7 +35,7 @@ public interface UserService {
     /**
      * 取消收藏帖子
      */
-    int removeCollection(Long postId,Long userId);
+    int removeCollection(Long id,Long userId);
 
     /**
      * 用户的帖子收藏列表

@@ -96,12 +96,12 @@ public class ClientBaseControllerFallbackFactory implements FallbackFactory<Clie
             }
 
             @Override
-            public ResultVO postHistory(Integer page) {
+            public ResultVO postHistory(Integer page,Long userId) {
                 return RequestResultCode.SERVER_ERROR.getResult();
             }
 
             @Override
-            public ResultVO replyHistory(Integer page) {
+            public ResultVO replyHistory(Integer page,Long userId) {
                 return RequestResultCode.SERVER_ERROR.getResult();
             }
 

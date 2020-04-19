@@ -157,8 +157,10 @@
         -- 拉黑列表
         SELECT bb.id AS id,
             bb.target_user_id AS user_id,
+            bb.create_time,
             bu.user_name ,
-            bu.photo
+            bu.photo,
+            bu.intro
         FROM boki_blacklist bb JOIN boki_user bu ON bb.target_user_id = bu.id
         WHERE bb.user_id = #{userId}  AND bb.is_deleted = 'n' LIMIT #{start},#{end};
     </select>

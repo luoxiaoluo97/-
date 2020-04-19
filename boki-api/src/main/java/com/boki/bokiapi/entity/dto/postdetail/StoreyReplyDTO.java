@@ -17,6 +17,7 @@ public class StoreyReplyDTO {
     private Long storeyId;              //所属楼层
     private Long userId;                //回复者id
     private String userName;            //回复者昵称
+    private String photo;               //回复者头像
     private String createTime;          //回复时间
     private String content;             //回复内容
 }

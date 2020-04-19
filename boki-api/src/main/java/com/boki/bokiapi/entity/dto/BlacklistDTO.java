@@ -15,5 +15,6 @@ public class BlacklistDTO {
     private Long userId;                //昵称
     private String userName;            //昵称
     private String photo;               //头像
-
+    private String intro;               //简介
+    private String createTime;
 }

@@ -21,19 +21,30 @@
       <change afterPath="$PROJECT_DIR$/boki-feign/src/main/java/com/boki/bokifeign/entity/request/UserUpdatePwdDTO.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/boki-feign/src/main/java/com/boki/bokifeign/entity/request/WhisperSendDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/boki-api/src/main/java/com/boki/bokiapi/entity/dto/PostDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/boki-api/src/main/java/com/boki/bokiapi/entity/dto/PostDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/boki-api/src/main/java/com/boki/bokiapi/entity/dto/request/PostSendDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/boki-api/src/main/java/com/boki/bokiapi/entity/dto/request/PostSendDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/boki-api/src/main/java/com/boki/bokiapi/entity/dto/request/UserInfoDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/boki-api/src/main/java/com/boki/bokiapi/entity/dto/request/UserInfoDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/boki-api/src/main/java/com/boki/bokiapi/entity/po/PostPO.java" beforeDir="false" afterPath="$PROJECT_DIR$/boki-api/src/main/java/com/boki/bokiapi/entity/po/PostPO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/boki-api/src/main/java/com/boki/bokiapi/entity/vo/PostVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/boki-api/src/main/java/com/boki/bokiapi/entity/vo/PostVO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/boki-client/src/main/java/com/boki/bokiclient/controller/HomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/boki-client/src/main/java/com/boki/bokiclient/controller/HomeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/boki-client/src/main/java/com/boki/bokiclient/dao/HomeDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/boki-client/src/main/java/com/boki/bokiclient/dao/HomeDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/boki-client/src/main/java/com/boki/bokiclient/dao/mapper/HomeDaoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/boki-client/src/main/java/com/boki/bokiclient/dao/mapper/HomeDaoMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/boki-administrator/src/main/java/com/boki/bokiadministrator/dao/mapper/UserManageDaoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/boki-administrator/src/main/java/com/boki/bokiadministrator/dao/mapper/UserManageDaoMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/boki-administrator/src/main/java/com/boki/bokiadministrator/service/UserManageServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/boki-administrator/src/main/java/com/boki/bokiadministrator/service/UserManageServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/boki-api/src/main/java/com/boki/bokiapi/entity/dto/BlacklistDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/boki-api/src/main/java/com/boki/bokiapi/entity/dto/BlacklistDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/boki-api/src/main/java/com/boki/bokiapi/entity/dto/PostCollectionDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/boki-api/src/main/java/com/boki/bokiapi/entity/dto/PostCollectionDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/boki-api/src/main/java/com/boki/bokiapi/entity/dto/ReplyHistoryDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/boki-api/src/main/java/com/boki/bokiapi/entity/dto/ReplyHistoryDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/boki-api/src/main/java/com/boki/bokiapi/entity/dto/postdetail/StoreyReplyDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/boki-api/src/main/java/com/boki/bokiapi/entity/dto/postdetail/StoreyReplyDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/boki-api/src/main/java/com/boki/bokiapi/entity/dto/request/ReplySendDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/boki-api/src/main/java/com/boki/bokiapi/entity/dto/request/ReplySendDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/boki-api/src/main/java/com/boki/bokiapi/entity/po/ReplyPO.java" beforeDir="false" afterPath="$PROJECT_DIR$/boki-api/src/main/java/com/boki/bokiapi/entity/po/ReplyPO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/boki-api/src/main/java/com/boki/bokiapi/entity/vo/BlacklistVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/boki-api/src/main/java/com/boki/bokiapi/entity/vo/BlacklistVO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/boki-api/src/main/java/com/boki/bokiapi/entity/vo/PostCollectionVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/boki-api/src/main/java/com/boki/bokiapi/entity/vo/PostCollectionVO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/boki-api/src/main/java/com/boki/bokiapi/entity/vo/PostHistoryAdminVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/boki-api/src/main/java/com/boki/bokiapi/entity/vo/PostHistoryAdminVO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/boki-api/src/main/java/com/boki/bokiapi/entity/vo/PostHistoryVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/boki-api/src/main/java/com/boki/bokiapi/entity/vo/PostHistoryVO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/boki-api/src/main/java/com/boki/bokiapi/entity/vo/ReplyHistoryVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/boki-api/src/main/java/com/boki/bokiapi/entity/vo/ReplyHistoryVO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/boki-api/src/main/java/com/boki/bokiapi/value/notice/NoticeElem.java" beforeDir="false" afterPath="$PROJECT_DIR$/boki-api/src/main/java/com/boki/bokiapi/value/notice/NoticeElem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/boki-client/src/main/java/com/boki/bokiclient/controller/PostController.java" beforeDir="false" afterPath="$PROJECT_DIR$/boki-client/src/main/java/com/boki/bokiclient/controller/PostController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/boki-client/src/main/java/com/boki/bokiclient/controller/UserInfoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/boki-client/src/main/java/com/boki/bokiclient/controller/UserInfoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/boki-client/src/main/java/com/boki/bokiclient/dao/UserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/boki-client/src/main/java/com/boki/bokiclient/dao/UserDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/boki-client/src/main/java/com/boki/bokiclient/dao/mapper/CommonDaoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/boki-client/src/main/java/com/boki/bokiclient/dao/mapper/CommonDaoMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/boki-client/src/main/java/com/boki/bokiclient/dao/mapper/PostDaoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/boki-client/src/main/java/com/boki/bokiclient/dao/mapper/PostDaoMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/boki-client/src/main/java/com/boki/bokiclient/dao/mapper/UserDaoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/boki-client/src/main/java/com/boki/bokiclient/dao/mapper/UserDaoMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/boki-client/src/main/java/com/boki/bokiclient/service/HomeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/boki-client/src/main/java/com/boki/bokiclient/service/HomeServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/boki-client/src/main/java/com/boki/bokiclient/dao/mapper/WhisperDaoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/boki-client/src/main/java/com/boki/bokiclient/dao/mapper/WhisperDaoMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/boki-client/src/main/java/com/boki/bokiclient/service/NoticeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/boki-client/src/main/java/com/boki/bokiclient/service/NoticeServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/boki-client/src/main/java/com/boki/bokiclient/service/inter/HomeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/boki-client/src/main/java/com/boki/bokiclient/service/inter/HomeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/boki-client/src/main/java/com/boki/bokiclient/service/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/boki-client/src/main/java/com/boki/bokiclient/service/UserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/boki-client/src/main/java/com/boki/bokiclient/service/inter/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/boki-client/src/main/java/com/boki/bokiclient/service/inter/UserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/boki-feign/boki-feign.iml" beforeDir="false" afterPath="$PROJECT_DIR$/boki-feign/boki-feign.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/boki-feign/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/boki-feign/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/boki-feign/src/main/java/com/boki/bokifeign/BokiFeignApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/boki-feign/src/main/java/com/boki/bokifeign/BokiFeignApplication.java" afterDir="false" />
@@ -42,10 +53,19 @@
       <change beforePath="$PROJECT_DIR$/boki-feign/src/main/java/com/boki/bokifeign/service/inter/ClientBaseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/boki-feign/src/main/java/com/boki/bokifeign/service/inter/ClientBaseController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/boki-feign/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/boki-feign/src/main/resources/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/boki-ribbon/src/main/java/com/boki/bokiribbon/controller/BokiClientBaseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/boki-ribbon/src/main/java/com/boki/bokiribbon/controller/BokiClientBaseController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/boki-ribbon/src/main/java/com/boki/bokiribbon/entity/request/PostSendDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/boki-ribbon/src/main/java/com/boki/bokiribbon/entity/request/PostSendDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/boki-ribbon/src/main/java/com/boki/bokiribbon/entity/request/UserInfoDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/boki-ribbon/src/main/java/com/boki/bokiribbon/entity/request/UserInfoDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/boki-ribbon/src/main/java/com/boki/bokiribbon/entity/request/ReplySendDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/boki-ribbon/src/main/java/com/boki/bokiribbon/entity/request/ReplySendDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/boki-ribbon/src/main/java/com/boki/bokiribbon/service/ClientBaseControllerFallbackFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/boki-ribbon/src/main/java/com/boki/bokiribbon/service/ClientBaseControllerFallbackFactory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/boki-ribbon/src/main/java/com/boki/bokiribbon/service/inter/ClientBaseFeignClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/boki-ribbon/src/main/java/com/boki/bokiribbon/service/inter/ClientBaseFeignClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/myapp/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/myapp/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/myapp/babel.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/myapp/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/myapp/public/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/myapp/public/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/myapp/src/App.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/myapp/src/assets/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/myapp/src/components/HelloWorld.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/myapp/src/main.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -145,12 +165,8 @@
     <option name="notificationShown" value="true" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\Data\IdeaProjects\boki\boki-client\src\main\java\com\boki\bokiclient\dao" />
-      <recent name="D:\Data\IdeaProjects\boki\boki-client\src\main\resources\mapper" />
-      <recent name="D:\Data\IdeaProjects\boki\boki-client\src\main\resources" />
-      <recent name="D:\Data\IdeaProjects\boki\boki-client\src\main\WEB-INF\login" />
-      <recent name="D:\Data\IdeaProjects\boki\boki-client\src\main\resources\static\js" />
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.boki.bokiapi.entity.dto" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Data\IdeaProjects\boki\boki-administrator\src\main\java\com\boki\bokiadministrator" />
@@ -166,8 +182,12 @@
       <recent name="com.boki.bokiadministrator.controller" />
       <recent name="com.boki.bokiadministrator.config" />
     </key>
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="com.boki.bokiapi.entity.dto" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Data\IdeaProjects\boki\boki-client\src\main\java\com\boki\bokiclient\dao" />
+      <recent name="D:\Data\IdeaProjects\boki\boki-client\src\main\resources\mapper" />
+      <recent name="D:\Data\IdeaProjects\boki\boki-client\src\main\resources" />
+      <recent name="D:\Data\IdeaProjects\boki\boki-client\src\main\WEB-INF\login" />
+      <recent name="D:\Data\IdeaProjects\boki\boki-client\src\main\resources\static\js" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -177,7 +197,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.BokiRibbonApplication">
+  <component name="RunManager" selected="Spring Boot.BokiClientApplication">
     <configuration name="Test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.boki.bokiapi.Test" />
       <module name="boki-api" />
@@ -394,7 +414,26 @@
       <workItem from="1586439379634" duration="19000" />
       <workItem from="1586522971950" duration="1820000" />
       <workItem from="1586524939624" duration="668000" />
-      <workItem from="1586530570811" duration="1741000" />
+      <workItem from="1586530570811" duration="1924000" />
+      <workItem from="1586615828287" duration="636000" />
+      <workItem from="1586698002316" duration="3294000" />
+      <workItem from="1586841713501" duration="3224000" />
+      <workItem from="1586853021350" duration="2923000" />
+      <workItem from="1586863371509" duration="188000" />
+      <workItem from="1586866002508" duration="1393000" />
+      <workItem from="1586932068983" duration="13409000" />
+      <workItem from="1586957579112" duration="71000" />
+      <workItem from="1587027084661" duration="1403000" />
+      <workItem from="1587030356277" duration="747000" />
+      <workItem from="1587031247499" duration="213000" />
+      <workItem from="1587053822141" duration="1701000" />
+      <workItem from="1587115562745" duration="1298000" />
+      <workItem from="1587196886853" duration="346000" />
+      <workItem from="1587287990610" duration="3015000" />
+      <workItem from="1587293506625" duration="34000" />
+      <workItem from="1587294016455" duration="5691000" />
+      <workItem from="1587303053436" duration="571000" />
+      <workItem from="1587304223172" duration="923000" />
     </task>
     <task id="LOCAL-00001" summary="boki">
       <created>1579610899509</created>
@@ -599,14 +638,20 @@
       <option name="project" value="LOCAL" />
       <updated>1586182346503</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="添加了关键字搜索，帖子添加了short_content字段">
+      <created>1586532444990</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1586532444991</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="boki-hystrix熔断机制 feign配置更新" />
     <MESSAGE value="boki-client拦截器" />
     <MESSAGE value="日志系统与VO,DTO,PO" />
     <MESSAGE value="邮箱验证码" />
@@ -631,7 +676,8 @@
     <MESSAGE value="基本完成了请求装法的问题，最后一个问题是文件上传，待解决" />
     <MESSAGE value="使用token来验证登陆" />
     <MESSAGE value="小调整" />
-    <option name="LAST_COMMIT_MESSAGE" value="小调整" />
+    <MESSAGE value="添加了关键字搜索，帖子添加了short_content字段" />
+    <option name="LAST_COMMIT_MESSAGE" value="添加了关键字搜索，帖子添加了short_content字段" />
   </component>
   <component name="WindowStateProjectService">
     <state x="233" y="0" key="#Intentions" timestamp="1584891437595">
@@ -670,10 +716,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="227" y="269" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.1280.680@0.0.1280.680" timestamp="1583584845996" />
-    <state x="415" y="207" width="487" height="292" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1585821477737">
+    <state x="415" y="207" width="487" height="292" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1586941056403">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="415" y="207" width="487" height="292" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1280.680@0.0.1280.680" timestamp="1585821477737" />
+    <state x="415" y="207" width="487" height="292" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1280.680@0.0.1280.680" timestamp="1586941056403" />
     <state x="408" y="169" key="#com.intellij.refactoring.move.moveInstanceMethod.MoveInstanceMethodDialog" timestamp="1582180744348">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -686,14 +732,14 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="371" y="90" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1280.680@0.0.1280.680" timestamp="1585815026303" />
-    <state x="69" y="66" width="639" height="610" key="#xdebugger.evaluate" timestamp="1586532085887">
+    <state x="69" y="66" width="639" height="610" key="#xdebugger.evaluate" timestamp="1587294413550">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="69" y="66" width="639" height="610" key="#xdebugger.evaluate/0.0.1280.680@0.0.1280.680" timestamp="1586532085887" />
-    <state x="34" y="0" key="CommitChangelistDialog2" timestamp="1586182341258">
+    <state x="69" y="66" width="639" height="610" key="#xdebugger.evaluate/0.0.1280.680@0.0.1280.680" timestamp="1587294413550" />
+    <state x="34" y="0" key="CommitChangelistDialog2" timestamp="1587305420261">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="34" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1586182341258" />
+    <state x="34" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1587305420261" />
     <state width="479" height="445" key="DebuggerActiveHint" timestamp="1584893519824">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -706,58 +752,58 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="421" y="99" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1585814735886" />
-    <state x="453" y="236" key="Github.CreateGistDialog" timestamp="1585749091204">
+    <state x="453" y="236" key="Github.CreateGistDialog" timestamp="1586700265088">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="453" y="236" key="Github.CreateGistDialog/0.0.1280.680@0.0.1280.680" timestamp="1585749091204" />
-    <state width="1237" height="152" key="GridCell.Tab.0.bottom" timestamp="1586532297824">
+    <state x="453" y="236" key="Github.CreateGistDialog/0.0.1280.680@0.0.1280.680" timestamp="1586700265088" />
+    <state width="1237" height="152" key="GridCell.Tab.0.bottom" timestamp="1587305367099">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="152" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1586532297824" />
-    <state width="1237" height="152" key="GridCell.Tab.0.center" timestamp="1586532297824">
+    <state width="1237" height="152" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1587305367099" />
+    <state width="1237" height="152" key="GridCell.Tab.0.center" timestamp="1587305367099">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="152" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1586532297824" />
-    <state width="1237" height="152" key="GridCell.Tab.0.left" timestamp="1586532297824">
+    <state width="1237" height="152" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1587305367099" />
+    <state width="1237" height="152" key="GridCell.Tab.0.left" timestamp="1587305367098">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="152" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1586532297824" />
-    <state width="1237" height="152" key="GridCell.Tab.0.right" timestamp="1586532297824">
+    <state width="1237" height="152" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1587305367098" />
+    <state width="1237" height="152" key="GridCell.Tab.0.right" timestamp="1587305367099">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="152" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1586532297824" />
-    <state width="1034" height="109" key="GridCell.Tab.1.bottom" timestamp="1586532245739">
+    <state width="1237" height="152" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1587305367099" />
+    <state width="1034" height="131" key="GridCell.Tab.1.bottom" timestamp="1587301694257">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1034" height="109" key="GridCell.Tab.1.bottom/0.0.1280.680@0.0.1280.680" timestamp="1586532245739" />
-    <state width="1034" height="109" key="GridCell.Tab.1.center" timestamp="1586532245738">
+    <state width="1034" height="131" key="GridCell.Tab.1.bottom/0.0.1280.680@0.0.1280.680" timestamp="1587301694257" />
+    <state width="1034" height="131" key="GridCell.Tab.1.center" timestamp="1587301694257">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1034" height="109" key="GridCell.Tab.1.center/0.0.1280.680@0.0.1280.680" timestamp="1586532245738" />
-    <state width="1034" height="109" key="GridCell.Tab.1.left" timestamp="1586532245738">
+    <state width="1034" height="131" key="GridCell.Tab.1.center/0.0.1280.680@0.0.1280.680" timestamp="1587301694257" />
+    <state width="1034" height="131" key="GridCell.Tab.1.left" timestamp="1587301694257">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1034" height="109" key="GridCell.Tab.1.left/0.0.1280.680@0.0.1280.680" timestamp="1586532245738" />
-    <state width="1034" height="109" key="GridCell.Tab.1.right" timestamp="1586532245738">
+    <state width="1034" height="131" key="GridCell.Tab.1.left/0.0.1280.680@0.0.1280.680" timestamp="1587301694257" />
+    <state width="1034" height="131" key="GridCell.Tab.1.right" timestamp="1587301694257">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1034" height="109" key="GridCell.Tab.1.right/0.0.1280.680@0.0.1280.680" timestamp="1586532245738" />
-    <state width="1034" height="109" key="GridCell.Tab.2.bottom" timestamp="1586532245739">
+    <state width="1034" height="131" key="GridCell.Tab.1.right/0.0.1280.680@0.0.1280.680" timestamp="1587301694257" />
+    <state width="1034" height="131" key="GridCell.Tab.2.bottom" timestamp="1587301694257">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1034" height="109" key="GridCell.Tab.2.bottom/0.0.1280.680@0.0.1280.680" timestamp="1586532245739" />
-    <state width="1034" height="109" key="GridCell.Tab.2.center" timestamp="1586532245739">
+    <state width="1034" height="131" key="GridCell.Tab.2.bottom/0.0.1280.680@0.0.1280.680" timestamp="1587301694257" />
+    <state width="1034" height="131" key="GridCell.Tab.2.center" timestamp="1587301694257">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1034" height="109" key="GridCell.Tab.2.center/0.0.1280.680@0.0.1280.680" timestamp="1586532245739" />
-    <state width="1034" height="109" key="GridCell.Tab.2.left" timestamp="1586532245739">
+    <state width="1034" height="131" key="GridCell.Tab.2.center/0.0.1280.680@0.0.1280.680" timestamp="1587301694257" />
+    <state width="1034" height="131" key="GridCell.Tab.2.left" timestamp="1587301694257">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1034" height="109" key="GridCell.Tab.2.left/0.0.1280.680@0.0.1280.680" timestamp="1586532245739" />
-    <state width="1034" height="109" key="GridCell.Tab.2.right" timestamp="1586532245739">
+    <state width="1034" height="131" key="GridCell.Tab.2.left/0.0.1280.680@0.0.1280.680" timestamp="1587301694257" />
+    <state width="1034" height="131" key="GridCell.Tab.2.right" timestamp="1587301694257">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1034" height="109" key="GridCell.Tab.2.right/0.0.1280.680@0.0.1280.680" timestamp="1586532245739" />
+    <state width="1034" height="131" key="GridCell.Tab.2.right/0.0.1280.680@0.0.1280.680" timestamp="1587301694257" />
     <state x="171" y="0" key="Maven.ArtifactSearchDialog" timestamp="1579870576749">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -770,18 +816,18 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="87" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1585046814409" />
-    <state x="233" y="77" key="Vcs.Push.Dialog.v2" timestamp="1586182350195">
+    <state x="233" y="77" key="Vcs.Push.Dialog.v2" timestamp="1586532448269">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="233" y="77" key="Vcs.Push.Dialog.v2/0.0.1280.680@0.0.1280.680" timestamp="1586182350195" />
+    <state x="233" y="77" key="Vcs.Push.Dialog.v2/0.0.1280.680@0.0.1280.680" timestamp="1586532448269" />
     <state width="647" height="344" key="XDebugger.FullValuePopup" timestamp="1584281069322">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state width="647" height="344" key="XDebugger.FullValuePopup/0.0.1280.680@0.0.1280.680" timestamp="1584281069322" />
-    <state x="337" y="169" key="com.intellij.ide.util.TipDialog" timestamp="1586530570613">
+    <state x="337" y="169" key="com.intellij.ide.util.TipDialog" timestamp="1587304253144">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="337" y="169" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1586530570613" />
+    <state x="337" y="169" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1587304253144" />
     <state x="325" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1580824861859">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -825,13 +871,18 @@
           <line>60</line>
           <option name="timeStamp" value="90" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/boki-ribbon/src/main/java/com/boki/bokiribbon/controller/BokiClientBaseController.java</url>
+          <line>115</line>
+          <option name="timeStamp" value="94" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <watches-manager>
       <configuration name="SpringBootApplicationConfigurationType">
-        <watch expression="result.get(2).get(0)" />
-        <watch expression="result.get(2).get(0)" language="JAVA" />
-        <watch expression="vo.list.get(0)" language="JAVA" />
+        <watch expression="noticeDao" language="JAVA" />
+        <watch expression="userId" />
+        <watch expression="userId" language="JAVA" />
       </configuration>
     </watches-manager>
   </component>

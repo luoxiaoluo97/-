@@ -21,6 +21,7 @@ public class ReplyPO {
     private Long floorNo;           //第x楼
     private Long userId;            //层主id
     private String content;         //回复内容
+    private String shortContent;    //无html的内容
     private Integer reportStatus;       //举报状态
     private String reportReason;        //举报理由
 

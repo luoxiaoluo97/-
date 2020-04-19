@@ -101,6 +101,7 @@ public class UserInfoController {
 
     /**
      * 移除收藏
+     * @param postId 这个实际上是id，写错了
      */
     @Token
     @PostMapping("/removeCollection/{postId}")
@@ -178,10 +179,13 @@ public class UserInfoController {
      */
     @Token
     @GetMapping("/postHistory")
-    public ResultVO postHistory(Integer page,HttpServletRequest request){
+    public ResultVO postHistory(Integer page,Long userId,HttpServletRequest request){
         List<String> audience= JWT.decode(request.getHeader(Common.TOKEN)).getAudience();
+        if(userId == null ){
+            userId = Long.parseLong(audience.get(0));
+        }
         page = page == null ? 1 : page <= 0 ? 1 : page;
-        DataWithTotal dwt = userService.postHistory(Long.parseLong(audience.get(0)),page);
+        DataWithTotal dwt = userService.postHistory(userId,page);
         return RequestResultCode.SUCCESS.getResult().setData(dwt);
     }
 
@@ -190,10 +194,13 @@ public class UserInfoController {
      */
     @Token
     @GetMapping("/replyHistory")
-    public ResultVO replyHistory(Integer page,HttpServletRequest request){
+    public ResultVO replyHistory(Integer page,Long userId,HttpServletRequest request){
         List<String> audience= JWT.decode(request.getHeader(Common.TOKEN)).getAudience();
+        if(userId == null ){
+            userId = Long.parseLong(audience.get(0));
+        }
         page = page == null ? 1 : page <= 0 ? 1 : page;
-        DataWithTotal<ReplyHistoryVO> dwt = userService.replyHistory(Long.parseLong(audience.get(0)),page);
+        DataWithTotal<ReplyHistoryVO> dwt = userService.replyHistory(userId,page);
         return RequestResultCode.SUCCESS.getResult().setData(dwt);
     }
 

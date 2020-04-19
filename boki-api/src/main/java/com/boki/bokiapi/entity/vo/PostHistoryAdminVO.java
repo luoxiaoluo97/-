@@ -15,6 +15,7 @@ public class PostHistoryAdminVO {
     private String title;               //标题
     private String content;             //内容
     private Long repliesCount;          //回复数
+    private Long floorNo;           //第x楼
     private String type;                //帖子类型，精品贴或其他
     private Integer reportStatus;       //举报状态
     private String reportReason;        //举报理由

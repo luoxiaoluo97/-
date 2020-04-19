@@ -74,13 +74,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int removeCollection(Long postId, Long userId) {
-        return userDao.removeCollection(postId,userId);
+    public int removeCollection(Long id, Long userId) {
+        return userDao.removeCollection(id,userId);
     }
 
     @Override
     public DataWithTotal findPostCollectionByUid(Long userId, Integer page) {
-        List<List<?>> result = userDao.findPostCollectionByUid(userId,(page-1)*15,15);
+        List<List<?>> result = userDao.findPostCollectionByUid(userId,(page-1)*8,8);
         DataWithTotal vo = new DataWithTotal();
         vo.input(result,PostCollectionVO.class);
         return vo;
@@ -107,7 +107,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public DataWithTotal findFollowList(Long userId, Integer page) {
-        List<List<?>> result = userDao.findFollowListByUID(userId,(page-1)*15,15);
+        List<List<?>> result = userDao.findFollowListByUID(userId,(page-1)*10,10);
         DataWithTotal vo  = new DataWithTotal();
         vo.input(result,FollowVO.class);
         return vo;
@@ -116,7 +116,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public DataWithTotal findFans(Long userId, Integer page) {
-        List<List<?>> result = userDao.findFans(userId,(page-1)*15,15);
+        List<List<?>> result = userDao.findFans(userId,(page-1)*10,10);
         DataWithTotal vo = new DataWithTotal();
         vo.input(result,FollowVO.class);
         return vo;
@@ -124,7 +124,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public DataWithTotal postHistory(Long userId, Integer page) {
-        List<List<?>> result = userDao.findUserLastPosts(userId,null,(page-1)*15,15);
+        List<List<?>> result = userDao.findUserLastPosts(userId,null,(page-1)*10,10);
         for (Object dto : result.get(1)){
             PostDTO postDTO = ((PostDTO)dto);
             ((PostDTO)dto).setType(dbSource.getType(postDTO.getTypeId()));
@@ -136,7 +136,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public DataWithTotal replyHistory(Long userId, Integer page){
-        List<List<?>> result = userDao.findReplyHistory(userId,(page-1)*15,15);
+        List<List<?>> result = userDao.findReplyHistory(userId,(page-1)*10,10);
         DataWithTotal vo = new DataWithTotal();
         vo.input(result,ReplyHistoryVO.class);
         return vo;

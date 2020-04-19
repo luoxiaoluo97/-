@@ -45,7 +45,7 @@ public interface UserDao {
     /**
      * 移除一条收藏记录，
      */
-    int removeCollection(@Param("postId")Long postId,@Param("userId")Long userId);
+    int removeCollection(@Param("id")Long id,@Param("userId")Long userId);
 
     /**
      * 用户的帖子收藏列表

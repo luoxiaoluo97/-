@@ -57,11 +57,11 @@ public interface ClientBaseFeignClient {
     @GetMapping("/user/myFans")
     ResultVO myFans(@RequestParam("page")Integer page);
 
-    @GetMapping("/user/replyHistory")
-    ResultVO postHistory(@RequestParam("page")Integer page);
+    @GetMapping("/user/postHistory")
+    ResultVO postHistory(@RequestParam("page")Integer page,@RequestParam("userId")Long userId);
 
     @GetMapping("/user/replyHistory")
-    ResultVO replyHistory(@RequestParam("page")Integer page);
+    ResultVO replyHistory(@RequestParam("page")Integer page,@RequestParam("userId")Long userId);
 
     @GetMapping("/")
     ResultVO index(@RequestParam("type")Integer type,@RequestParam("page") Integer page,@RequestParam("titleKey") String titleKey);

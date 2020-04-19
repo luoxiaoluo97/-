@@ -11,8 +11,8 @@
         <selectKey order="BEFORE" keyProperty="id" resultType="Long" >
             SELECT id post_id FROM boki_post WHERE user_id = #{userId} ORDER BY id DESC LIMIT 1
         </selectKey>
-        INSERT INTO boki_reply(post_id, user_id, floor_no,content,replies_count,creator,`modifier`)
-        VALUE(#{id},#{userId},1,#{content},0,#{userId},#{userId})
+        INSERT INTO boki_reply(post_id, user_id, floor_no,content,short_content,replies_count,creator,`modifier`)
+        VALUE(#{id},#{userId},1,#{content},#{shortContent},0,#{userId},#{userId})
     </insert>
 
     <update id="updateExpById" >
@@ -24,8 +24,8 @@
             -- 楼层更新
             SELECT floor_no+1 floor_no FROM boki_reply WHERE post_id = #{postId} ORDER BY floor_no DESC LIMIT 1
         </selectKey>
-        INSERT INTO boki_reply(post_id,user_id,floor_no,content,creator,`modifier`)
-        VALUE (#{postId},#{userId}, #{floorNo},#{content},#{userId},#{userId})
+        INSERT INTO boki_reply(post_id,user_id,floor_no,content,short_content,creator,`modifier`)
+        VALUE (#{postId},#{userId}, #{floorNo},#{content},#{shortContent},#{userId},#{userId})
     </insert>
 
     <select id="findPostByIdAndUser" resultType="int">

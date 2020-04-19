@@ -45,7 +45,7 @@ public class UserManageServiceImpl implements UserManageService {
         if (dto.getMaxLevel() != null) {
             dto.setMaxExp(dbSource.getMaxExp(dto.getMaxLevel()));
         }
-        dto.setStart((dto.getPage()-1)*15).setEnd(15);
+        dto.setStart((dto.getPage()-1)*10).setEnd(10);
         List<List<?>> result = userManageDao.findUsers(dto);
         DataWithTotal vo = new DataWithTotal();
         vo.input(result, UserBaseVO.class);
@@ -97,7 +97,7 @@ public class UserManageServiceImpl implements UserManageService {
 
     @Override
     public DataWithTotal postHistory(UserHistoryDTO dto) {
-        dto.setStart((dto.getPage()-1)*15).setEnd(15);
+        dto.setStart((dto.getPage()-1)*10).setEnd(10);
         List<List<?>> result = userManageDao.findPostHistory(dto);
         for (Object o : result.get(1)){
             PostDTO postDTO = ((PostDTO)o);
@@ -110,7 +110,7 @@ public class UserManageServiceImpl implements UserManageService {
 
     @Override
     public DataWithTotal replyHistory(UserHistoryDTO dto) {
-        dto.setStart((dto.getPage()-1)*15).setEnd(15);
+        dto.setStart((dto.getPage()-1)*10).setEnd(10);
         List<List<?>> result = userManageDao.findReplyHistory(dto);
         DataWithTotal vo = new DataWithTotal();
         vo.input(result, ReplyHistoryVO.class);

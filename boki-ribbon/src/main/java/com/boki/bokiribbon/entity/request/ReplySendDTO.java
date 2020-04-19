@@ -20,4 +20,6 @@ public class ReplySendDTO {
     private Long postId;            //所属帖子
 
     private String content;         //回复内容
+
+    private String shortContent;         //缩略内容，无html
 }

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -25,4 +26,7 @@ public class ReplySendDTO {
 
     @NotNull(message = StatusName.NULL_CONTENT)
     private String content;         //回复内容
+
+    @NotBlank(message = StatusName.NULL_CONTENT)
+    private String shortContent;         //缩略内容，无html
 }

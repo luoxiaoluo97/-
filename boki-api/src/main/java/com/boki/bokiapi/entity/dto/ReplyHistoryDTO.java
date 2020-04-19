@@ -14,6 +14,7 @@ public class ReplyHistoryDTO {
     private Long postId;            //所属帖子
     private String title;           //帖子标题
     private Long repliesCount;      //帖子回复数
+    private Long floorNo;           //第x楼
     private String content;         //回复内容
 
     private Integer reportStatus;       //举报状态

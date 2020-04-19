@@ -157,8 +157,8 @@ public class BokiClientBaseController {
      * 我的发帖记录
      */
     @GetMapping("/user/postHistory")
-    public ResultVO postHistory(Integer page){
-        ResultVO vo = clientBaseFeignClient.postHistory(page);
+    public ResultVO postHistory(Integer page,Long userId){
+        ResultVO vo = clientBaseFeignClient.postHistory(page,userId);
         return vo;
     }
 
@@ -166,8 +166,8 @@ public class BokiClientBaseController {
      * 我的回复记录
      */
     @GetMapping("/user/replyHistory")
-    public ResultVO replyHistory(Integer page){
-        ResultVO vo = clientBaseFeignClient.replyHistory(page);
+    public ResultVO replyHistory(Integer page,Long userId){
+        ResultVO vo = clientBaseFeignClient.replyHistory(page,userId);
         return vo;
     }
 

@@ -50,7 +50,7 @@
 
     <update id="removeCollection" >
         -- 移除一条收藏记录
-        UPDATE boki_post_collection SET is_deleted ='y' WHERE user_id = #{userId} AND post_id = #{postId}
+        UPDATE boki_post_collection SET is_deleted ='y' WHERE user_id = #{userId} AND id = #{id}
     </update>
 
     <resultMap id="PostCollectionDTO" type="PostCollectionDTO"></resultMap>
@@ -58,7 +58,10 @@
         -- 收藏总数
         SELECT COUNT(1) AS totalCount FROM boki_post_collection WHERE is_deleted = 'n' AND user_id = #{userId};
         -- 用户的帖子收藏,id倒序
-        SELECT id,post_id,title FROM boki_post_collection WHERE is_deleted = 'n' AND user_id = #{userId}
+        SELECT bpc.id,bpc.post_id,bp.title,bp.short_content,bp.replies_count,bpc.create_time,bp.type_id
+        FROM boki_post_collection bpc
+        JOIN boki_post bp ON bpc.post_id = bp.id
+        WHERE bpc.is_deleted = 'n' AND bpc.user_id = #{userId}
         ORDER BY id DESC LIMIT #{start},#{end}
     </select>
 
@@ -89,8 +92,8 @@
         -- 粉丝总数
         SELECT COUNT(1) AS totalCount FROM boki_follow WHERE is_deleted = 'n' AND target_user_id = #{userId};
         -- 粉丝列表
-        SELECT bf.target_user_id,bu.user_name AS target_user_name,bu.photo,bu.intro FROM boki_follow bf
-        JOIN boki_user bu ON bf.target_user_id = bu.id
+        SELECT bf.user_id,bu.user_name AS target_user_name,bu.photo,bu.intro FROM boki_follow bf
+        JOIN boki_user bu ON bf.user_id = bu.id
         WHERE bf.is_deleted = 'n' AND bf.target_user_id = #{userId} LIMIT #{start},#{end};
     </select>
 
@@ -104,7 +107,7 @@
         -- 用户发帖总数，不包括回复
         SELECT COUNT(1) AS totalCount FROM boki_post WHERE is_deleted = 'n' AND user_id = #{userId};
         -- after参数之后的发帖
-        SELECT id,title,content,replies_count,type_id,create_time FROM boki_post
+        SELECT id,title,short_content AS content,replies_count,type_id,create_time FROM boki_post
         WHERE is_deleted = 'n' AND user_id = #{userId}
         <if test="after != null and after != ''">
             AND create_time > #{after}
@@ -131,12 +134,12 @@
             WHERE bsr.user_id = #{userId} AND bsr.is_deleted = 'n'
         ) a;
         -- 回复与楼层回复共同作为 历史回复
-        SELECT post_id,title,content,replies_count FROM (
-            SELECT br.post_id, bp.title, br.content ,bp.replies_count,br.create_time FROM boki_reply  br
+        SELECT post_id,title,content,replies_count,floor_no,create_time FROM (
+            SELECT br.post_id, bp.title, br.short_content AS content ,bp.replies_count,br.floor_no,br.create_time FROM boki_reply  br
             JOIN boki_post bp ON bp.id  = br.post_id
             WHERE br.user_id = #{userId} AND br.floor_no != 1 AND br.is_deleted = 'n'
             UNION ALL
-            SELECT bp.id AS post_id, bp.title,bsr.content,bp.replies_count, bsr.create_time FROM boki_storey_reply bsr
+            SELECT bp.id AS post_id, bp.title,bsr.content,bp.replies_count,br.floor_no, bsr.create_time FROM boki_storey_reply bsr
             JOIN boki_reply br ON bsr.storey_id = br.id
             JOIN boki_post bp ON bp.id = br.post_id
             WHERE bsr.user_id = #{userId} AND bsr.is_deleted = 'n'

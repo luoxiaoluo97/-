@@ -8,7 +8,6 @@ import com.boki.bokiapi.execption.enums.RequestResultCode;
 import com.boki.bokiapi.value.notice.NoticeElem;
 import com.boki.bokiapi.value.notice.NoticeMessage;
 import com.boki.bokiclient.dao.NoticeDao;
-import com.boki.bokiclient.dao.PostDao;
 import com.boki.bokiclient.dao.UserDao;
 import com.boki.bokiclient.service.inter.NoticeService;
 import lombok.extern.slf4j.Slf4j;
@@ -44,8 +43,6 @@ public class NoticeServiceImpl implements NoticeService {
     @Autowired
     private UserDao userDao;
 
-    @Autowired
-    private PostDao postDao;
 
     /**
      * 通知用户id关键字
@@ -119,9 +116,10 @@ public class NoticeServiceImpl implements NoticeService {
             elem.setTitle(map.get("title").toString())
                     .setFloorNo(map.get("floor_no").toString())
                     .setTargetUserId((Long)map.get("user_id"));
+            elem.setContent(elem.getShortContent());
             //如果是回复自己的贴则不需要通知
             if ((long)elem.getFromUserId() != (long)elem.getTargetUserId()) {
-                noticeDao.insertNotice(
+                int i = noticeDao.insertNotice(
                         new NoticePO().setTypeId(msg.getType())
                                 .setCreator(elem.getFromUserId().toString())
                                 .setNotice(msg.createNotice(elem))

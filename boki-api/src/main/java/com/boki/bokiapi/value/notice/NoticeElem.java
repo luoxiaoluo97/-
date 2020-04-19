@@ -18,6 +18,7 @@ public class NoticeElem {
     private Long fromUserId;      //来源用户id
     private String fromUserName;    //来源用户名
     private String content;         //内容
+    private String shortContent;    //短内容
     private String title;           //帖子标题
     private String reply;           //楼层回复
     private String storeyReply;     //楼中楼回复
